@@ -1,0 +1,933 @@
+brand_name,generic_name,category,manufacturer,shape,controlled,reorder_level_base,unit1_name,unit1_rate,unit2_name,unit2_per_unit1,unit2_rate,unit3_name,unit3_per_unit2,unit3_rate,default_sell_unit
+Cetamol 500mg,Paracetamol 500mg,Medicine,,tablet,No,200,Tablet,,Strip,10,,Box,10,,2
+Dolo 650,Paracetamol 650mg,Medicine,Micro Labs,tablet,No,150,Tablet,,Strip,15,,Box,10,,2
+Cetamol Syrup 60ml,Paracetamol 125mg/5ml,Medicine,,bottle,No,10,Bottle,,,,,,,,1
+Cetamol Drops 15ml,Paracetamol 100mg/ml,Medicine,,drops,No,6,Bottle,,,,,,,,1
+Nimulid 100mg,Nimesulide 100mg,Medicine,Panacea Biotec,tablet,No,100,Tablet,,Strip,10,,Box,10,,2
+Brufen 400,Ibuprofen 400mg,Medicine,Abbott,tablet,No,100,Tablet,,Strip,10,,Box,10,,2
+Combiflam,Ibuprofen 400mg + Paracetamol 325mg,Medicine,Sanofi,tablet,No,100,Tablet,,Strip,20,,Box,10,,2
+Ibugesic Plus Syrup 60ml,Ibuprofen 100mg + Paracetamol 162.5mg per 5ml,Medicine,Cipla,bottle,No,10,Bottle,,,,,,,,1
+Voveran 50 GE,Diclofenac Sodium 50mg,Medicine,Novartis,tablet,No,100,Tablet,,Strip,10,,Box,10,,2
+Diclofenac Injection 75mg/3ml,Diclofenac Sodium 25mg/ml,Medicine,,vial,No,20,Ampoule,,Box,10,,,,,1
+Zerodol-P,Aceclofenac 100mg + Paracetamol 325mg,Medicine,Ipca,tablet,No,100,Tablet,,Strip,10,,Box,10,,2
+Zerodol-SP,Aceclofenac 100mg + Paracetamol 325mg + Serratiopeptidase 15mg,Medicine,Ipca,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Meftal Spas,Mefenamic Acid 250mg + Dicyclomine 10mg,Medicine,Blue Cross,tablet,No,100,Tablet,,Strip,10,,Box,10,,2
+Meftal Forte 500,Mefenamic Acid 500mg,Medicine,Blue Cross,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Nucoxia 90,Etoricoxib 90mg,Medicine,Zydus,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Tramazac 50mg,Tramadol Hydrochloride 50mg,Medicine,Zydus,capsule,Yes,30,Capsule,,Strip,10,,Box,10,,2
+Novamox 500,Amoxycillin 500mg,Medicine,Cipla,capsule,No,100,Capsule,,Strip,10,,Box,10,,2
+Novamox Dry Syrup 30ml,Amoxycillin 125mg/5ml,Medicine,Cipla,bottle,No,10,Bottle,,,,,,,,1
+Clavam 625,Amoxycillin 500mg + Clavulanic Acid 125mg,Medicine,Alkem,tablet,No,60,Tablet,,Strip,6,,Box,10,,2
+Augmentin 625 Duo,Amoxycillin 500mg + Clavulanic Acid 125mg,Medicine,GSK,tablet,No,60,Tablet,,Strip,6,,Box,10,,2
+Azithral 500,Azithromycin 500mg,Medicine,Alembic,tablet,No,60,Tablet,,Strip,3,,Box,10,,2
+Azithral 250,Azithromycin 250mg,Medicine,Alembic,tablet,No,30,Tablet,,Strip,6,,Box,10,,2
+Azithral Liquid 15ml,Azithromycin 200mg/5ml,Medicine,Alembic,bottle,No,6,Bottle,,,,,,,,1
+Taxim-O 200,Cefixime 200mg,Medicine,Alkem,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Taxim-O Dry Syrup 30ml,Cefixime 50mg/5ml,Medicine,Alkem,bottle,No,10,Bottle,,,,,,,,1
+Cepodem 200,Cefpodoxime Proxetil 200mg,Medicine,Zuventus,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Monocef 1g Injection,Ceftriaxone Sodium 1g,Medicine,Aristo,vial,No,20,Vial,,,,,,,,1
+Ciplox 500,Ciprofloxacin 500mg,Medicine,Cipla,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Zanocin 200,Ofloxacin 200mg,Medicine,Sun Pharma,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Zanocin-OZ,Ofloxacin 200mg + Ornidazole 500mg,Medicine,Sun Pharma,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Levoflox 500,Levofloxacin 500mg,Medicine,Cipla,tablet,No,40,Tablet,,Strip,5,,Box,10,,2
+Flagyl 400,Metronidazole 400mg,Medicine,Abbott,tablet,No,100,Tablet,,Strip,10,,Box,10,,2
+Doxycycline 100mg,Doxycycline Hydrochloride 100mg,Medicine,,capsule,No,60,Capsule,,Strip,10,,Box,10,,2
+Sporidex 500,Cephalexin 500mg,Medicine,Sun Pharma,capsule,No,40,Capsule,,Strip,10,,Box,10,,2
+Norflox-TZ,Norfloxacin 400mg + Tinidazole 600mg,Medicine,Cipla,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Niftran 100,Nitrofurantoin 100mg,Medicine,Cipla,capsule,No,30,Capsule,,Strip,10,,Box,10,,2
+Forcan 150,Fluconazole 150mg,Medicine,Cipla,tablet,No,20,Tablet,,,,,,,,1
+Zentel 400,Albendazole 400mg,Medicine,GSK,tablet,No,60,Tablet,,,,,,,,1
+Zentel Suspension 10ml,Albendazole 200mg/5ml,Medicine,GSK,bottle,No,10,Bottle,,,,,,,,1
+Acivir 400 DT,Acyclovir 400mg,Medicine,Cipla,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Omez 20,Omeprazole 20mg,Medicine,Dr. Reddy's,capsule,No,100,Capsule,,Strip,10,,Box,10,,2
+Pantop 40,Pantoprazole 40mg,Medicine,Aristo,tablet,No,100,Tablet,,Strip,10,,Box,10,,2
+Pan-D,Pantoprazole 40mg + Domperidone 30mg,Medicine,Alkem,capsule,No,100,Capsule,,Strip,10,,Box,10,,2
+Nexpro RD 40,Esomeprazole 40mg + Domperidone 30mg,Medicine,Torrent,capsule,No,60,Capsule,,Strip,10,,Box,10,,2
+Razo 20,Rabeprazole Sodium 20mg,Medicine,Dr. Reddy's,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Domstal 10,Domperidone 10mg,Medicine,Torrent,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Emeset 4,Ondansetron 4mg,Medicine,Cipla,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Emeset Injection 2ml,Ondansetron 2mg/ml,Medicine,Cipla,vial,No,20,Ampoule,,Box,10,,,,,1
+Digene Gel Mint 200ml,Magnesium Hydroxide + Aluminium Hydroxide + Simethicone,Medicine,Abbott,bottle,No,10,Bottle,,,,,,,,1
+Digene Tablet,Antacid chewable tablet,Medicine,Abbott,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Gelusil MPS Suspension 200ml,Antacid with Simethicone,Medicine,Pfizer,bottle,No,8,Bottle,,,,,,,,1
+Cyclopam Tablet,Dicyclomine 20mg + Paracetamol 500mg,Medicine,Indoco,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Drotin 40,Drotaverine Hydrochloride 40mg,Medicine,Walter Bushnell,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Eldoper,Loperamide Hydrochloride 2mg,Medicine,Micro Labs,capsule,No,40,Capsule,,Strip,10,,Box,10,,2
+Jeevan Jal ORS,Oral Rehydration Salts WHO formula,Medicine,Nepal CRS Company,sachet,No,100,Sachet,,,,,,,,1
+Electral Powder 21.8g,Oral Rehydration Salts,Medicine,FDC,sachet,No,50,Sachet,,,,,,,,1
+Zinc Sulphate 20mg Dispersible,Zinc Sulphate Monohydrate 20mg,Medicine,,tablet,No,100,Tablet,,Strip,10,,Box,10,,2
+Duphalac 200ml,Lactulose 10g per 15ml,Medicine,Abbott,bottle,No,6,Bottle,,,,,,,,1
+Cremaffin Syrup 225ml,Liquid Paraffin + Milk of Magnesia,Medicine,Abbott,bottle,No,6,Bottle,,,,,,,,1
+Dulcolax 5mg,Bisacodyl 5mg,Medicine,Boehringer Ingelheim,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Softovac Powder 100g,Isabgol husk laxative powder,Medicine,Torrent,box,No,8,Packet,,,,,,,,1
+Cetzine 10,Cetirizine Hydrochloride 10mg,Medicine,Haleon,tablet,No,150,Tablet,,Strip,10,,Box,10,,2
+Cetirizine Syrup 60ml,Cetirizine Hydrochloride 5mg/5ml,Medicine,,bottle,No,10,Bottle,,,,,,,,1
+Levocet 5,Levocetirizine Dihydrochloride 5mg,Medicine,,tablet,No,100,Tablet,,Strip,10,,Box,10,,2
+Montair-LC,Montelukast 10mg + Levocetirizine 5mg,Medicine,Cipla,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Montair 10,Montelukast Sodium 10mg,Medicine,Cipla,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Allegra 120,Fexofenadine Hydrochloride 120mg,Medicine,Sanofi,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Piriton 4mg,Chlorpheniramine Maleate 4mg,Medicine,Haleon,tablet,No,100,Tablet,,Strip,10,,Box,10,,2
+Sinarest,Paracetamol 500mg + Phenylephrine 10mg + Chlorpheniramine 2mg,Medicine,Centaur,tablet,No,100,Tablet,,Strip,10,,Box,10,,2
+Ascoril LS Syrup 100ml,Levosalbutamol + Ambroxol + Guaiphenesin,Medicine,Glenmark,bottle,No,10,Bottle,,,,,,,,1
+Grilinctus Syrup 100ml,Chlorpheniramine + Dextromethorphan + Guaiphenesin,Medicine,Franco-Indian,bottle,No,10,Bottle,,,,,,,,1
+Codeine Phosphate Cough Syrup 100ml,Codeine Phosphate + Chlorpheniramine Maleate,Medicine,,bottle,Yes,4,Bottle,,,,,,,,1
+Asthalin Inhaler 100mcg,Salbutamol 100mcg per actuation,Medicine,Cipla,box,No,6,Inhaler,,,,,,,,1
+Foracort 200 Inhaler,Budesonide 200mcg + Formoterol 6mcg,Medicine,Cipla,box,No,4,Inhaler,,,,,,,,1
+Duolin Respules 2.5ml,Levosalbutamol 1.25mg + Ipratropium Bromide 500mcg,Medicine,Cipla,vial,No,30,Respule,,,,,,,,1
+Asthalin 2mg,Salbutamol Sulphate 2mg,Medicine,Cipla,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Deriphyllin Retard 150,Etofylline 77mg + Theophylline 23mg,Medicine,Zydus,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Strepsils Original,Amylmetacresol + Dichlorobenzyl Alcohol lozenge,Medicine,Reckitt,strip,No,40,Lozenge,,Strip,8,,,,,2
+Betadine Gargle 100ml,Povidone Iodine 2% w/v,Medicine,Win-Medicare,bottle,No,6,Bottle,,,,,,,,1
+Otrivin Nasal Drops 10ml,Xylometazoline Hydrochloride 0.1%,Medicine,Haleon,drops,No,10,Bottle,,,,,,,,1
+Vicks Inhaler,Menthol + Camphor nasal inhaler,Consumable,Procter & Gamble,box,No,12,Inhaler,,,,,,,,1
+Amlopres 5,Amlodipine Besylate 5mg,Medicine,Cipla,tablet,No,100,Tablet,,Strip,10,,Box,10,,2
+Telma 40,Telmisartan 40mg,Medicine,Glenmark,tablet,No,100,Tablet,,Strip,10,,Box,10,,2
+Telma-H 40,Telmisartan 40mg + Hydrochlorothiazide 12.5mg,Medicine,Glenmark,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Losar 50,Losartan Potassium 50mg,Medicine,Unichem,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Aten 50,Atenolol 50mg,Medicine,Zydus,tablet,No,60,Tablet,,Strip,14,,Box,10,,2
+Metolar 25,Metoprolol Tartrate 25mg,Medicine,Cipla,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Atorva 10,Atorvastatin Calcium 10mg,Medicine,Zydus,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Rosuvas 10,Rosuvastatin Calcium 10mg,Medicine,Sun Pharma,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Ecosprin 75,Aspirin 75mg,Medicine,USV,tablet,No,100,Tablet,,Strip,14,,Box,10,,2
+Clopilet 75,Clopidogrel 75mg,Medicine,Sun Pharma,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Sorbitrate 5,Isosorbide Dinitrate 5mg sublingual,Medicine,Abbott,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Lasix 40,Furosemide 40mg,Medicine,Sanofi,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Dytor 10,Torsemide 10mg,Medicine,Cipla,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Glycomet 500,Metformin Hydrochloride 500mg,Medicine,USV,tablet,No,100,Tablet,,Strip,20,,Box,10,,2
+Glycomet-GP 1,Metformin 500mg + Glimepiride 1mg,Medicine,USV,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Amaryl 2,Glimepiride 2mg,Medicine,Sanofi,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Human Mixtard 30/70 Vial 10ml,Insulin Human 40 IU/ml,Medicine,Novo Nordisk,vial,No,4,Vial,,,,,,,,1
+Thyronorm 50mcg,Levothyroxine Sodium 50mcg,Medicine,Abbott,tablet,No,100,Tablet,,Bottle,100,,,,,2
+Eltroxin 50mcg,Levothyroxine Sodium 50mcg,Medicine,GSK,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Wysolone 10,Prednisolone 10mg,Medicine,Wyeth,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Vertin 16,Betahistine Dihydrochloride 16mg,Medicine,Abbott,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Stemetil MD 5,Prochlorperazine Maleate 5mg,Medicine,Abbott,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Zincovit Tablet,Multivitamin + Multimineral with Zinc,Medicine,Apex Laboratories,tablet,No,100,Tablet,,Strip,15,,Box,10,,2
+Zincovit Syrup 200ml,Multivitamin and multimineral syrup,Medicine,Apex Laboratories,bottle,No,6,Bottle,,,,,,,,1
+Becosules Capsule,Vitamin B Complex with Vitamin C,Medicine,Pfizer,capsule,No,100,Capsule,,Strip,20,,Box,10,,2
+Shelcal 500,Calcium Carbonate 500mg + Vitamin D3 250 IU,Medicine,Torrent,tablet,No,100,Tablet,,Strip,15,,Box,10,,2
+Neurobion Forte,Vitamin B1 B6 B12 complex,Medicine,Procter & Gamble,tablet,No,100,Tablet,,Strip,30,,Box,10,,2
+Limcee 500,Ascorbic Acid 500mg chewable,Medicine,Abbott,tablet,No,60,Tablet,,Strip,15,,Box,10,,2
+Livogen Tablet,Ferrous Fumarate 152mg + Folic Acid 1.5mg,Medicine,Merck,tablet,No,100,Tablet,,Strip,10,,Box,10,,2
+Folic Acid 5mg,Folic Acid 5mg,Medicine,,tablet,No,100,Tablet,,Strip,10,,Box,10,,2
+Evion 400,Vitamin E 400mg,Medicine,Merck,capsule,No,40,Capsule,,Strip,10,,Box,10,,2
+Calcirol Sachet 60000 IU,Cholecalciferol 60000 IU,Medicine,Cadila,sachet,No,40,Sachet,,Box,4,,,,,1
+Tonoferon Drops 15ml,Iron and Folic Acid paediatric drops,Medicine,,drops,No,6,Bottle,,,,,,,,1
+Betadine Ointment 15g,Povidone Iodine 5% w/w,Medicine,Win-Medicare,tube,No,12,Tube,,,,,,,,1
+Betadine Solution 100ml,Povidone Iodine 10% w/v,Medicine,Win-Medicare,bottle,No,10,Bottle,,,,,,,,1
+Soframycin Skin Cream 30g,Framycetin Sulphate 1% w/w,Medicine,Sanofi,tube,No,12,Tube,,,,,,,,1
+Neosporin Powder 10g,Neomycin + Polymyxin B + Bacitracin,Medicine,Haleon,box,No,10,Bottle,,,,,,,,1
+Silverex Ionic Cream 25g,Silver Sulphadiazine 1% w/w,Medicine,Ranbaxy,tube,No,6,Tube,,,,,,,,1
+Candid Cream 15g,Clotrimazole 1% w/w,Medicine,Glenmark,tube,No,15,Tube,,,,,,,,1
+Candid-B Cream 15g,Clotrimazole 1% + Beclomethasone 0.025%,Medicine,Glenmark,tube,No,12,Tube,,,,,,,,1
+Nizral Shampoo 50ml,Ketoconazole 2% w/v,Medicine,Johnson & Johnson,bottle,No,6,Bottle,,,,,,,,1
+Terbinaforce Cream 10g,Terbinafine Hydrochloride 1% w/w,Medicine,Mankind,tube,No,10,Tube,,,,,,,,1
+T-Bact Ointment 5g,Mupirocin 2% w/w,Medicine,Haleon,tube,No,10,Tube,,,,,,,,1
+Betnovate-N Cream 20g,Betamethasone Valerate + Neomycin,Medicine,Haleon,tube,No,12,Tube,,,,,,,,1
+Calamine Lotion 100ml,Calamine + Zinc Oxide lotion,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Permite Cream 30g,Permethrin 5% w/w,Medicine,Galderma,tube,No,6,Tube,,,,,,,,1
+Volini Gel 30g,Diclofenac Diethylamine + Methyl Salicylate,Medicine,Sun Pharma,tube,No,12,Tube,,,,,,,,1
+Moov Pain Relief Cream 30g,Diclofenac + Menthol topical cream,Medicine,Reckitt,tube,No,12,Tube,,,,,,,,1
+Iodex Balm 40g,Methyl Salicylate + Menthol balm,Medicine,Haleon,box,No,10,Jar,,,,,,,,1
+Burnol Cream 20g,Aminacrine Hydrochloride + Cetrimide,Medicine,Dr. Morepen,tube,No,8,Tube,,,,,,,,1
+Vicks VapoRub 25g,Menthol + Camphor + Eucalyptus Oil ointment,Consumable,Procter & Gamble,box,No,24,Jar,,,,,,,,1
+Vicks VapoRub 50g,Menthol + Camphor + Eucalyptus Oil ointment,Consumable,Procter & Gamble,box,No,12,Jar,,,,,,,,1
+Boroline 20g,Boric Acid + Zinc Oxide antiseptic cream,Consumable,G D Pharmaceuticals,tube,No,12,Tube,,,,,,,,1
+Ciplox Eye and Ear Drops 10ml,Ciprofloxacin 0.3% w/v,Medicine,Cipla,drops,No,12,Bottle,,,,,,,,1
+Milflox Eye Drops 5ml,Moxifloxacin 0.5% w/v,Medicine,Sun Pharma,drops,No,6,Bottle,,,,,,,,1
+Refresh Tears 10ml,Carboxymethylcellulose Sodium 0.5%,Medicine,Allergan,drops,No,6,Bottle,,,,,,,,1
+Candibiotic Ear Drops 5ml,Chloramphenicol + Clotrimazole + Beclomethasone + Lignocaine,Medicine,Glenmark,drops,No,6,Bottle,,,,,,,,1
+Sunaulo Gulaf,Combined oral contraceptive pill,Medicine,Nepal CRS Company,strip,No,40,Cycle Pack,,,,,,,,1
+Ecee2,Levonorgestrel 0.75mg emergency contraceptive,Medicine,Nepal CRS Company,strip,No,20,Pack,,,,,,,,1
+Panther Condom,Latex condom 3-piece pack,Consumable,Nepal CRS Company,box,No,50,Packet,,,,,,,,1
+Number One Condom,Latex condom 3-piece pack,Consumable,Nepal CRS Company,box,No,50,Packet,,,,,,,,1
+Pregnancy Test Kit,hCG urine test card,Consumable,,box,No,20,Kit,,,,,,,,1
+Candid-V6 Pessary,Clotrimazole 100mg vaginal tablet,Medicine,Glenmark,box,No,10,Pack,,,,,,,,1
+Pause 500,Tranexamic Acid 500mg,Medicine,Bharat Serums,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Alprax 0.25,Alprazolam 0.25mg,Medicine,Torrent,tablet,Yes,30,Tablet,,Strip,10,,Box,10,,2
+Calmpose 5,Diazepam 5mg,Medicine,Sun Pharma,tablet,Yes,30,Tablet,,Strip,10,,Box,10,,2
+Lonazep 0.5,Clonazepam 0.5mg,Medicine,Sun Pharma,tablet,Yes,30,Tablet,,Strip,10,,Box,10,,2
+Tryptomer 25,Amitriptyline Hydrochloride 25mg,Medicine,Wockhardt,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Dexamethasone Injection 2ml,Dexamethasone Sodium Phosphate 4mg/ml,Medicine,,vial,No,20,Ampoule,,,,,,,,1
+Adrenaline Injection 1ml,Adrenaline Bitartrate 1mg/ml,Medicine,,vial,No,10,Ampoule,,,,,,,,1
+Hydrocortisone Injection 100mg,Hydrocortisone Sodium Succinate 100mg,Medicine,,vial,No,10,Vial,,,,,,,,1
+Avil Injection 2ml,Pheniramine Maleate 22.75mg/ml,Medicine,Sanofi,vial,No,20,Ampoule,,,,,,,,1
+Pantoprazole Injection 40mg,Pantoprazole Sodium 40mg,Medicine,,vial,No,20,Vial,,,,,,,,1
+Tetanus Toxoid Vaccine 0.5ml,Tetanus Toxoid adsorbed,Medicine,,vial,No,20,Ampoule,,,,,,,,1
+Lignocaine 2% Injection 30ml,Lignocaine Hydrochloride 2% w/v,Medicine,,vial,No,10,Vial,,,,,,,,1
+Water for Injection 10ml,Sterile Water for Injection,Medicine,,vial,No,50,Ampoule,,,,,,,,1
+Normal Saline 0.9% 500ml,Sodium Chloride 0.9% IV infusion,Medicine,,bottle,No,20,Bottle,,,,,,,,1
+Dextrose 5% 500ml,Dextrose 5% IV infusion,Medicine,,bottle,No,15,Bottle,,,,,,,,1
+Ringer Lactate 500ml,Compound Sodium Lactate IV infusion,Medicine,,bottle,No,15,Bottle,,,,,,,,1
+DNS 500ml,Dextrose 5% + Sodium Chloride 0.9% IV infusion,Medicine,,bottle,No,15,Bottle,,,,,,,,1
+Disposable Syringe 2ml,Sterile syringe with 24G needle,Consumable,,box,No,200,Piece,,Box,100,,,,,1
+Disposable Syringe 5ml,Sterile syringe with 23G needle,Consumable,,box,No,200,Piece,,Box,100,,,,,1
+Disposable Syringe 10ml,Sterile syringe with 21G needle,Consumable,,box,No,100,Piece,,Box,100,,,,,1
+IV Cannula 20G,Intravenous cannula with injection port,Consumable,,box,No,50,Piece,,Box,50,,,,,1
+IV Cannula 22G,Intravenous cannula with injection port,Consumable,,box,No,50,Piece,,Box,50,,,,,1
+IV Cannula 24G,Intravenous cannula paediatric,Consumable,,box,No,30,Piece,,Box,50,,,,,1
+IV Infusion Set,Sterile IV administration set,Consumable,,box,No,50,Piece,,Box,50,,,,,1
+Scalp Vein Set 23G,Butterfly needle infusion set,Consumable,,box,No,50,Piece,,Box,100,,,,,1
+Sterile Surgical Gloves 7.0,Sterile latex surgical gloves,Consumable,,box,No,50,Pair,,Box,50,,,,,1
+Examination Gloves Medium,Latex examination gloves,Consumable,,box,No,200,Piece,,Box,100,,,,,2
+Face Mask 3-Ply,Disposable 3-ply surgical face mask,Consumable,,box,No,200,Piece,,Box,50,,,,,2
+Cotton Roll 100g,Absorbent cotton wool,Consumable,,box,No,20,Roll,,,,,,,,1
+Cotton Roll 500g,Absorbent cotton wool,Consumable,,box,No,10,Roll,,,,,,,,1
+Gauze Bandage 4 inch,Sterile roller gauze bandage,Consumable,,box,No,30,Roll,,,,,,,,1
+Crepe Bandage 10cm,Elastic crepe bandage,Consumable,,box,No,20,Roll,,,,,,,,1
+Micropore Surgical Tape 1 inch,Paper adhesive surgical tape,Consumable,,box,No,20,Roll,,,,,,,,1
+Band-Aid Washproof,Adhesive wound dressing strip,Consumable,Johnson & Johnson,box,No,100,Strip,,Box,100,,,,,1
+Surgical Spirit 100ml,Denatured ethanol 95% v/v,Consumable,,bottle,No,20,Bottle,,,,,,,,1
+Hydrogen Peroxide 100ml,Hydrogen Peroxide 6% solution,Consumable,,bottle,No,10,Bottle,,,,,,,,1
+Alcohol Swab,70% isopropyl alcohol prep pad,Consumable,,sachet,No,200,Piece,,Box,100,,,,,2
+Digital Thermometer,Digital clinical thermometer,Consumable,,box,No,10,Piece,,,,,,,,1
+Glucometer Test Strips,Blood glucose test strips,Consumable,,box,No,10,Box,,,,,,,,1
+Blood Lancets,Sterile single-use lancets,Consumable,,box,No,5,Box,,,,,,,,1
+Urine Container Sterile 60ml,Sterile urine specimen container,Consumable,,box,No,100,Piece,,Box,100,,,,,1
+Nebuliser Mask Adult,Nebulisation mask with tubing,Consumable,,box,No,20,Piece,,,,,,,,1
+Nebuliser Mask Paediatric,Nebulisation mask with tubing,Consumable,,box,No,20,Piece,,,,,,,,1
+Tongue Depressor Wooden,Disposable wooden tongue depressor,Consumable,,box,No,200,Piece,,Box,100,,,,,2
+Dettol Antiseptic Liquid 250ml,Chloroxylenol 4.8% w/v,Consumable,Reckitt,bottle,No,12,Bottle,,,,,,,,1
+Dettol Antiseptic Liquid 550ml,Chloroxylenol 4.8% w/v,Consumable,Reckitt,bottle,No,6,Bottle,,,,,,,,1
+Savlon Antiseptic Liquid 100ml,Cetrimide + Chlorhexidine Gluconate,Consumable,,bottle,No,12,Bottle,,,,,,,,1
+Hand Sanitizer 100ml,Ethyl Alcohol 70% v/v gel,Consumable,,bottle,No,20,Bottle,,,,,,,,1
+Dettol Original Soap 75g,Antibacterial bathing bar,Other,Reckitt,box,No,24,Piece,,,,,,,,1
+Lifebuoy Total Soap 100g,Antibacterial bathing bar,Other,Unilever,box,No,24,Piece,,,,,,,,1
+Nivea Soft Cream 100ml,Moisturising cream,Other,Beiersdorf,tube,No,6,Jar,,,,,,,,1
+Vaseline Petroleum Jelly 100ml,White soft paraffin,Other,Unilever,box,No,12,Jar,,,,,,,,1
+Ponds Cold Cream 100ml,Moisturising cold cream,Other,Unilever,box,No,6,Jar,,,,,,,,1
+Johnson's Baby Powder 100g,Baby dusting powder,Other,Johnson & Johnson,box,No,12,Bottle,,,,,,,,1
+Johnson's Baby Oil 100ml,Baby massage oil,Other,Johnson & Johnson,bottle,No,12,Bottle,,,,,,,,1
+Johnson's Baby Shampoo 100ml,Mild baby shampoo,Other,Johnson & Johnson,bottle,No,12,Bottle,,,,,,,,1
+Colgate Strong Teeth 100g,Fluoride toothpaste,Other,Colgate-Palmolive,tube,No,24,Tube,,,,,,,,1
+Sensodyne Fresh Mint 70g,Potassium Nitrate toothpaste,Other,Haleon,tube,No,12,Tube,,,,,,,,1
+Toothbrush Medium,Adult manual toothbrush,Other,,box,No,24,Piece,,,,,,,,1
+Whisper Choice Ultra XL 15 pads,Sanitary napkin,Other,Procter & Gamble,box,No,24,Packet,,,,,,,,1
+Stayfree Secure XL 20 pads,Sanitary napkin,Other,Johnson & Johnson,box,No,24,Packet,,,,,,,,1
+Pampers Baby Dry Medium,Baby diaper,Other,Procter & Gamble,box,No,12,Packet,,,,,,,,1
+Huggies Wonder Pants Medium,Baby diaper pants,Other,Kimberly-Clark,box,No,12,Packet,,,,,,,,1
+Baby Wet Wipes 72 pcs,Fragrance-free baby wipes,Other,,box,No,12,Packet,,,,,,,,1
+Facial Tissue Box 100 pulls,2-ply facial tissue,Other,,box,No,12,Box,,,,,,,,1
+Glucon-D Regular 100g,Dextrose energy powder,Consumable,Zydus Wellness,sachet,No,24,Packet,,,,,,,,1
+Horlicks Classic Malt 500g,Malted health drink,Other,Haleon,box,No,6,Jar,,,,,,,,1
+Sitamol 500mg,Paracetamol 500mg,Medicine,,tablet,No,200,Tablet,,Strip,10,,Box,10,,2
+Calpol 500,Paracetamol 500mg,Medicine,GSK,tablet,No,120,Tablet,,Strip,15,,Box,10,,2
+Calpol Syrup 60ml,Paracetamol 125mg/5ml,Medicine,GSK,bottle,No,12,Bottle,,,,,,,,1
+Calpol Drops 15ml,Paracetamol 100mg/ml,Medicine,GSK,drops,No,8,Bottle,,,,,,,,1
+Nimulid MD,Nimesulide 100mg mouth-dissolving,Medicine,Panacea Biotec,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Nimulid Suspension 60ml,Nimesulide 50mg/5ml,Medicine,,bottle,No,10,Bottle,,,,,,,,1
+Voveran SR 100,Diclofenac Sodium 100mg sustained release,Medicine,Novartis,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Voveran Emulgel 30g,Diclofenac Diethylamine 1.16% gel,Medicine,Novartis,tube,No,12,Tube,,,,,,,,1
+Zerodol MR,Aceclofenac 100mg + Paracetamol 325mg + Chlorzoxazone,Medicine,Ipca,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Nucoxia 60,Etoricoxib 60mg,Medicine,Zydus,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Nucoxia MR,Etoricoxib 60mg + Thiocolchicoside 4mg,Medicine,Zydus,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Dolonex DT 20,Piroxicam 20mg dispersible,Medicine,Pfizer,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Ultracet,Tramadol 37.5mg + Paracetamol 325mg,Medicine,Janssen,tablet,Yes,30,Tablet,,Strip,10,,Box,10,,2
+Ketorol DT 10,Ketorolac Tromethamine 10mg,Medicine,Dr. Reddy's,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Myoril 4,Thiocolchicoside 4mg,Medicine,Sanofi,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Myospaz Forte,Chlorzoxazone + Paracetamol + Diclofenac,Medicine,Wockhardt,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Sirdalud 2,Tizanidine 2mg,Medicine,Novartis,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Ciplar 40,Propranolol Hydrochloride 40mg,Medicine,Cipla,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Suminat 50,Sumatriptan 50mg,Medicine,Sun Pharma,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Sibelium 10,Flunarizine 10mg,Medicine,Janssen,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Serodase 10,Serratiopeptidase 10mg,Medicine,,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Ketorolac Injection 1ml,Ketorolac Tromethamine 30mg/ml,Medicine,,vial,No,20,Ampoule,,,,,,,,1
+Tramadol Injection 2ml,Tramadol Hydrochloride 50mg/ml,Medicine,,vial,Yes,15,Ampoule,,,,,,,,1
+Novamox 250,Amoxycillin 250mg,Medicine,Cipla,capsule,No,60,Capsule,,Strip,10,,Box,10,,2
+Klox 500,Cloxacillin Sodium 500mg,Medicine,,capsule,No,30,Capsule,,Strip,10,,Box,10,,2
+Clavam 375,Amoxycillin 250mg + Clavulanic Acid 125mg,Medicine,Alkem,tablet,No,40,Tablet,,Strip,6,,Box,10,,2
+Clavam Dry Syrup 30ml,Amoxycillin 200mg + Clavulanate 28.5mg per 5ml,Medicine,Alkem,bottle,No,10,Bottle,,,,,,,,1
+Cefadrox 500,Cefadroxil 500mg,Medicine,Torrent,capsule,No,30,Capsule,,Strip,10,,Box,10,,2
+Ceftum 500,Cefuroxime Axetil 500mg,Medicine,GSK,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Cefdinir 300mg,Cefdinir 300mg,Medicine,,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Zifi 200,Cefixime 200mg,Medicine,FDC,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Zifi-O,Cefixime 200mg + Ofloxacin 200mg,Medicine,FDC,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Zifi Dry Syrup 30ml,Cefixime 50mg/5ml,Medicine,FDC,bottle,No,10,Bottle,,,,,,,,1
+Monocef 500mg Injection,Ceftriaxone Sodium 500mg,Medicine,Aristo,vial,No,20,Vial,,,,,,,,1
+Taxim 1g Injection,Cefotaxime Sodium 1g,Medicine,Alkem,vial,No,15,Vial,,,,,,,,1
+Mikacin 500 Injection,Amikacin Sulphate 500mg,Medicine,Aristo,vial,No,12,Vial,,,,,,,,1
+Genticyn 80 Injection,Gentamicin Sulphate 80mg,Medicine,Abbott,vial,No,20,Ampoule,,,,,,,,1
+Clarimac 500,Clarithromycin 500mg,Medicine,Macleods,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Roxid 150,Roxithromycin 150mg,Medicine,Alkem,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Linospan 600,Linezolid 600mg,Medicine,Cipla,tablet,No,15,Tablet,,Strip,10,,Box,10,,2
+Septran DS,Sulphamethoxazole 800mg + Trimethoprim 160mg,Medicine,GSK,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Dalacin C 300,Clindamycin 300mg,Medicine,Pfizer,capsule,No,20,Capsule,,Strip,10,,Box,10,,2
+Tiniba 500,Tinidazole 500mg,Medicine,Zydus,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Secnil 1g,Secnidazole 1g,Medicine,,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Ornidazole 500mg,Ornidazole 500mg,Medicine,,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Norflox 400,Norfloxacin 400mg,Medicine,Cipla,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Nitrofurantoin 50mg,Nitrofurantoin 50mg,Medicine,,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Fosfomycin 3g Sachet,Fosfomycin Trometamol 3g,Medicine,,sachet,No,15,Sachet,,,,,,,,1
+Metrogyl Suspension 60ml,Metronidazole 200mg/5ml,Medicine,Abbott,bottle,No,10,Bottle,,,,,,,,1
+Azithral Liquid 30ml,Azithromycin 100mg/5ml,Medicine,Alembic,bottle,No,8,Bottle,,,,,,,,1
+Ciplox Suspension 30ml,Ciprofloxacin 250mg/5ml,Medicine,Cipla,bottle,No,8,Bottle,,,,,,,,1
+Forcan 200,Fluconazole 200mg,Medicine,Cipla,tablet,No,20,Tablet,,,,,,,,1
+Itaspor 100,Itraconazole 100mg,Medicine,Intas,capsule,No,20,Capsule,,Strip,10,,Box,10,,2
+Terbinaforce 250,Terbinafine Hydrochloride 250mg,Medicine,Mankind,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Nizral 200,Ketoconazole 200mg,Medicine,Johnson & Johnson,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Acivir Cream 5g,Acyclovir 5% w/w,Medicine,Cipla,tube,No,10,Tube,,,,,,,,1
+Valcivir 500,Valacyclovir 500mg,Medicine,Cipla,tablet,No,15,Tablet,,Strip,10,,Box,10,,2
+Mebex 100,Mebendazole 100mg,Medicine,Cipla,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Mebex Suspension 10ml,Mebendazole 100mg/5ml,Medicine,Cipla,bottle,No,10,Bottle,,,,,,,,1
+HCQS 200,Hydroxychloroquine Sulphate 200mg,Medicine,Ipca,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Ivermectol 12,Ivermectin 12mg,Medicine,Sun Pharma,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Razo D,Rabeprazole 20mg + Domperidone 30mg,Medicine,Dr. Reddy's,capsule,No,60,Capsule,,Strip,10,,Box,10,,2
+Nexpro 20,Esomeprazole 20mg,Medicine,Torrent,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Sucrafil O Suspension 200ml,Sucralfate 1g + Oxetacaine per 10ml,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Perinorm 10,Metoclopramide Hydrochloride 10mg,Medicine,Ipca,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Meva 135,Mebeverine Hydrochloride 135mg,Medicine,,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Rcifax 400,Rifaximin 400mg,Medicine,Sun Pharma,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Lactulose Solution 100ml,Lactulose 10g per 15ml,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Econorm Sachet,Saccharomyces boulardii 250mg,Medicine,Dr. Reddy's,sachet,No,40,Sachet,,,,,,,,1
+Vibact DS Capsule,Probiotic with Lactobacillus and Streptococcus,Medicine,USV,capsule,No,30,Capsule,,,,,,,,1
+Cremaffin Plus 170ml,Liquid Paraffin + Milk of Magnesia + Sodium Picosulphate,Medicine,Abbott,bottle,No,8,Bottle,,,,,,,,1
+Liv 52 Tablet,Ayurvedic hepatoprotective (Himsra and Kasani),Medicine,Himalaya,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Liv 52 Syrup 200ml,Ayurvedic hepatoprotective syrup,Medicine,Himalaya,bottle,No,10,Bottle,,,,,,,,1
+Udiliv 300,Ursodeoxycholic Acid 300mg,Medicine,Abbott,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Colicaid Drops 15ml,Simethicone + Dill Oil + Fennel paediatric drops,Medicine,,drops,No,10,Bottle,,,,,,,,1
+Domstal Suspension 30ml,Domperidone 1mg/ml,Medicine,Torrent,bottle,No,10,Bottle,,,,,,,,1
+Emeset Syrup 30ml,Ondansetron 2mg/5ml,Medicine,Cipla,bottle,No,10,Bottle,,,,,,,,1
+Aldactone 25,Spironolactone 25mg,Medicine,RPG Life Sciences,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Alkasol Syrup 100ml,Disodium Hydrogen Citrate 1.4g/5ml,Medicine,Stadmed,bottle,No,10,Bottle,,,,,,,,1
+Amlopres 10,Amlodipine Besylate 10mg,Medicine,Cipla,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Amlopres AT,Amlodipine 5mg + Atenolol 50mg,Medicine,Cipla,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Telma 20,Telmisartan 20mg,Medicine,Glenmark,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Telma 80,Telmisartan 80mg,Medicine,Glenmark,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Telma AM,Telmisartan 40mg + Amlodipine 5mg,Medicine,Glenmark,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Olmezest 20,Olmesartan Medoxomil 20mg,Medicine,Zydus,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Cardace 5,Ramipril 5mg,Medicine,Sanofi,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Envas 5,Enalapril Maleate 5mg,Medicine,Cadila,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Nebicard 5,Nebivolol 5mg,Medicine,Torrent,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Concor 5,Bisoprolol Fumarate 5mg,Medicine,Merck,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Carvedilol 6.25mg,Carvedilol 6.25mg,Medicine,,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Hydrochlorothiazide 12.5mg,Hydrochlorothiazide 12.5mg,Medicine,,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Lanoxin 0.25,Digoxin 0.25mg,Medicine,GSK,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Monotrate 20,Isosorbide Mononitrate 20mg,Medicine,Sun Pharma,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Atorva 20,Atorvastatin Calcium 20mg,Medicine,Zydus,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Atorva 40,Atorvastatin Calcium 40mg,Medicine,Zydus,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Rosuvas 5,Rosuvastatin Calcium 5mg,Medicine,Sun Pharma,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Rosuvas 20,Rosuvastatin Calcium 20mg,Medicine,Sun Pharma,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Lipicard 145,Fenofibrate 145mg,Medicine,USV,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Glycomet SR 500,Metformin Hydrochloride 500mg sustained release,Medicine,USV,tablet,No,60,Tablet,,Strip,20,,Box,10,,2
+Glycomet SR 1000,Metformin Hydrochloride 1000mg sustained release,Medicine,USV,tablet,No,40,Tablet,,Strip,15,,Box,10,,2
+Glycomet-GP 2,Metformin 500mg + Glimepiride 2mg,Medicine,USV,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Amaryl 1,Glimepiride 1mg,Medicine,Sanofi,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Diamicron MR 60,Gliclazide 60mg modified release,Medicine,Servier,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Januvia 100,Sitagliptin Phosphate 100mg,Medicine,MSD,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Teneligliptin 20mg,Teneligliptin 20mg,Medicine,,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Galvus 50,Vildagliptin 50mg,Medicine,Novartis,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Forxiga 10,Dapagliflozin 10mg,Medicine,AstraZeneca,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Voglibose 0.3mg,Voglibose 0.3mg,Medicine,,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Actrapid Vial 10ml,Insulin Human soluble 40 IU/ml,Medicine,Novo Nordisk,vial,No,4,Vial,,,,,,,,1
+Lantus Cartridge 3ml,Insulin Glargine 100 IU/ml,Medicine,Sanofi,vial,No,4,Cartridge,,,,,,,,1
+Insulin Syringe 40 IU,Disposable insulin syringe with needle,Consumable,,box,No,100,Piece,,,,,,,,1
+Thyronorm 25mcg,Levothyroxine Sodium 25mcg,Medicine,Abbott,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Thyronorm 100mcg,Levothyroxine Sodium 100mcg,Medicine,Abbott,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Neomercazole 5,Carbimazole 5mg,Medicine,Abbott,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Montair 5 Kid,Montelukast Sodium 5mg chewable,Medicine,Cipla,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Montair-LC Kid Syrup 60ml,Montelukast 4mg + Levocetirizine 2.5mg per 5ml,Medicine,Cipla,bottle,No,10,Bottle,,,,,,,,1
+Cetirizine Drops 15ml,Cetirizine Hydrochloride 2.5mg/ml,Medicine,,drops,No,10,Bottle,,,,,,,,1
+Bilastine 20mg,Bilastine 20mg,Medicine,,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Ebast 10,Ebastine 10mg,Medicine,Micro Labs,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Doxobid 400,Doxofylline 400mg,Medicine,Zydus,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Asthalin Syrup 100ml,Salbutamol 2mg/5ml,Medicine,Cipla,bottle,No,10,Bottle,,,,,,,,1
+Mucolite Syrup 100ml,Ambroxol Hydrochloride 15mg/5ml,Medicine,Cipla,bottle,No,10,Bottle,,,,,,,,1
+Budecort Respules 0.5mg,Budesonide 0.5mg/2ml,Medicine,Cipla,vial,No,20,Respule,,,,,,,,1
+Ipravent Respules 2ml,Ipratropium Bromide 500mcg/2ml,Medicine,Cipla,vial,No,20,Respule,,,,,,,,1
+Foracort 400 Inhaler,Budesonide 400mcg + Formoterol 6mcg,Medicine,Cipla,box,No,4,Inhaler,,,,,,,,1
+Seroflo 250 Inhaler,Salmeterol 25mcg + Fluticasone 250mcg,Medicine,Cipla,box,No,4,Inhaler,,,,,,,,1
+Flomist Nasal Spray,Fluticasone Furoate 27.5mcg per spray,Medicine,Cipla,bottle,No,8,Bottle,,,,,,,,1
+Otrivin Paediatric Drops 10ml,Xylometazoline 0.05%,Medicine,Haleon,drops,No,10,Bottle,,,,,,,,1
+Nasoclear Nasal Spray 15ml,Sodium Chloride 0.65% saline,Medicine,,bottle,No,10,Bottle,,,,,,,,1
+Honitus Syrup 100ml,Ayurvedic cough syrup with Tulsi and Mulethi,Medicine,Dabur,bottle,No,10,Bottle,,,,,,,,1
+Koflet Lozenges,Ayurvedic throat lozenge,Medicine,Himalaya,strip,No,30,Lozenge,,,,,,,,1
+Karvol Plus Capsule,Inhalant capsule with Menthol and Eucalyptus,Medicine,,capsule,No,30,Capsule,,,,,,,,1
+Tenovate Cream 20g,Clobetasol Propionate 0.05%,Medicine,GSK,tube,No,12,Tube,,,,,,,,1
+Elocon Cream 15g,Mometasone Furoate 0.1%,Medicine,Organon,tube,No,10,Tube,,,,,,,,1
+Fucidin Cream 15g,Fusidic Acid 2%,Medicine,Leo Pharma,tube,No,10,Tube,,,,,,,,1
+Candid Dusting Powder 100g,Clotrimazole 1% powder,Medicine,Glenmark,box,No,12,Bottle,,,,,,,,1
+Lulifin Cream 10g,Luliconazole 1%,Medicine,Sun Pharma,tube,No,10,Tube,,,,,,,,1
+Benzac AC 2.5% Gel 20g,Benzoyl Peroxide 2.5%,Medicine,Galderma,tube,No,10,Tube,,,,,,,,1
+Adaferin Gel 15g,Adapalene 0.1%,Medicine,Galderma,tube,No,10,Tube,,,,,,,,1
+Clindac A Gel 15g,Clindamycin Phosphate 1%,Medicine,Galderma,tube,No,10,Tube,,,,,,,,1
+Mintop 5% Solution 60ml,Minoxidil 5% topical solution,Medicine,Dr. Reddy's,bottle,No,8,Bottle,,,,,,,,1
+Scalpe Plus Shampoo 75ml,Ketoconazole 2% + ZPTO 1%,Medicine,Glenmark,bottle,No,8,Bottle,,,,,,,,1
+Betnovate-C Cream 20g,Betamethasone + Clioquinol,Medicine,Haleon,tube,No,10,Tube,,,,,,,,1
+Panderm Plus Cream 15g,Clobetasol + Ofloxacin + Ornidazole + Terbinafine,Medicine,Macleods,tube,No,10,Tube,,,,,,,,1
+Moisturex Cream 75g,Urea and lactic acid moisturiser,Consumable,Glenmark,box,No,10,Jar,,,,,,,,1
+Venusia Max Lotion 150ml,Intensive moisturising lotion,Consumable,Dr. Reddy's,bottle,No,8,Bottle,,,,,,,,1
+La Shield Sunscreen SPF 40 50g,Broad spectrum sunscreen gel,Other,Glenmark,tube,No,8,Tube,,,,,,,,1
+Silverex Ionic Cream 50g,Silver Sulphadiazine 1% w/w,Medicine,Ranbaxy,tube,No,6,Tube,,,,,,,,1
+Odomos Cream 50g,Mosquito repellent cream with N-Diethylbenzamide,Other,Dabur,tube,No,20,Tube,,,,,,,,1
+Nycil Prickly Heat Powder 150g,Chlorphenesin dusting powder,Other,Zydus Wellness,box,No,12,Bottle,,,,,,,,1
+Zandu Balm 25ml,Ayurvedic pain balm,Other,Emami,box,No,24,Bottle,,,,,,,,1
+Toba Eye Drops 5ml,Tobramycin 0.3% w/v,Medicine,Sun Pharma,drops,No,8,Bottle,,,,,,,,1
+Predmet Eye Drops 5ml,Prednisolone Acetate 1%,Medicine,Sun Pharma,drops,No,6,Bottle,,,,,,,,1
+Winolap Eye Drops 5ml,Olopatadine Hydrochloride 0.1%,Medicine,Sun Pharma,drops,No,8,Bottle,,,,,,,,1
+Glucomol Eye Drops 5ml,Timolol Maleate 0.5%,Medicine,FDC,drops,No,6,Bottle,,,,,,,,1
+Otek-OF Ear Drops 5ml,Ofloxacin 0.3% ear drops,Medicine,Micro Labs,drops,No,8,Bottle,,,,,,,,1
+Soliwax Ear Drops 10ml,Paradichlorobenzene wax softening drops,Medicine,,drops,No,8,Bottle,,,,,,,,1
+Moisol Eye Drops 10ml,Hydroxypropyl Methylcellulose lubricant,Medicine,,drops,No,8,Bottle,,,,,,,,1
+Regestrone 5,Norethisterone 5mg,Medicine,Sun Pharma,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Deviry 10,Medroxyprogesterone Acetate 10mg,Medicine,Torrent,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Fertyl 50,Clomiphene Citrate 50mg,Medicine,Svizera,tablet,No,15,Tablet,,Strip,10,,Box,10,,2
+Susten 200,Natural Micronised Progesterone 200mg,Medicine,Sun Pharma,capsule,No,20,Capsule,,Strip,10,,Box,10,,2
+Autrin Tablet,Iron + Folic Acid + Vitamin B12,Medicine,Pfizer,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Urimax 0.4,Tamsulosin Hydrochloride 0.4mg,Medicine,Cipla,capsule,No,30,Capsule,,Strip,10,,Box,10,,2
+Finast 5,Finasteride 5mg,Medicine,Dr. Reddy's,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Manforce 50,Sildenafil Citrate 50mg,Medicine,Mankind,tablet,No,20,Tablet,,Strip,4,,Box,10,,2
+Manforce Condom,Latex condom 3-piece pack,Consumable,Mankind,box,No,40,Packet,,,,,,,,1
+Durex Condom,Latex condom 3-piece pack,Consumable,Reckitt,box,No,24,Packet,,,,,,,,1
+Sofy Bodyfit XL,Sanitary napkin,Other,Unicharm,box,No,20,Packet,,,,,,,,1
+Menstrual Cup,Reusable silicone menstrual cup,Other,,box,No,6,Piece,,,,,,,,1
+Gabapin 300,Gabapentin 300mg,Medicine,Intas,capsule,No,20,Capsule,,Strip,10,,Box,10,,2
+Pregeb 75,Pregabalin 75mg,Medicine,Intas,capsule,No,20,Capsule,,Strip,10,,Box,10,,2
+Levera 500,Levetiracetam 500mg,Medicine,Intas,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Valparin 200,Sodium Valproate 200mg,Medicine,Sanofi,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Eptoin 100,Phenytoin Sodium 100mg,Medicine,Abbott,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Tegretol 200,Carbamazepine 200mg,Medicine,Novartis,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Nexito 10,Escitalopram Oxalate 10mg,Medicine,Sun Pharma,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Serta 50,Sertraline Hydrochloride 50mg,Medicine,Torrent,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Fludac 20,Fluoxetine Hydrochloride 20mg,Medicine,Cadila,capsule,No,20,Capsule,,Strip,10,,Box,10,,2
+Oleanz 5,Olanzapine 5mg,Medicine,Sun Pharma,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Risdone 2,Risperidone 2mg,Medicine,Intas,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Qutipin 25,Quetiapine Fumarate 25mg,Medicine,Sun Pharma,tablet,No,20,Tablet,,Strip,10,,Box,10,,2
+Zolfresh 10,Zolpidem Tartrate 10mg,Medicine,Abbott,tablet,Yes,20,Tablet,,Strip,10,,Box,10,,2
+Etilaam 0.5,Etizolam 0.5mg,Medicine,Intas,tablet,Yes,20,Tablet,,Strip,10,,Box,10,,2
+Frisium 10,Clobazam 10mg,Medicine,Sanofi,tablet,Yes,20,Tablet,,Strip,10,,Box,10,,2
+Donep 5,Donepezil Hydrochloride 5mg,Medicine,,tablet,No,15,Tablet,,Strip,10,,Box,10,,2
+Vertin 8,Betahistine Dihydrochloride 8mg,Medicine,Abbott,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Nurokind Plus,Methylcobalamin 1500mcg with Folic Acid,Medicine,Mankind,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Methylcobalamin Injection 1ml,Methylcobalamin 500mcg/ml,Medicine,,vial,No,20,Ampoule,,,,,,,,1
+Shelcal-HD,Calcium Carbonate 500mg + Vitamin D3 2000 IU,Medicine,Torrent,tablet,No,60,Tablet,,Strip,15,,Box,10,,2
+Calcium + Magnesium + Zinc,Calcium Citrate with Magnesium and Zinc,Medicine,,tablet,No,40,Tablet,,Strip,15,,Box,10,,2
+Uprise D3 60K,Cholecalciferol 60000 IU,Medicine,Alkem,capsule,No,40,Capsule,,,,,,,,1
+Seacod Capsule,Cod liver oil with Omega 3,Medicine,Universal,box,No,20,Capsule,,,,,,,,1
+Protinex 400g,Protein nutrition powder,Other,Danone,box,No,8,Jar,,,,,,,,1
+Pediasure 400g,Child nutrition powder,Other,Abbott,box,No,8,Jar,,,,,,,,1
+Ensure 400g,Adult nutrition powder,Other,Abbott,box,No,8,Jar,,,,,,,,1
+Zincovit Drops 15ml,Multivitamin and multimineral paediatric drops,Medicine,Apex Laboratories,drops,No,10,Bottle,,,,,,,,1
+Lycostar Capsule,Lycopene with multivitamins and minerals,Medicine,,capsule,No,30,Capsule,,,,,,,,1
+Vitamin D3 1000 IU,Cholecalciferol 1000 IU,Medicine,,tablet,No,40,Tablet,,Strip,15,,Box,10,,2
+Folvite 5mg,Folic Acid 5mg,Medicine,Pfizer,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Cerelac Wheat 300g,Infant cereal from six months,Other,Nestle,box,No,10,Tin,,,,,,,,1
+Lactogen 1 400g,Infant formula from birth,Other,Nestle,box,No,8,Tin,,,,,,,,1
+Nan Pro 2 400g,Follow-up formula from six months,Other,Nestle,box,No,8,Tin,,,,,,,,1
+Dabur Chyawanprash 500g,Ayurvedic health supplement,Other,Dabur,box,No,10,Jar,,,,,,,,1
+Cystone Tablet,Ayurvedic formulation for urinary health,Medicine,Himalaya,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Septilin Tablet,Ayurvedic immunity formulation,Medicine,Himalaya,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Bonnisan Drops 30ml,Ayurvedic paediatric digestive drops,Medicine,Himalaya,drops,No,10,Bottle,,,,,,,,1
+Pudin Hara Pearls,Ayurvedic mint capsules for indigestion,Medicine,Dabur,strip,No,40,Capsule,,,,,,,,1
+Frusemide Injection 2ml,Furosemide 10mg/ml,Medicine,,vial,No,20,Ampoule,,,,,,,,1
+Atropine Injection 1ml,Atropine Sulphate 0.6mg/ml,Medicine,,vial,No,15,Ampoule,,,,,,,,1
+Calcium Gluconate Injection 10ml,Calcium Gluconate 10%,Medicine,,vial,No,15,Ampoule,,,,,,,,1
+Magnesium Sulphate Injection 10ml,Magnesium Sulphate 50%,Medicine,,vial,No,12,Ampoule,,,,,,,,1
+Vitamin K Injection 1ml,Phytomenadione 10mg/ml,Medicine,,vial,No,20,Ampoule,,,,,,,,1
+Oxytocin Injection 1ml,Oxytocin 5 IU/ml,Medicine,,vial,No,20,Ampoule,,,,,,,,1
+Methylergometrine Injection 1ml,Methylergometrine Maleate 0.2mg/ml,Medicine,,vial,No,20,Ampoule,,,,,,,,1
+Aminophylline Injection 10ml,Aminophylline 25mg/ml,Medicine,,vial,No,12,Ampoule,,,,,,,,1
+Deriphyllin Injection 2ml,Etofylline + Theophylline,Medicine,Zydus,vial,No,15,Ampoule,,,,,,,,1
+Tetanus Immunoglobulin 250 IU,Human tetanus immunoglobulin 250 IU,Medicine,,vial,No,6,Vial,,,,,,,,1
+Dextrose 25% 100ml,Dextrose 25% intravenous infusion,Medicine,,bottle,No,12,Bottle,,,,,,,,1
+Metronidazole IV 100ml,Metronidazole 500mg/100ml infusion,Medicine,,bottle,No,15,Bottle,,,,,,,,1
+Ciprofloxacin IV 100ml,Ciprofloxacin 200mg/100ml infusion,Medicine,,bottle,No,12,Bottle,,,,,,,,1
+Paracetamol IV 100ml,Paracetamol 1g/100ml infusion,Medicine,,bottle,No,12,Bottle,,,,,,,,1
+Surgical Blade No. 11,Sterile carbon steel surgical blade,Consumable,,box,No,100,Piece,,Box,100,,,,,1
+Surgical Blade No. 15,Sterile carbon steel surgical blade,Consumable,,box,No,100,Piece,,Box,100,,,,,1
+Catgut Suture 2-0,Chromic catgut with needle,Consumable,,box,No,20,Piece,,,,,,,,1
+Silk Suture 2-0,Braided silk with needle,Consumable,,box,No,20,Piece,,,,,,,,1
+Crepe Bandage 15cm,Elastic crepe bandage,Consumable,,box,No,15,Roll,,,,,,,,1
+Gauze Bandage 6 inch,Sterile roller gauze bandage,Consumable,,box,No,20,Roll,,,,,,,,1
+POP Bandage 6 inch,Plaster of Paris bandage,Consumable,,box,No,15,Roll,,,,,,,,1
+Sterile Gauze Pad 4x4,Sterile gauze swab,Consumable,,sachet,No,100,Piece,,Box,100,,,,,1
+Eye Pad Sterile,Sterile ophthalmic eye pad,Consumable,,box,No,30,Piece,,,,,,,,1
+Foley Catheter 16 Fr,Two-way silicone Foley catheter,Consumable,,box,No,15,Piece,,,,,,,,1
+Urine Drainage Bag 2L,Urine collection bag with outlet,Consumable,,box,No,20,Piece,,,,,,,,1
+Ryles Tube 16 Fr,Nasogastric feeding tube,Consumable,,box,No,10,Piece,,,,,,,,1
+Suction Catheter 12 Fr,Sterile suction catheter,Consumable,,box,No,20,Piece,,,,,,,,1
+Oxygen Mask Adult,Oxygen face mask with tubing,Consumable,,box,No,15,Piece,,,,,,,,1
+Nasal Oxygen Cannula,Nasal prongs with tubing,Consumable,,box,No,20,Piece,,,,,,,,1
+N95 Face Mask,Filtering facepiece respirator,Consumable,,box,No,50,Piece,,Box,20,,,,,1
+Disposable Cap,Non-woven surgical cap,Consumable,,box,No,100,Piece,,Box,100,,,,,1
+Disposable Apron,Plastic protective apron,Consumable,,box,No,50,Piece,,,,,,,,1
+Adult Diaper Large,Disposable adult diaper,Consumable,,box,No,20,Packet,,,,,,,,1
+Underpad 60x90,Disposable bed protection sheet,Consumable,,box,No,30,Piece,,,,,,,,1
+Hot Water Bag,Rubber hot water bottle,Other,,box,No,10,Piece,,,,,,,,1
+Ice Bag,Rubber ice bag for cold compress,Other,,box,No,10,Piece,,,,,,,,1
+Knee Cap Medium,Elastic knee support,Other,,box,No,10,Piece,,,,,,,,1
+LS Belt Medium,Lumbosacral support belt,Other,,box,No,8,Piece,,,,,,,,1
+Cervical Collar Medium,Soft cervical collar,Other,,box,No,8,Piece,,,,,,,,1
+Digital BP Machine,Automatic upper-arm blood pressure monitor,Other,,box,No,5,Piece,,,,,,,,1
+Pulse Oximeter,Fingertip pulse oximeter,Other,,box,No,8,Piece,,,,,,,,1
+Glucometer Machine,Blood glucose monitoring machine with strips,Other,,box,No,5,Piece,,,,,,,,1
+Nebuliser Machine,Compressor nebuliser with mask set,Other,,box,No,4,Piece,,,,,,,,1
+Hand Sanitizer 500ml,Ethyl Alcohol 70% v/v gel,Consumable,,bottle,No,12,Bottle,,,,,,,,1
+Dettol Handwash 200ml,Antibacterial liquid handwash,Other,Reckitt,bottle,No,12,Bottle,,,,,,,,1
+Dove Beauty Bar 100g,Moisturising cleansing bar,Other,Unilever,box,No,24,Piece,,,,,,,,1
+Himalaya Neem Face Wash 100ml,Purifying neem face wash,Other,Himalaya,tube,No,12,Tube,,,,,,,,1
+Himalaya Baby Soap 75g,Gentle baby bathing bar,Other,Himalaya,box,No,24,Piece,,,,,,,,1
+Himalaya Baby Lotion 200ml,Moisturising baby lotion,Other,Himalaya,bottle,No,12,Bottle,,,,,,,,1
+Head and Shoulders 180ml,Anti-dandruff shampoo,Other,Procter & Gamble,bottle,No,12,Bottle,,,,,,,,1
+Clinic Plus Shampoo 175ml,Everyday shampoo,Other,Unilever,bottle,No,12,Bottle,,,,,,,,1
+Dabur Red Toothpaste 100g,Ayurvedic toothpaste,Other,Dabur,tube,No,24,Tube,,,,,,,,1
+Listerine Mouthwash 250ml,Antiseptic mouthwash,Other,Johnson & Johnson,bottle,No,12,Bottle,,,,,,,,1
+Vaseline Lip Therapy 10g,Lip balm,Other,Unilever,box,No,24,Piece,,,,,,,,1
+Cotton Buds 100 pcs,Cotton tipped applicators,Other,,box,No,24,Packet,,,,,,,,1
+Baby Feeding Bottle 250ml,BPA-free feeding bottle,Other,,box,No,12,Piece,,,,,,,,1
+Baby Soother,Silicone pacifier,Other,,box,No,12,Piece,,,,,,,,1
+Good Knight Refill 45ml,Mosquito repellent liquid refill,Other,Godrej,box,No,12,Piece,,,,,,,,1
+Glucon-D Orange 400g,Dextrose energy powder with orange,Consumable,Zydus Wellness,box,No,12,Packet,,,,,,,,1
+Evita 400,Vitamin E 400mg,Medicine,,capsule,No,60,Capsule,,Strip,10,,Box,10,,2
+Eva 600,Vitamin E 600mg,Medicine,,capsule,No,60,Capsule,,Strip,10,,Box,10,,2
+Mecomin-S,Mecobalamin sublingual tablets,Medicine,,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Sitapro M 1000,Sitagliptin + Metformin Hydrochloride 1000mg,Medicine,,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Omepraz-20,Omeprazole 20mg,Medicine,Alkem,capsule,No,100,Capsule,,Strip,10,,Box,10,,2
+E3 Max,Omega-3 fatty acids with Wheat Germ Oil and Vitamin E,Medicine,,capsule,No,60,Capsule,,Strip,10,,Box,10,,2
+D3-Vita,Cholecalciferol 60000 IU,Medicine,,tablet,No,40,Tablet,,,,,,,,1
+Vitcobin-1500,Methylcobalamin 1500mcg,Medicine,,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Asvit,Ascorbic Acid 500mg chewable,Medicine,,tablet,No,100,Tablet,,Strip,10,,Box,10,,2
+Newron 1500,Methylcobalamin 1500mcg,Medicine,,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Cobalix 1500,Methylcobalamin 1500mcg,Medicine,,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Aerolin-4,Salbutamol 4mg,Medicine,Arya Pharmaceutical,tablet,No,100,Tablet,,Strip,10,,Box,10,,2
+Arthrovit,"Collagen Peptide Type II with Glucosamine, Chondroitin, MSM and Vitamin D3",Medicine,,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Cure Vit 60K,Cholecalciferol 60000 IU,Medicine,,capsule,No,40,Capsule,,,,,,,,1
+Deevit Plus,Calcitriol 0.25mcg + Calcium Carbonate 500mg + Zinc,Medicine,,capsule,No,60,Capsule,,Strip,10,,Box,10,,2
+Calcivish,Calcium Citrate with Vitamin D3 and minerals,Medicine,,tablet,No,60,Tablet,,Box,30,,,,,2
+Vtan-M,"Calcium Carbonate, Vitamin D3, Methylcobalamin, Vitamin K2-7, Zinc and Magnesium",Medicine,,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Syntran 200,Itraconazole 200mg,Medicine,,capsule,No,40,Capsule,,Strip,10,,Box,10,,2
+Etoaid 90,Etoricoxib 90mg,Medicine,Arya Pharmaceutical,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Panta Fast,Pantoprazole,Medicine,,tablet,No,100,Tablet,,Strip,10,,Box,10,,2
+Paraflam,Ibuprofen 400mg + Paracetamol 500mg,Medicine,,tablet,No,100,Tablet,,Strip,10,,Box,10,,2
+Nilocon White,Combined oral contraceptive pill,Medicine,,strip,No,20,Packet,,,,,,,,1
+Amfol-XT,Ferrous Ascorbate with Folic Acid,Medicine,Amtech Med,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Acnetret-10,Isotretinoin 10mg,Medicine,Deurali-Janta,capsule,No,40,Capsule,,Strip,10,,Box,10,,2
+Acnetret-20,Isotretinoin 20mg,Medicine,Deurali-Janta,capsule,No,40,Capsule,,Strip,10,,Box,10,,2
+Folvin,Folic Acid,Medicine,,tablet,No,100,Tablet,,Strip,10,,Box,10,,2
+Dromus 40,Drotaverine Hydrochloride 40mg,Medicine,,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Ifol XT,Ferrous Ascorbate equivalent to elemental Iron 100mg + Folic Acid 1.5mg,Medicine,,capsule,No,60,Capsule,,Strip,10,,Box,10,,2
+Shelcal CT,Calcium with Calcitriol,Medicine,Torrent,tablet,No,60,Tablet,,Strip,15,,Box,10,,2
+Arnimes 100,Nimesulide 100mg,Medicine,,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Everose Softgel,Evening Primrose Oil 1000mg,Medicine,DS Medi Link,capsule,No,40,Capsule,,Strip,10,,Box,10,,2
+Silocap 8,Silodosin 8mg,Medicine,,capsule,No,40,Capsule,,Strip,10,,Box,10,,2
+Sarpcal-D,"Calcium Citrate, Methylcobalamin, Vitamin K2-7 and Vitamin D3 with Zinc",Medicine,,tablet,No,60,Tablet,,Box,30,,,,,2
+Neo Bact,Prebiotic and probiotic capsules,Medicine,,capsule,No,30,Capsule,,Box,30,,,,,2
+Thyronorm 12.5mcg,Levothyroxine Sodium 12.5mcg,Medicine,Abbott,tablet,No,60,Tablet,,Bottle,120,,Box,12,,2
+Thyronorm 62.5mcg,Levothyroxine Sodium 62.5mcg,Medicine,Abbott,tablet,No,60,Tablet,,Bottle,120,,Box,12,,2
+Gestofit 200,Progesterone 200mg,Medicine,,capsule,No,40,Capsule,,Strip,10,,Box,10,,2
+Menosan,Ayurvedic formulation for menopausal support,Medicine,Himalaya,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Pilex Tablet,Ayurvedic formulation for haemorrhoids,Medicine,Himalaya,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Softovac-O,Bowel regulator powder,Medicine,Lupin,box,No,8,Packet,,,,,,,,1
+Nescoplex Syrup 200ml,Multivitamin syrup,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Viva Syrup 200ml,"Vitamin B-Complex syrup, sugar free",Medicine,Prime Pharmaceuticals,bottle,No,8,Bottle,,,,,,,,1
+Viva-Z Syrup 200ml,"Vitamin B-Complex with Zinc syrup, sugar free",Medicine,Prime Pharmaceuticals,bottle,No,8,Bottle,,,,,,,,1
+Aclov Suspension 100ml,Acyclovir oral suspension,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Prodoxime 100 Dry Syrup 60ml,Cefpodoxime Proxetil 100mg/5ml oral suspension,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Fluclass Syrup 100ml,Flucloxacillin oral solution,Medicine,Arya Pharmaceutical,bottle,No,8,Bottle,,,,,,,,1
+Apitron Syrup 200ml,Appetite stimulant syrup,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Kas-Nas Cough Syrup 100ml,Ayurvedic cough syrup,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Primol DS Suspension 60ml,Paracetamol paediatric oral suspension,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Raniped Syrup 60ml,Ranitidine 75mg/5ml oral solution,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Laxilose Syrup 200ml,Lactulose solution,Medicine,Arya Pharmaceutical,bottle,No,8,Bottle,,,,,,,,1
+Niko DS Suspension 60ml,Paracetamol oral suspension,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Niko Suspension 60ml,Paracetamol oral suspension,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Mefiwell-P Suspension 60ml,Mefenamic Acid + Paracetamol suspension,Medicine,Prime Pharmaceuticals,bottle,No,8,Bottle,,,,,,,,1
+Grandem Syrup,Granisetron syrup,Medicine,Alkemist,bottle,No,8,Bottle,,,,,,,,1
+Nemox Dry Syrup,Amoxicillin for oral suspension,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Clavam Forte Dry Syrup 30ml,Amoxicillin + Potassium Clavulanate 5.1g/30ml,Medicine,Alkem,bottle,No,8,Bottle,,,,,,,,1
+Clavam BID Dry Syrup 30ml,Amoxicillin + Potassium Clavulanate 5g/30ml,Medicine,Alkem,bottle,No,8,Bottle,,,,,,,,1
+Mega-CV Dry Syrup 228.5mg,Amoxicillin + Potassium Clavulanate oral suspension,Medicine,Alkemist,bottle,No,8,Bottle,,,,,,,,1
+Cefwar 100 Dry Syrup 60ml,Cefpodoxime Proxetil 100mg/5ml oral suspension,Medicine,Lomus,bottle,No,8,Bottle,,,,,,,,1
+Zellar Suspension,Fexofenadine Hydrochloride suspension,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Brica-BM Syrup 100ml,Terbutaline Sulphate + Bromhexine Hydrochloride syrup,Medicine,Arya Pharmaceutical,bottle,No,8,Bottle,,,,,,,,1
+Tulsi Kuf Syrup 100ml,"Ayurvedic cough syrup, sugar free",Medicine,Lumbini,bottle,No,8,Bottle,,,,,,,,1
+Livosave Syrup 100ml,Ayurvedic liver tonic,Medicine,Lumbini,bottle,No,8,Bottle,,,,,,,,1
+Remcet-L Syrup 60ml,Levocetirizine Dihydrochloride syrup,Medicine,Nepal Remedies,bottle,No,8,Bottle,,,,,,,,1
+Proate Oral Solution 200ml,Sodium Valproate oral solution,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Multi-Z Syrup,Multivitamin with Zinc syrup,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+DV 400 Syrup,Cholecalciferol oral syrup,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Aben Suspension,Albendazole oral suspension,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+CTZ Syrup,Cetirizine syrup,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Aziwell-200 Dry Syrup 30ml,Azithromycin 200mg/5ml oral suspension,Medicine,Prime Pharmaceuticals,bottle,No,8,Bottle,,,,,,,,1
+Grilinctus-BM Syrup 100ml,Terbutaline Sulphate + Bromhexine Hydrochloride syrup,Medicine,Franco-Indian,bottle,No,8,Bottle,,,,,,,,1
+Monast LC Syrup 60ml,"Montelukast Sodium + Levocetirizine Dihydrochloride syrup, sugar free",Medicine,National Healthcare,bottle,No,8,Bottle,,,,,,,,1
+Lomohist Paediatric 60ml,Paediatric cough syrup,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Heptodex Syrup 450ml,Liver tonic,Medicine,Narayani,bottle,No,6,Bottle,,,,,,,,1
+Hapenz Syrup,Appetite stimulant syrup,Medicine,Tablets India,bottle,No,8,Bottle,,,,,,,,1
+R.B. Tone Syrup 200ml,Iron with Vitamin C and B-Complex syrup,Medicine,Medley,bottle,No,8,Bottle,,,,,,,,1
+Flexon Suspension,Ibuprofen + Paracetamol suspension,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Arsil-D Syrup,Dextromethorphan Hydrobromide + Triprolidine + Phenylephrine Hydrochloride syrup,Medicine,Arya Pharmaceutical,bottle,No,8,Bottle,,,,,,,,1
+Vasodryl Syrup 50ml,Paediatric antitussive syrup,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Enclave BID Dry Syrup,Amoxicillin + Potassium Clavulanate oral suspension,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Safi Syrup 200ml,Ayurvedic blood purifier,Medicine,Hamdard,bottle,No,8,Bottle,,,,,,,,1
+Supramox CV BID Dry Syrup 30ml,Amoxicillin + Potassium Clavulanate oral suspension,Medicine,Arya Pharmaceutical,bottle,No,8,Bottle,,,,,,,,1
+Kofguard HT Syrup 100ml,Cough syrup with Honey and Tulsi,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Peptin Syrup 200ml,Digestive enzyme syrup,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Aristozyme Liquid,Diastase and Pepsin liquid,Medicine,Aristo,bottle,No,8,Bottle,,,,,,,,1
+Diarmet-DF Suspension,Metronidazole + Diloxanide Furoate suspension,Medicine,Prime Pharmaceuticals,bottle,No,8,Bottle,,,,,,,,1
+Diarlock Suspension,Metronidazole + Diloxanide Furoate suspension,Medicine,Arya Pharmaceutical,bottle,No,8,Bottle,,,,,,,,1
+Bustop Syrup 200ml,"Vitamin B-Complex syrup, sugar free",Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Lyciton Syrup 200ml,Cyproheptadine Hydrochloride 2mg/5ml syrup,Medicine,Arya Pharmaceutical,bottle,No,8,Bottle,,,,,,,,1
+Levetor Oral Solution,Levetiracetam 100mg/ml oral solution,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Astha Syrup 100ml,"Salbutamol oral solution, sugar free",Medicine,National Healthcare,bottle,No,8,Bottle,,,,,,,,1
+Astha Mucolytic Syrup 100ml,Salbutamol + Bromhexine Hydrochloride syrup,Medicine,National Healthcare,bottle,No,8,Bottle,,,,,,,,1
+Aryadine Gargle 100ml,Povidone-Iodine gargle,Medicine,Arya Pharmaceutical,bottle,No,8,Bottle,,,,,,,,1
+Sefadone Solution,Povidone-Iodine 10% w/v microbicidal solution,Medicine,Shree Ram Pharmaceuticals,bottle,No,8,Bottle,,,,,,,,1
+Sucfate O Suspension 200ml,"Sucralfate + Oxetacaine suspension, sugar free",Medicine,Accord,bottle,No,8,Bottle,,,,,,,,1
+Fortiplex-Z Syrup 100ml,"Vitamin B-Complex with Zinc syrup, sugar free",Medicine,,bottle,No,8,Bottle,,,,,,,,1
+L-Zyme Syrup 100ml,Digestive enzyme syrup,Medicine,Lumbini,bottle,No,8,Bottle,,,,,,,,1
+Dex Kof Syrup 100ml,Dextromethorphan Hydrobromide + Triprolidine + Phenylephrine Hydrochloride syrup,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Ebilac-Z Dry Syrup 60ml,Zinc Gluconate with prebiotic and probiotic for oral suspension,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Arsol Syrup,Systemic alkaliser,Medicine,Arya Pharmaceutical,bottle,No,8,Bottle,,,,,,,,1
+Normogel Suspension 170ml,Alumina and Magnesia oral suspension,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Ulgel Suspension,Magaldrate + Simethicone oral suspension,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Goran Syrup 100ml,Vitamin B-Complex with Zinc syrup,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Histafen Suspension 100ml,Fexofenadine Hydrochloride suspension,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Benakof-BM Syrup 100ml,Bromhexine Hydrochloride + Terbutaline Sulphate syrup,Medicine,Prime Pharmaceuticals,bottle,No,8,Bottle,,,,,,,,1
+Regumens Syrup 450ml,"Ayurvedic uterine tonic, sugar free",Medicine,Fleur Himalayan,bottle,No,6,Bottle,,,,,,,,1
+Dashmularishta 450ml,Ayurvedic uterine and postnatal tonic,Medicine,Fleur Himalayan,bottle,No,6,Bottle,,,,,,,,1
+Ashokarista 450ml,Ayurvedic uterine tonic,Medicine,Fleur Himalayan,bottle,No,6,Bottle,,,,,,,,1
+Janma Ghunti,Ayurvedic paediatric digestive tonic,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Jaiphal Mixed Oil,Ayurvedic massage oil,Medicine,Pal Pal,bottle,No,8,Bottle,,,,,,,,1
+Ruma Oil 60ml,Ayurvedic pain relief oil,Medicine,National Healthcare,bottle,No,12,Bottle,,,,,,,,1
+Nivarak Lep Tel,Ayurvedic pain relief oil,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Clove Oil 6ml,Clove Oil IP for toothache,Medicine,,bottle,No,12,Bottle,,,,,,,,1
+Grace Gripe Water,Ayurvedic infant gripe water,Medicine,Grace,bottle,No,12,Bottle,,,,,,,,1
+Enterogermina,Bacillus clausii oral suspension,Medicine,Sanofi,vial,No,40,Vial,,Packet,10,,,,,2
+Peglec,Polyethylene Glycol bowel preparation,Medicine,Tablets India,sachet,No,12,Sachet,,,,,,,,1
+Eva Tears 10ml,Carboxymethylcellulose Sodium eye drops,Medicine,,drops,No,6,Bottle,,,,,,,,1
+Decolic Drops 30ml,Dicyclomine Hydrochloride + Simethicone suspension,Medicine,,drops,No,8,Bottle,,,,,,,,1
+Nasivion S Nasal Spray,Saline nasal solution,Medicine,,drops,No,6,Bottle,,,,,,,,1
+Nasivion Mini 0.01% Nasal Drops 10ml,Oxymetazoline Hydrochloride 0.01% nasal solution,Medicine,,drops,No,6,Bottle,,,,,,,,1
+Niko Drops 15ml,Paracetamol paediatric oral drops,Medicine,,drops,No,8,Bottle,,,,,,,,1
+Decon-S Nasal Drops,Saline nasal solution,Medicine,,drops,No,6,Bottle,,,,,,,,1
+Neopeptine Drops,Digestive enzyme paediatric drops,Medicine,,drops,No,8,Bottle,,,,,,,,1
+Cebay Oral Drops 10ml,Cefixime 25mg/ml for oral suspension,Medicine,Lomus,drops,No,8,Bottle,,,,,,,,1
+Ferofolic Drops,Iron and Folic Acid paediatric drops,Medicine,,drops,No,8,Bottle,,,,,,,,1
+Arbivit-3 Drops 15ml,Cholecalciferol drops,Medicine,,drops,No,8,Bottle,,,,,,,,1
+Arbivit Forte Drops 15ml,Cholecalciferol drops,Medicine,,drops,No,8,Bottle,,,,,,,,1
+Vit D 800 Drops 15ml,Cholecalciferol 800 IU drops,Medicine,,drops,No,8,Bottle,,,,,,,,1
+Arhex Mouthwash 100ml,Chlorhexidine Gluconate mouthwash,Medicine,Arya Pharmaceutical,bottle,No,8,Bottle,,,,,,,,1
+Dimple Injection 150mg,Medroxyprogesterone Acetate injectable suspension 150mg,Medicine,,vial,No,10,Vial,,,,,,,,1
+Tiova Inhaler,Tiotropium Bromide inhaler,Medicine,Cipla,box,No,4,Inhaler,,,,,,,,1
+Budecort Inhaler 200,Budesonide 200mcg per actuation,Medicine,Cipla,box,No,4,Inhaler,,,,,,,,1
+Foracort Rotacaps 400,Budesonide 400mcg + Formoterol 6mcg rotacaps,Medicine,Cipla,capsule,No,60,Rotacap,,Packet,30,,,,,2
+Ipravent Rotacaps,Ipratropium Bromide rotacaps,Medicine,Cipla,capsule,No,60,Rotacap,,Packet,30,,,,,2
+Budecort Rotacaps 200,Budesonide 200mcg rotacaps,Medicine,Cipla,capsule,No,60,Rotacap,,Packet,30,,,,,2
+Asthalin Rotacaps 200mcg,Salbutamol Sulphate 200mcg rotacaps,Medicine,Cipla,capsule,No,60,Rotacap,,Packet,30,,,,,2
+Seroflo Rotacaps 250,Salmeterol 50mcg + Fluticasone Propionate 250mcg rotacaps,Medicine,Cipla,capsule,No,60,Rotacap,,Packet,30,,,,,2
+Metaspray Nasal Spray,Mometasone Furoate nasal spray,Medicine,Cipla,bottle,No,6,Bottle,,,,,,,,1
+Asthalin Respules 2.5mg,Salbutamol 2.5mg/2.5ml,Medicine,Cipla,vial,No,20,Respule,,,,,,,,1
+Digirolfin 5% Nail Lacquer 2.5ml,Amorolfine 5% w/v medicated nail lacquer,Medicine,,bottle,No,6,Bottle,,,,,,,,1
+Amorol Nail Lacquer 2.5ml,Amorolfine 5% w/v medicated nail lacquer,Medicine,,bottle,No,6,Bottle,,,,,,,,1
+Permeth-D Lotion,Permethrin 5% lotion,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Conaz Lotion,Ketoconazole 2% lotion,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Ketoco-Z Shampoo 100ml,Ketoconazole + Zinc Pyrithione shampoo,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Keto-Konaz Shampoo 100ml,Ketoconazole + Zinc Pyrithione shampoo,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Candid TV Suspension,Ketoconazole + Selenium Sulphide suspension,Medicine,Glenmark,bottle,No,8,Bottle,,,,,,,,1
+Selsun Shampoo 50ml,Selenium Sulfide 2.5% anti-dandruff shampoo,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Hair Gain 5 Solution 60ml,Minoxidil 5% w/v topical solution,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Flucort Forte Skin Lotion 30ml,Fluocinolone Acetonide 0.025% topical solution,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Glyco 6 Cream,Glycolic Acid 6% cream,Medicine,,tube,No,10,Tube,,,,,,,,1
+Ketocare Soap,Ketoconazole medicated soap,Medicine,,box,No,24,Piece,,,,,,,,1
+Cetaphil Moisturising Cream 80g,Moisturising cream for dry to normal sensitive skin,Consumable,Galderma,tube,No,10,Tube,,,,,,,,1
+Cetaphil Gentle Skin Cleanser 125ml,Gentle skin cleanser,Consumable,Galderma,bottle,No,8,Bottle,,,,,,,,1
+72 Moist XS Cream 100g,Intensive moisturising cream,Consumable,,tube,No,10,Tube,,,,,,,,1
+Dermacaloe Lotion 100ml,Soothing lotion for itchy irritated skin,Consumable,,bottle,No,8,Bottle,,,,,,,,1
+Calcavit Lotion 100ml,"Calamine, Aloe Vera and Zinc Oxide lotion",Consumable,,bottle,No,8,Bottle,,,,,,,,1
+FixDerma Multi-Active Moisturizing Lotion 150ml,Moisturising lotion,Consumable,FixDerma,bottle,No,8,Bottle,,,,,,,,1
+FixDerma Moisturizing Cream 60g,Moisturising cream for dry skin,Consumable,FixDerma,tube,No,10,Tube,,,,,,,,1
+Lumimoist Lotion 100ml,Ceramide and Hyaluronic Acid moisturising lotion,Consumable,Lumiderma,bottle,No,8,Bottle,,,,,,,,1
+Humeda Rich Moisturising Creme,Rich moisturising creme,Consumable,Aarushree,tube,No,10,Tube,,,,,,,,1
+Derma Moist Lotion 250ml,Aloe Vera and Wheat Germ Oil moisturising lotion,Consumable,Rupen Cosmetic,bottle,No,8,Bottle,,,,,,,,1
+Pevore Lite Cream 150g,White Soft Paraffin and Liquid Paraffin cream,Consumable,,tube,No,10,Tube,,,,,,,,1
+Moistcom Moisturising Cream Gel,Moisturiser for oily and acne prone skin,Consumable,,tube,No,10,Tube,,,,,,,,1
+Mist Moisturising Cream Gel,"Moisturising gel with Vitamin C, Vitamin E and Aloe Vera",Consumable,,tube,No,10,Tube,,,,,,,,1
+Atogla Lotion 200ml,Baby moisturising lotion with ceramides,Consumable,,bottle,No,12,Bottle,,,,,,,,1
+Dermadew Baby Lotion,Baby moisturising lotion,Consumable,,bottle,No,12,Bottle,,,,,,,,1
+Ceuticoz Baby Moisture Cream 100g,Baby moisturising cream with ceramides,Consumable,Ceuticoz,tube,No,10,Tube,,,,,,,,1
+Glycerin 100ml,Glycerin IP,Consumable,,bottle,No,12,Bottle,,,,,,,,1
+Acne Derma Gel 60g,Salicylic Acid and Allantoin gel,Other,,tube,No,10,Tube,,,,,,,,1
+Acne Active Face Wash Gel 100g,Anti-acne face wash gel,Other,,tube,No,10,Tube,,,,,,,,1
+AcneGuard Face Wash Gel 100g,Oil control face wash gel,Other,,tube,No,10,Tube,,,,,,,,1
+Acneshield-S Face Wash 60ml,Face wash for acne and oily skin,Other,,tube,No,10,Tube,,,,,,,,1
+Acne Mist Gel,Anti-acne moisturising gel,Other,,tube,No,10,Tube,,,,,,,,1
+Pevore Acne Moisturizing Gel 50g,Anti-acne moisturising gel,Other,,tube,No,10,Tube,,,,,,,,1
+Seb-Fix Anti Acne Moisturizing Gel 50g,Anti-acne moisturising gel,Other,Lumiderma,tube,No,10,Tube,,,,,,,,1
+K-Lic Acne Foaming Face Wash 60ml,"Mandelic, Salicylic and Hyaluronic Acid face wash",Other,,bottle,No,10,Bottle,,,,,,,,1
+Kleida Foaming Face Wash 100ml,Foaming face wash for acne prone skin,Other,Aarushree,bottle,No,10,Bottle,,,,,,,,1
+Kleida Skin Lightening Moisturiser,Skin lightening moisturiser,Other,Aarushree,tube,No,10,Tube,,,,,,,,1
+Kleida Age Erase Pro Serum 30ml,Anti-ageing face serum,Other,Aarushree,bottle,No,6,Bottle,,,,,,,,1
+Kleida Sun Safe Invisible Sunscreen SPF 50,Invisible sunscreen SPF 50 PA++++,Other,Aarushree,tube,No,10,Tube,,,,,,,,1
+Humeda Salicylic Acid Serum 30ml,Salicylic Acid face serum,Other,Aarushree,bottle,No,6,Bottle,,,,,,,,1
+Derm Shine Anti Acne Face Wash 100ml,Salicylic Acid and Niacinamide face wash,Other,,bottle,No,10,Bottle,,,,,,,,1
+Derm Shine Skin Brightening Facewash 100ml,Glutathione and Vitamin C face wash,Other,,bottle,No,10,Bottle,,,,,,,,1
+Glutaday Face Wash 75ml,Skin brightening face wash,Other,Andosa,tube,No,10,Tube,,,,,,,,1
+Glutacom Gentle Face Wash,Glutathione and Vitamin C face wash,Other,,tube,No,10,Tube,,,,,,,,1
+Glutazol-C Cream 50g,Skin lightening and brightening cream,Other,,tube,No,10,Tube,,,,,,,,1
+Tycore Whitening Face Wash 60g,Skin brightening face wash,Other,,tube,No,10,Tube,,,,,,,,1
+Tycore-DP Facial Serum 30ml,"Tranexamic Acid, Niacinamide and Alpha Arbutin serum",Other,,bottle,No,6,Bottle,,,,,,,,1
+Glisten Revive-C Face Serum 30ml,20% Vitamin C and E with Ferulic Acid serum,Other,Glisten,bottle,No,6,Bottle,,,,,,,,1
+Derma Arth Calm Serum 30ml,Niacinamide peptide serum,Other,,bottle,No,6,Bottle,,,,,,,,1
+The Derma Co 10% Vitamin C Face Serum 30ml,Vitamin C face serum,Other,The Derma Co,bottle,No,6,Bottle,,,,,,,,1
+The Derma Co 10% Niacinamide Face Serum 30ml,Niacinamide face serum,Other,The Derma Co,bottle,No,6,Bottle,,,,,,,,1
+The Derma Co 2% Cica-Glow Daily Face Wash 100ml,Cica and Tranexamic Acid face wash,Other,The Derma Co,tube,No,10,Tube,,,,,,,,1
+The Derma Co 1% Hyaluronic Sunscreen Aqua Gel SPF 50,Hyaluronic Acid sunscreen aqua gel,Other,The Derma Co,tube,No,10,Tube,,,,,,,,1
+Minimalist Salicylic Acid + LHA 2% Cleanser 100ml,Salicylic Acid and LHA cleanser,Other,Minimalist,bottle,No,10,Bottle,,,,,,,,1
+Minimalist Niacinamide 10% Face Serum 30ml,Niacinamide face serum,Other,Minimalist,bottle,No,6,Bottle,,,,,,,,1
+Minimalist SPF 50 Light Fluid Sunscreen 50ml,Broad spectrum sunscreen fluid,Other,Minimalist,tube,No,10,Tube,,,,,,,,1
+Suncros Soft SPF 50 Sunscreen 50g,Matte finish universal sunscreen gel,Other,,tube,No,10,Tube,,,,,,,,1
+Haore Sunscreen SPF 50 100g,Gel based mineral sunscreen with Hyaluronic Acid,Other,,tube,No,10,Tube,,,,,,,,1
+Diamond Silicon Sunscreen Gel SPF 50,Silicone based broad spectrum sunscreen gel,Other,,tube,No,10,Tube,,,,,,,,1
+UV Doux Silicone Sunscreen Gel SPF 50,Silicone based sunscreen gel,Other,Brinton,tube,No,10,Tube,,,,,,,,1
+trueDerma Luxurious 50 SPF Gel,Broad spectrum sunscreen gel SPF 50 PA++++,Other,trueDerma,tube,No,10,Tube,,,,,,,,1
+Alpha Derm Sunscreen Lotion SPF 50,Broad spectrum sunscreen lotion,Other,Alpha Derm,tube,No,10,Tube,,,,,,,,1
+Ceuticoz Uvicoz IR Sunscreen Gel SPF 50+ 50g,UVA and infrared protection sunscreen gel,Other,Ceuticoz,tube,No,10,Tube,,,,,,,,1
+Ceuticoz Clear Zinc Tinted Sunscreen Gel SPF 50+ 50g,Tinted mineral sunscreen gel,Other,Ceuticoz,tube,No,10,Tube,,,,,,,,1
+Dot & Key Strawberry Dew Tinted Sunscreen SPF 50+ 50ml,Tinted sunscreen with Niacinamide,Other,Dot & Key,tube,No,10,Tube,,,,,,,,1
+Mamaearth Rice Dewy Light Sunscreen SPF 50,Sunscreen with rice water and Niacinamide,Other,Mamaearth,tube,No,10,Tube,,,,,,,,1
+Mamaearth Rice Water Dewy Face Toner 150ml,Rice water and Niacinamide toner,Other,Mamaearth,bottle,No,10,Bottle,,,,,,,,1
+Mamaearth Rice Water Dewy Active Serum 30ml,Rice water and Niacinamide serum,Other,Mamaearth,bottle,No,6,Bottle,,,,,,,,1
+Plum Rose Water and Niacinamide Toner,Face toner,Other,Plum,bottle,No,10,Bottle,,,,,,,,1
+La Pura Gentle Cleanser 75ml,Niacinamide and Ceramide gentle cleanser,Other,,bottle,No,10,Bottle,,,,,,,,1
+SensiWash Face Wash 100g,Face wash for sensitive skin,Other,,tube,No,10,Tube,,,,,,,,1
+Royal Derma Foaming Face Wash,Foaming face wash,Other,Royal Derma,bottle,No,10,Bottle,,,,,,,,1
+FixDerma Strawberry Face Wash 75g,Strawberry extract face wash,Other,FixDerma,tube,No,10,Tube,,,,,,,,1
+Zuvimax Cream 20g,Anti-ageing cream,Other,Aesthetic Science,tube,No,10,Tube,,,,,,,,1
+Chemist at Play 1% Salicylic Acid Body Wash 200ml,Salicylic Acid body wash for body acne,Other,Chemist at Play,bottle,No,10,Bottle,,,,,,,,1
+Acnes Creamy Wash,"AHA, BHA and Zinc face wash",Other,Mentholatum,tube,No,10,Tube,,,,,,,,1
+Acnes Oil Control Cleanser,"AHA, Zinc PCA and Niacinamide cleanser",Other,Mentholatum,tube,No,10,Tube,,,,,,,,1
+Acnes Vitamin Cleanser,"Vitamin A, C, E and B-Complex cleanser",Other,Mentholatum,tube,No,10,Tube,,,,,,,,1
+Everyuth Naturals Aloe Vera and Cucumber Gel,Nourishing skin gel,Other,Zydus Wellness,tube,No,10,Tube,,,,,,,,1
+Everyuth Naturals Tan Removal Face Wash,Chocolate and cherry tan removal face wash,Other,Zydus Wellness,tube,No,10,Tube,,,,,,,,1
+Bontress PRO+ Scalp Serum,Hair growth scalp serum,Other,Ethicare,bottle,No,6,Bottle,,,,,,,,1
+Foliboost Hair Serum 100ml,Hair serum for healthy hair,Other,BioWallace,bottle,No,6,Bottle,,,,,,,,1
+Mediker Anti-Lice Shampoo,Anti-lice shampoo,Other,Marico,bottle,No,10,Bottle,,,,,,,,1
+VD-Wash 100ml,Intimate wash for feminine hygiene,Other,,bottle,No,10,Bottle,,,,,,,,1
+Bio V-Wash,Intimate wash with Sea Buckthorn Oil,Other,,bottle,No,10,Bottle,,,,,,,,1
+DewGarden Foaming Intimate Wash,Foaming intimate wash,Other,DewGarden,bottle,No,10,Bottle,,,,,,,,1
+Assure Hand and Body Lotion,Moisturising hand and body lotion,Other,Assure,bottle,No,10,Bottle,,,,,,,,1
+Assure Complexion Bar,Cleansing complexion bar,Other,Assure,box,No,24,Piece,,,,,,,,1
+Tedibar Bathing Bar,Syndet bathing bar for sensitive skin,Other,Curatio,box,No,24,Piece,,,,,,,,1
+Himalaya Kids Toothpaste 80g,Cool mint toothpaste for children,Other,Himalaya,tube,No,12,Tube,,,,,,,,1
+Himalaya Baby Hair Oil 200ml,"Baby hair oil with Coconut, Amla and Methi",Other,Himalaya,bottle,No,12,Bottle,,,,,,,,1
+Himalaya Baby Massage Oil 200ml,Baby massage oil with Olive Oil and Winter Cherry,Other,Himalaya,bottle,No,12,Bottle,,,,,,,,1
+Himalaya Gentle Baby Cream 100ml,Moisturising baby cream,Other,Himalaya,tube,No,12,Tube,,,,,,,,1
+Himalaya Diaper Rash Cream 20g,Diaper rash cream,Other,Himalaya,tube,No,12,Tube,,,,,,,,1
+Johnson's Baby Soap 75g,"Baby soap with milk protein, turmeric and shea butter",Other,Johnson & Johnson,box,No,24,Piece,,,,,,,,1
+Johnson's Baby Lotion 200ml,Baby moisturising lotion,Other,Johnson & Johnson,bottle,No,12,Bottle,,,,,,,,1
+Johnson's Baby Face and Body Cream 100g,Baby cream with Aloe and Vitamin E,Other,Johnson & Johnson,tube,No,12,Tube,,,,,,,,1
+Venusbaby Rub 25g,Baby chest rub,Other,,box,No,24,Jar,,,,,,,,1
+Min-Ji Gummies,Multivitamin and multimineral gummies,Other,,box,No,12,Bottle,,,,,,,,1
+Aiwibi Baby Diapers,Baby diaper pants,Other,Aiwibi,box,No,12,Packet,,,,,,,,1
+Prestige Adult Diaper Medium,Disposable adult pull-up diaper pants,Consumable,Health and Hygiene Products,box,No,20,Packet,,,,,,,,1
+Camera New-Safe Feeding Bottle,Feeding bottle with anti-colic air-valve teat,Other,Camera,box,No,12,Piece,,,,,,,,1
+Camera New-Safe Smooth-Neck Feeder,Smooth-neck feeding bottle,Other,Camera,box,No,12,Piece,,,,,,,,1
+Pretty Baby Feeding Bottle,BPA-free rotatable-handle feeding bottle,Other,Pretty Baby,box,No,12,Piece,,,,,,,,1
+Smartbaby Manual Breast Pump,Portable manual breast pump,Other,,box,No,6,Piece,,,,,,,,1
+Lactogen 3 Pro 400g,Follow-up formula,Other,Nestle,box,No,8,Tin,,,,,,,,1
+Lactogen 4 Pro 400g,Growing-up milk powder,Other,Nestle,box,No,8,Tin,,,,,,,,1
+Farex Gentle Infant Formula 400g,Infant formula from birth,Other,Nutricia,box,No,8,Tin,,,,,,,,1
+Craft's Care Knee Support,Elastic knee support,Other,Craft's Care,box,No,10,Piece,,,,,,,,1
+Craft's Care Exercising Gel Ball,Hand and finger exercise gel ball,Other,Craft's Care,box,No,10,Piece,,,,,,,,1
+Mortein Smart Peaceful Nights Refill,Mosquito repellent liquid refill with chamomile and bergamot,Other,Reckitt,box,No,12,Piece,,,,,,,,1
+Mortein Smart Comforting Nights Refill,Mosquito repellent liquid refill,Other,Reckitt,box,No,12,Piece,,,,,,,,1
+Dr. Mos Mosquito Repellent,,Other,,box,No,12,Piece,,,,,,,,1
+Velor Dotted Condom,Dotted latex condom,Consumable,,box,No,40,Packet,,,,,,,,1
+Potassium Permanganate Crystals,Potassium Permanganate IP,Consumable,,box,No,10,Packet,,,,,,,,1
+Zandu Ultra Power Balm,Ayurvedic pain relief balm,Other,Emami,box,No,24,Bottle,,,,,,,,1
+Mith Plus,"Methylcobalamin, Pyridoxine Hydrochloride, Folic Acid and Zinc capsules",Medicine,,capsule,No,60,Capsule,,Strip,10,,Box,10,,2
+Megawel DE Softgel,Omega-3 fatty acid softgel capsules,Medicine,,capsule,No,60,Capsule,,Box,60,,,,,2
+Filistin-X Expectorant Syrup,Expectorant syrup,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Kidpred Syrup 60ml,Prednisolone Sodium Phosphate syrup,Medicine,Abbott,bottle,No,8,Bottle,,,,,,,,1
+Rhinex Syrup 60ml,Decongestant syrup,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Nox Suspension,Norfloxacin suspension,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Laclose Solution 200ml,Lactulose solution,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Budecort Respules 1mg,Budesonide 1mg/2ml,Medicine,Cipla,vial,No,20,Respule,,,,,,,,1
+Similac Advance 400g,Follow-up infant formula,Other,Abbott,box,No,8,Tin,,,,,,,,1
+Farex Gentle 3 400g,Follow-up formula from twelve months,Other,Nutricia,box,No,8,Tin,,,,,,,,1
+La Pura Hydrating Cleanser 100ml,Hydrating cleanser for all skin types,Other,,bottle,No,10,Bottle,,,,,,,,1
+Ampicillin 500mg,Ampicillin 500mg,Medicine,,capsule,No,60,Capsule,,Strip,10,,Box,10,,2
+Amoxicillin + Cloxacillin 500mg,Amoxicillin 250mg + Cloxacillin 250mg,Medicine,,capsule,No,60,Capsule,,Strip,10,,Box,10,,2
+Cefpodoxime Proxetil 100mg,Cefpodoxime Proxetil 100mg,Medicine,,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Moxifloxacin 400mg,Moxifloxacin 400mg,Medicine,,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Nitazoxanide 500mg,Nitazoxanide 500mg,Medicine,,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Chloroquine Phosphate 250mg,Chloroquine Phosphate 250mg,Medicine,,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Griseofulvin 250mg,Griseofulvin 250mg,Medicine,,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Acyclovir 800mg,Acyclovir 800mg,Medicine,,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Oseltamivir 75mg,Oseltamivir 75mg,Medicine,,capsule,No,30,Capsule,,Strip,10,,Box,10,,2
+Allopurinol 100mg,Allopurinol 100mg,Medicine,,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Febuxostat 40mg,Febuxostat 40mg,Medicine,,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Colchicine 0.5mg,Colchicine 0.5mg,Medicine,,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Sulfasalazine 500mg,Sulfasalazine 500mg,Medicine,,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Etodolac 400mg,Etodolac 400mg,Medicine,,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Naproxen 500mg,Naproxen 500mg,Medicine,,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Indomethacin 25mg,Indomethacin 25mg,Medicine,,capsule,No,40,Capsule,,Strip,10,,Box,10,,2
+Trypsin + Chymotrypsin Tablet,Trypsin and Chymotrypsin enzyme tablet,Medicine,,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Warfarin 5mg,Warfarin 5mg,Medicine,,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Cilnidipine 10mg,Cilnidipine 10mg,Medicine,,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Methyldopa 250mg,Methyldopa 250mg,Medicine,,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Labetalol 100mg,Labetalol 100mg,Medicine,,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Trimetazidine 35mg,Trimetazidine 35mg modified release,Medicine,,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Pioglitazone 15mg,Pioglitazone 15mg,Medicine,,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Acarbose 50mg,Acarbose 50mg,Medicine,,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Empagliflozin 10mg,Empagliflozin 10mg,Medicine,,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Linagliptin 5mg,Linagliptin 5mg,Medicine,,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Levosulpiride 25mg,Levosulpiride 25mg,Medicine,,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Baclofen 10mg,Baclofen 10mg,Medicine,,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Topiramate 50mg,Topiramate 50mg,Medicine,,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Lamotrigine 50mg,Lamotrigine 50mg,Medicine,,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Oxcarbazepine 300mg,Oxcarbazepine 300mg,Medicine,,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Haloperidol 5mg,Haloperidol 5mg,Medicine,,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Trihexyphenidyl 2mg,Trihexyphenidyl 2mg,Medicine,,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Mirtazapine 15mg,Mirtazapine 15mg,Medicine,,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Duloxetine 30mg,Duloxetine 30mg,Medicine,,capsule,No,30,Capsule,,Strip,10,,Box,10,,2
+Venlafaxine 75mg,Venlafaxine 75mg extended release,Medicine,,capsule,No,30,Capsule,,Strip,10,,Box,10,,2
+Ambroxol 30mg,Ambroxol 30mg,Medicine,,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Acetylcysteine 600mg,Acetylcysteine 600mg effervescent,Medicine,,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Loratadine 10mg,Loratadine 10mg,Medicine,,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Desloratadine 5mg,Desloratadine 5mg,Medicine,,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Hydroxyzine 25mg,Hydroxyzine 25mg,Medicine,,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Ketotifen 1mg,Ketotifen 1mg,Medicine,,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Terbutaline 2.5mg,Terbutaline 2.5mg,Medicine,,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Deflazacort 6mg,Deflazacort 6mg,Medicine,,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Methylprednisolone 16mg,Methylprednisolone 16mg,Medicine,,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Dexamethasone 0.5mg,Dexamethasone 0.5mg,Medicine,,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Mesalamine 400mg,Mesalamine 400mg,Medicine,,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Silymarin 140mg,Silymarin 140mg,Medicine,,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Itopride 50mg,Itopride 50mg,Medicine,,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Racecadotril 100mg,Racecadotril 100mg,Medicine,,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+L-Ornithine L-Aspartate Sachet,L-Ornithine L-Aspartate granules,Medicine,,sachet,No,30,Sachet,,,,,,,,1
+Solifenacin 5mg,Solifenacin 5mg,Medicine,,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Dutasteride 0.5mg,Dutasteride 0.5mg,Medicine,,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Sildenafil 100mg,Sildenafil 100mg,Medicine,,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Tranexamic Acid 500mg,Tranexamic Acid 500mg,Medicine,,tablet,No,60,Tablet,,Strip,10,,Box,10,,2
+Letrozole 2.5mg,Letrozole 2.5mg,Medicine,,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Misoprostol 200mcg,Misoprostol 200mcg,Medicine,,tablet,No,30,Tablet,,Strip,10,,Box,10,,2
+Methylergometrine 0.125mg,Methylergometrine 0.125mg,Medicine,,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Pyridoxine 40mg,Pyridoxine 40mg,Medicine,,tablet,No,100,Tablet,,Strip,10,,Box,10,,2
+Thiamine 100mg,Thiamine 100mg,Medicine,,tablet,No,100,Tablet,,Strip,10,,Box,10,,2
+Ferrous Sulphate 200mg,Ferrous Sulphate 200mg,Medicine,,tablet,No,100,Tablet,,Strip,10,,Box,10,,2
+Ferrous Fumarate + Folic Acid,Ferrous Fumarate 300mg + Folic Acid 1.5mg,Medicine,,tablet,No,100,Tablet,,Strip,10,,Box,10,,2
+Potassium Chloride 600mg,Potassium Chloride 600mg sustained release,Medicine,,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Sodium Bicarbonate 500mg,Sodium Bicarbonate 500mg,Medicine,,tablet,No,40,Tablet,,Strip,10,,Box,10,,2
+Alpha Lipoic Acid 100mg,Alpha Lipoic Acid 100mg,Medicine,,capsule,No,40,Capsule,,Strip,10,,Box,10,,2
+Moxifloxacin Eye Drops 5ml,Moxifloxacin 0.5% eye drops,Medicine,,drops,No,6,Bottle,,,,,,,,1
+Gatifloxacin Eye Drops 5ml,Gatifloxacin 0.3% eye drops,Medicine,,drops,No,6,Bottle,,,,,,,,1
+Olopatadine Eye Drops 5ml,Olopatadine 0.1% eye drops,Medicine,,drops,No,6,Bottle,,,,,,,,1
+Timolol Eye Drops 5ml,Timolol Maleate 0.5% eye drops,Medicine,,drops,No,6,Bottle,,,,,,,,1
+Tropicamide Eye Drops 5ml,Tropicamide 1% eye drops,Medicine,,drops,No,6,Bottle,,,,,,,,1
+Chloramphenicol Eye Ointment 5g,Chloramphenicol 1% eye ointment,Medicine,,tube,No,8,Tube,,,,,,,,1
+Clotrimazole Ear Drops 10ml,Clotrimazole 1% ear drops,Medicine,,drops,No,6,Bottle,,,,,,,,1
+Xylometazoline Nasal Drops 10ml,Xylometazoline 0.1% nasal drops,Medicine,,drops,No,6,Bottle,,,,,,,,1
+Hydrocortisone Cream 15g,Hydrocortisone Acetate 1% cream,Medicine,,tube,No,10,Tube,,,,,,,,1
+Zinc Oxide Ointment 20g,Zinc Oxide 20% ointment,Medicine,,tube,No,10,Tube,,,,,,,,1
+Benzyl Benzoate Lotion 100ml,Benzyl Benzoate 25% lotion,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Salicylic Acid Ointment 20g,Salicylic Acid 6% ointment,Medicine,,tube,No,10,Tube,,,,,,,,1
+Ichthammol Glycerine 15g,Ichthammol with glycerine ointment,Medicine,,tube,No,8,Tube,,,,,,,,1
+Magnesium Sulphate Paste 100g,Magnesium Sulphate drawing paste,Medicine,,box,No,8,Jar,,,,,,,,1
+Glycerin Suppository Adult,Glycerin suppository,Medicine,,box,No,20,Suppository,,Box,10,,,,,2
+Bisacodyl Suppository 10mg,Bisacodyl 10mg suppository,Medicine,,box,No,20,Suppository,,Box,10,,,,,2
+Paracetamol Suppository 125mg,Paracetamol 125mg suppository,Medicine,,box,No,20,Suppository,,Box,10,,,,,2
+Diclofenac Suppository 100mg,Diclofenac Sodium 100mg suppository,Medicine,,box,No,20,Suppository,,Box,10,,,,,2
+Metronidazole Pessary 500mg,Metronidazole 500mg vaginal pessary,Medicine,,box,No,20,Pessary,,Box,10,,,,,2
+Ceftriaxone 250mg Injection,Ceftriaxone Sodium 250mg,Medicine,,vial,No,20,Vial,,,,,,,,1
+Cefotaxime 500mg Injection,Cefotaxime Sodium 500mg,Medicine,,vial,No,20,Vial,,,,,,,,1
+Ampicillin 500mg Injection,Ampicillin Sodium 500mg,Medicine,,vial,No,20,Vial,,,,,,,,1
+Cloxacillin 500mg Injection,Cloxacillin Sodium 500mg,Medicine,,vial,No,20,Vial,,,,,,,,1
+Amoxicillin + Clavulanate 1.2g Injection,Amoxicillin 1g + Clavulanic Acid 200mg,Medicine,,vial,No,20,Vial,,,,,,,,1
+Ranitidine Injection 2ml,Ranitidine 25mg/ml,Medicine,,vial,No,20,Vial,,,,,,,,1
+Metoclopramide Injection 2ml,Metoclopramide 5mg/ml,Medicine,,vial,No,20,Vial,,,,,,,,1
+Hyoscine Butylbromide Injection 1ml,Hyoscine Butylbromide 20mg/ml,Medicine,,vial,No,20,Vial,,,,,,,,1
+Tranexamic Acid Injection 5ml,Tranexamic Acid 100mg/ml,Medicine,,vial,No,20,Vial,,,,,,,,1
+Iron Sucrose Injection 5ml,Iron Sucrose 20mg/ml,Medicine,,vial,No,20,Vial,,,,,,,,1
+Vitamin B Complex Injection 2ml,Vitamin B Complex injection,Medicine,,vial,No,20,Vial,,,,,,,,1
+Phenytoin Injection 2ml,Phenytoin Sodium 50mg/ml,Medicine,,vial,No,20,Vial,,,,,,,,1
+Heparin Injection 5ml,Heparin Sodium 5000 IU/ml,Medicine,,vial,No,20,Vial,,,,,,,,1
+Sodium Bicarbonate Injection 10ml,Sodium Bicarbonate 7.5% injection,Medicine,,vial,No,20,Vial,,,,,,,,1
+Potassium Chloride Injection 10ml,Potassium Chloride 15% injection,Medicine,,vial,No,20,Vial,,,,,,,,1
+Anti-Rabies Vaccine 0.5ml,Purified vero cell rabies vaccine,Medicine,,vial,No,10,Vial,,,,,,,,1
+Anti-Rabies Serum 5ml,Equine rabies immunoglobulin 1500 IU,Medicine,,vial,No,6,Vial,,,,,,,,1
+Anti-Snake Venom 10ml,Polyvalent anti-snake venom serum,Medicine,,vial,No,10,Vial,,,,,,,,1
+Hepatitis B Vaccine 0.5ml,Recombinant hepatitis B vaccine,Medicine,,vial,No,10,Vial,,,,,,,,1
+Td Vaccine 0.5ml,Tetanus and diphtheria toxoid vaccine,Medicine,,vial,No,10,Vial,,,,,,,,1
+Mannitol 20% 100ml,Mannitol 20% intravenous infusion,Medicine,,bottle,No,10,Bottle,,,,,,,,1
+Normal Saline 0.9% 100ml,Sodium Chloride 0.9% intravenous infusion,Medicine,,bottle,No,24,Bottle,,,,,,,,1
+Dextrose 10% 500ml,Dextrose 10% intravenous infusion,Medicine,,bottle,No,12,Bottle,,,,,,,,1
+Umbilical Cord Clamp,Sterile disposable cord clamp,Consumable,,box,No,50,Piece,,Box,100,,,,,1
+Three Way Stopcock,Three way stopcock for IV line,Consumable,,box,No,50,Piece,,Box,100,,,,,1
+IV Extension Line,Intravenous extension tubing,Consumable,,box,No,50,Piece,,Box,100,,,,,1
+Mucus Extractor,Neonatal mucus extractor,Consumable,,box,No,20,Piece,,Box,50,,,,,1
+Disposable Gown,Non-woven disposable gown,Consumable,,box,No,50,Piece,,Box,50,,,,,1
+Shoe Cover,Disposable non-woven shoe cover,Consumable,,box,No,100,Piece,,Box,100,,,,,1
+Face Shield,Disposable protective face shield,Consumable,,box,No,20,Piece,,Box,50,,,,,1
+Tourniquet,Latex free venipuncture tourniquet,Consumable,,box,No,10,Piece,,Box,25,,,,,1
+Disposable Razor,Single use preoperative razor,Consumable,,box,No,25,Piece,,Box,50,,,,,1
+Surgical Blade No. 22,Sterile carbon steel surgical blade,Consumable,,box,No,100,Piece,,Box,100,,,,,1
+IV Cannula 18G,Intravenous cannula with injection port,Consumable,,box,No,50,Piece,,Box,50,,,,,1
+Disposable Syringe 1ml,Sterile disposable tuberculin syringe,Consumable,,box,No,100,Piece,,Box,100,,,,,1
+Disposable Syringe 20ml,Sterile disposable syringe with needle,Consumable,,box,No,50,Piece,,Box,50,,,,,1
+Disposable Syringe 50ml,Sterile disposable syringe,Consumable,,box,No,20,Piece,,Box,25,,,,,1
+Insulin Pen Needle,Disposable pen needle 31G,Consumable,,box,No,50,Piece,,Box,100,,,,,1
+Blood Collection Needle 21G,Multi sample blood collection needle,Consumable,,box,No,100,Piece,,Box,100,,,,,1
+Vacutainer EDTA Tube,EDTA anticoagulant blood collection tube,Consumable,,box,No,100,Piece,,Box,100,,,,,1
+Vacutainer Plain Tube,Plain serum blood collection tube,Consumable,,box,No,100,Piece,,Box,100,,,,,1
+Vacutainer Fluoride Tube,Sodium fluoride blood collection tube,Consumable,,box,No,50,Piece,,Box,100,,,,,1
+ECG Electrodes,Disposable adhesive ECG electrode,Consumable,,box,No,100,Piece,,Box,50,,,,,1
+Cotton Ball Sterile,Sterile absorbent cotton ball,Consumable,,box,No,100,Piece,,Box,100,,,,,1
+Adhesive Dressing Pad 6x7cm,Sterile adhesive wound dressing,Consumable,,box,No,50,Piece,,Box,50,,,,,1
+Transparent Film Dressing,Sterile transparent IV site dressing,Consumable,,box,No,50,Piece,,Box,50,,,,,1
+Examination Gloves Small,Powder free latex examination glove,Consumable,,box,No,100,Piece,,Box,100,,,,,1
+Examination Gloves Large,Powder free latex examination glove,Consumable,,box,No,100,Piece,,Box,100,,,,,1
+Sterile Surgical Gloves 6.5,Sterile powder free surgical glove,Consumable,,box,No,40,Piece,,Box,50,,,,,1
+Sterile Surgical Gloves 7.5,Sterile powder free surgical glove,Consumable,,box,No,40,Piece,,Box,50,,,,,1
+Foley Catheter 14 Fr,Two way silicone coated foley catheter,Consumable,,box,No,20,Piece,,Box,10,,,,,1
+Foley Catheter 18 Fr,Two way silicone coated foley catheter,Consumable,,box,No,20,Piece,,Box,10,,,,,1
+Nasogastric Tube 12 Fr,Disposable nasogastric feeding tube,Consumable,,box,No,20,Piece,,Box,50,,,,,1
+Oxygen Mask Paediatric,Paediatric oxygen mask with tubing,Consumable,,box,No,20,Piece,,Box,50,,,,,1
+Sharps Disposal Container 2L,Puncture resistant sharps container,Consumable,,box,No,10,Piece,,,,,,,,1
+Kidney Tray,Stainless steel kidney tray,Consumable,,box,No,10,Piece,,,,,,,,1
+Bandage Scissors,Stainless steel bandage scissors,Consumable,,box,No,6,Piece,,,,,,,,1
+Artery Forceps,Stainless steel artery forceps,Consumable,,box,No,6,Piece,,,,,,,,1
+Dressing Forceps,Stainless steel dressing forceps,Consumable,,box,No,6,Piece,,,,,,,,1
+Sponge Holding Forceps,Stainless steel sponge holding forceps,Consumable,,box,No,6,Piece,,,,,,,,1
+Needle Holder,Stainless steel needle holder,Consumable,,box,No,6,Piece,,,,,,,,1
+Scalpel Handle No. 4,Stainless steel scalpel handle,Consumable,,box,No,6,Piece,,,,,,,,1
+Elastic Adhesive Bandage 10cm,Elastic adhesive compression bandage,Consumable,,box,No,20,Piece,,,,,,,,1
+Abdominal Binder Large,Post operative abdominal support binder,Other,,box,No,8,Piece,,,,,,,,1
+Arm Sling Medium,Shoulder immobilising arm sling,Other,,box,No,8,Piece,,,,,,,,1
+Finger Splint,Aluminium finger immobilising splint,Other,,box,No,10,Piece,,,,,,,,1
+Wrist Splint Medium,Elastic wrist support splint,Other,,box,No,8,Piece,,,,,,,,1
+Ankle Binder Medium,Elastic ankle support binder,Other,,box,No,8,Piece,,,,,,,,1
+Walking Stick,Adjustable aluminium walking stick,Other,,box,No,6,Piece,,,,,,,,1
+Axillary Crutch Pair,Adjustable aluminium axillary crutches,Other,,box,No,4,Piece,,,,,,,,1
+Air Cushion Ring,Inflatable rubber air cushion ring,Other,,box,No,6,Piece,,,,,,,,1
+Bed Pan,Plastic hospital bed pan,Other,,box,No,6,Piece,,,,,,,,1
+Male Urinal Pot,Plastic male urinal pot,Other,,box,No,6,Piece,,,,,,,,1
+Steam Inhaler,Electric steam vaporiser inhaler,Other,,box,No,6,Piece,,,,,,,,1
+Infrared Thermometer,Non contact infrared forehead thermometer,Consumable,,box,No,6,Piece,,,,,,,,1
+Surgical Tape 2 inch,Micropore surgical adhesive tape,Consumable,,box,No,24,Roll,,Box,6,,,,,1
+Ultrasound Gel 250ml,Aqueous ultrasound coupling gel,Consumable,,bottle,No,10,Bottle,,,,,,,,1
+ECG Gel 250ml,Aqueous electrocardiogram contact gel,Consumable,,bottle,No,10,Bottle,,,,,,,,1
+Malaria Rapid Test Kit,Malaria Pf/Pv antigen rapid test,Consumable,,box,No,25,Kit,,Box,25,,,,,1
+Dengue NS1 Rapid Test Kit,Dengue NS1 antigen rapid test,Consumable,,box,No,25,Kit,,Box,25,,,,,1
+Typhoid Rapid Test Kit,Salmonella typhi IgG and IgM rapid test,Consumable,,box,No,25,Kit,,Box,25,,,,,1
+HIV Rapid Test Kit,HIV 1 and 2 antibody rapid test,Consumable,,box,No,25,Kit,,Box,25,,,,,1
+HBsAg Rapid Test Kit,Hepatitis B surface antigen rapid test,Consumable,,box,No,25,Kit,,Box,25,,,,,1
+HCV Rapid Test Kit,Hepatitis C virus antibody rapid test,Consumable,,box,No,25,Kit,,Box,25,,,,,1
+Ovulation Test Kit,Luteinising hormone urine rapid test,Consumable,,box,No,20,Kit,,Box,25,,,,,1
+Urine Albumin Sugar Strip,Urine albumin and glucose reagent strip,Consumable,,box,No,20,Kit,,Box,50,,,,,1
+Uric Acid Test Strips,Uric acid meter test strip,Consumable,,box,No,20,Kit,,Box,25,,,,,1
+Haemoglobin Test Strips,Haemoglobin meter test strip,Consumable,,box,No,20,Kit,,Box,25,,,,,1
+Draksharishta 450ml,Classical ayurvedic fermented tonic,Medicine,,bottle,No,6,Bottle,,,,,,,,1
+Arjunarishta 450ml,Classical ayurvedic cardiac tonic,Medicine,,bottle,No,6,Bottle,,,,,,,,1
+Kumaryasava 450ml,Classical ayurvedic aloe based tonic,Medicine,,bottle,No,6,Bottle,,,,,,,,1
+Saraswatarishta 450ml,Classical ayurvedic nervine tonic,Medicine,,bottle,No,6,Bottle,,,,,,,,1
+Lauhasava 450ml,Classical ayurvedic iron tonic,Medicine,,bottle,No,6,Bottle,,,,,,,,1
+Chandanasava 450ml,Classical ayurvedic urinary tonic,Medicine,,bottle,No,6,Bottle,,,,,,,,1
+Mahanarayan Tel 100ml,Classical ayurvedic massage oil,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Pinda Tel 100ml,Classical ayurvedic massage oil,Medicine,,bottle,No,8,Bottle,,,,,,,,1
+Triphala Churna 100g,Classical ayurvedic digestive powder,Medicine,,box,No,8,Packet,,,,,,,,1
+Sitopaladi Churna 50g,Classical ayurvedic cough powder,Medicine,,box,No,8,Packet,,,,,,,,1
+Ashwagandha Churna 100g,Classical ayurvedic restorative powder,Medicine,,box,No,8,Packet,,,,,,,,1
+Lavan Bhaskar Churna 50g,Classical ayurvedic digestive powder,Medicine,,box,No,8,Packet,,,,,,,,1
+Hingwastak Churna 50g,Classical ayurvedic carminative powder,Medicine,,box,No,8,Packet,,,,,,,,1

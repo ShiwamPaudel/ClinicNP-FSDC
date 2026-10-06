@@ -1,0 +1,21 @@
+-- 0022_purchase_line_selling_rate.sql — the selling price set on a purchase line.
+--
+-- Append-only: never edit once applied.
+--
+-- The selling price is typed on the purchase row now, next to the cost, because
+-- that is the moment somebody has the pack and the supplier's bill in front of
+-- them. Saving it still updates the item's price for that unit exactly as
+-- Items -> Set prices does — `item_units.selling_rate_paisa` stays the one
+-- place a price lives, and every batch of an item sells at the same price.
+--
+-- This column is only the record: what price was set on this purchase, so the
+-- purchase can be read back later and say so even after the item's price has
+-- moved on. 0 means none was recorded, which is what every purchase entered
+-- before today reads as.
+--
+-- Additive with a default, so the code already deployed keeps working with the
+-- column in place.
+--
+-- @verify purchases, purchase_lines, batches, item_units
+
+ALTER TABLE purchase_lines ADD COLUMN selling_rate_paisa INTEGER NOT NULL DEFAULT 0;

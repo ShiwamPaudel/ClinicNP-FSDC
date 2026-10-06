@@ -1,0 +1,28 @@
+node_modules/
+.next/
+.env.local
+.env*.local
+local.db
+local.db-*
+tests/phase2-verify.db
+tests/*.db
+tests/*.db-*
+*.log
+.DS_Store
+coverage/
+dist/
+.vercel
+next-env.d.ts
+public/sw.js
+public/sw.js.map
+public/swe-worker*.js
+tsconfig.tsbuildinfo
+.filestore/
+# full copies of the live database: patient details, never committed
+backups/prod-*.json
+
+# the WebAssembly runtime for the invoice reader, copied out of node_modules
+public/ort/
+
+# scratch files from tooling runs (screenshots, one-off scripts)
+.tmp-*

@@ -1,0 +1,250 @@
+INSERT  24 Hrs Urine Calcium                           Rs   400  2huc        Urine
+INSERT  24 Hrs Urine Creatinine                        Rs   400  2huc2       Urine
+INSERT  24 Hrs Urine Protein                           Rs   600  2hup        Urine
+INSERT  24 Hrs Urine Phosphate                         Rs   400  2hup2       Urine
+INSERT  24 Hrs Urine Uric Acid                         Rs   400  2huua       Urine
+INSERT  Absolute Eosinophil Count                      Rs   400  aec         Blood
+INSERT  Absolute Lymphocytes Count                     Rs   400  alc         Blood
+INSERT  Absolute Neutrophil Count                      Rs   400  anc         Blood
+INSERT  ACTH                                           Rs  2200  acth        Blood
+INSERT  ADA (Pleural/Pericardial/Synovial)             Rs   600  ada         Fluid
+INSERT  Adenosine Deaminase(CSF)                       Rs   600  csf         Fluid
+INSERT  AFB Stain                                      Rs   200  afbstai     Sputum
+INSERT  A/G Ratio                                      Rs   360  agr         Blood
+INSERT  Albumin                                        Rs   180  albumin     Blood
+INSERT  Alkaline Phosphatase (ALP)                     Rs   180  alp         Blood
+INSERT  Allergy Panel                                  Rs  7000  allergpane  Blood
+INSERT  Alpha Feto Protein (AFP)                       Rs  1400  afp         Blood
+INSERT  Amphetamine (Urine)                            Rs  1000  amphetamin  Urine
+INSERT  Amylase                                        Rs   600  amylase     Blood
+INSERT  Amylase, Urine                                 Rs   600  amylasurin  Urine
+INSERT  ANA                                            Rs  1200  ana         Blood
+INSERT  ANA PROFILE 18 PANEL                           Rs  5500  ap1p        Blood
+INSERT  ANCA-MPO (P-ANCA)                              Rs  2500  ancampo     Blood
+INSERT  ANCA-PR3 (C-ANCA)                              Rs  2500  ancapr3     Blood
+INSERT  Anti CCP Antibody                              Rs  2200  aca         Blood
+INSERT  Anti DS DNA Antibodies                         Rs  1600  adda        Blood
+INSERT  Anti GBM Antibody                              Rs  3000  aga         Blood
+INSERT  Anti HCV                                       Rs   600  antihcv     Blood
+INSERT  Anti Mullerian Hormone (AMH)                   Rs  3500  amh         Blood
+INSERT  Anti Nuclear Antibody SCREEN                   Rs  1200  anas        Blood
+INSERT  Anti Thyroglobulin                             Rs  2400  antithyr    Blood
+INSERT  Anti TPO Antibody                              Rs  1600  ata         Blood
+INSERT  APTT                                           Rs   450  aptt        Blood
+INSERT  ASO Titre                                      Rs  1000  asotitr     Blood
+INSERT  ASO Qualitative                                Rs   400  asoqual     Blood
+INSERT  Barbiturate(Urine)                             Rs  1000  barbiturat  Urine
+INSERT  Bence Jones Protein, 24 hours Urine            Rs   300  bjp2hu      Urine
+INSERT  Beta - HCG (BHCG)                              Rs  1400  bhcg        Blood
+INSERT  Bicarbonate level                              Rs  1600  bicarbleve  Blood
+INSERT  Bilirubin Total                                Rs   180  bilirutota  Blood
+INSERT  Biopsy Intermediate                            Rs  3200  biopsyinte  Tissue
+INSERT  Biopsy Large                                   Rs  4000  biopsylarg  Tissue
+INSERT  Biopsy Small                                   Rs  2000  biopsysmal  Tissue
+INSERT  Bleeding Time                                  Rs    80  bleeditime  Blood
+INSERT  Blood Culture                                  Rs   350  bloodcult   Blood
+INSERT  Blood Urea                                     Rs   180  bloodurea   Blood
+INSERT  Blood Urea (Post)                              Rs   180  bloodurea2  Blood
+INSERT  Blood Urea (Pre)                               Rs   180  bloodurea3  Blood
+INSERT  Blood Glucose Fasting                          Rs    80  bgf         Blood
+INSERT  Blood Glucose PP                               Rs    80  bgp         Blood
+INSERT  Blood Glucose Random                           Rs    80  bgr         Blood
+INSERT  Blood Group ABO Rh                             Rs    80  bgar        Blood
+INSERT  Brucella Serology B.abortus & melitensis       Rs  1200  bsbam       Blood
+INSERT  Brucella IgG /IgM                              Rs  1400  bii         Blood
+INSERT  Buffy Coat For LD Bodies                       Rs   400  bcflb       Blood
+INSERT  BUN                                            Rs   180  bun         Blood
+INSERT  C3 Complement Component                        Rs  1200  ccc         Blood
+INSERT  C4 Complement Component                        Rs  1200  ccc2        Blood
+INSERT  CA 125 (Ovarain)                               Rs  1400  ca125       Blood
+INSERT  CA 19. 9 (Pancreatic)                          Rs  2000  c19         Blood
+INSERT  CA 15.3 (Breast)                               Rs  2000  c13         Blood
+INSERT  Calcium-Total                                  Rs   300  calciutota  Blood
+INSERT  CEA (Carcino Embryonic Antigen)                Rs  1400  cea         Blood
+INSERT  Chloride                                       Rs   400  chloride    Blood
+INSERT  Cholinesterase Level                           Rs  1400  cholinleve  Blood
+INSERT  Cloride -Urine                                 Rs   400  cloridurin  Blood
+INSERT  Clotting Time                                  Rs    80  clottitime  Blood
+INSERT  Cocaine/Benzoylecgonin(Urine)                  Rs  1000  cocainbenz  Urine
+UPDATE  CBC (Complete Blood Count) -> Complete blood count (CBC)  Rs 500 -> 400
+INSERT  Comprehensive Allergy Panel                    Rs  7500  cap         Blood
+INSERT  Conjugated (D. Bilirubin)                      Rs   180  conjugated  Blood
+INSERT  Cortisol                                       Rs  1500  cortisol    Blood
+INSERT  Cortisol, Evening                              Rs  1500  cortiseven  Blood
+INSERT  Cortisol, Morning                              Rs  1500  cortismorn  Blood
+INSERT  C-Peptide                                      Rs  1600  cpept       Blood
+INSERT  C-Reactive Protein Qualitative                 Rs   350  crpq        Blood
+INSERT  C-Reactive Protein Quantitative                Rs   900  crpq2       Blood
+INSERT  Creatnine                                      Rs   200  creatnine   Blood
+INSERT  Creatine Phospho Kinase (CK)                   Rs   700  ck          Blood
+INSERT  Creatine Phospho Kinase-MB                     Rs   700  cpkm        Blood
+INSERT  Cytomegalo virus IgG (CMV-IgG)                 Rs   800  cvi         Blood
+INSERT  Cytomegalo virus IgM(CMV-IgM)                  Rs   800  cvi2        Blood
+INSERT  D Dimer                                        Rs  1800  ddime       Blood
+INSERT  Dengue IgG/IgM                                 Rs  1500  dii         Blood
+INSERT  DHEAS                                          Rs  1500  dheas       Blood
+INSERT  Direct Coomb Test                              Rs  1200  dct         Blood
+INSERT  Drug Abuse Panel (6 Test)                      Rs  4000  dap6        Urine
+INSERT  Drug Abuse Panel (12 Test)                     Rs  6000  dap12       Urine
+INSERT  ENA Profile 12 Panel                           Rs  4500  ep1p        Blood
+INSERT  ENA Profile 18 Panel                           Rs  6000  ep1p2       Blood
+INSERT  Estradiol (E2)                                 Rs  1400  estradiol2  Blood
+INSERT  ESR                                            Rs    80  esr         Blood
+INSERT  Extractable Nuclear Ag -Screen                 Rs  6000  enas        Blood
+INSERT  Ferritin                                       Rs  1200  ferritin    Blood
+INSERT  Folic Acid / Folate                            Rs  1500  faf         Blood
+INSERT  Follicle Stimulating Hormone (FSH)             Rs  1200  fsh         Blood
+INSERT  Food Allergy Panel                             Rs  4000  fap         Blood
+INSERT  Free Thyroxine (FT4)                           Rs   400  ft4         Blood
+INSERT  Free Triidothyronine (FT3)                     Rs   400  ft3         Blood
+INSERT  FTFT                                           Rs  1000  ftft        Blood
+INSERT  Fungal Culture                                 Rs   700  fungalcult  Tissue
+INSERT  Gamma GT (GGT)                                 Rs   600  ggt         Blood
+INSERT  G.T.T                                          Rs   640  gtt         Blood
+INSERT  GCT (1 HOUR)                                   Rs    80  gct1        Blood
+INSERT  GCT (2 HOUR)                                   Rs    80  gct2        Blood
+INSERT  Globulin                                       Rs   360  globulin    Blood
+INSERT  Gonadotrophins (LH & FSH)                      Rs  2400  gonadotrop  Blood
+INSERT  Gram Stain                                     Rs   200  gramstai    Sputum
+INSERT  Growth Hormone (GH)                            Rs  1600  gh          Blood
+INSERT  Haemoglobin (Hb)                               Rs   120  haemoglobi  Blood
+INSERT  Hb A1c                                         Rs   900  hba1c       Blood
+INSERT  HbeAb                                          Rs  1800  hbeab       Blood
+INSERT  HbeAg                                          Rs  1800  hbeag       Blood
+INSERT  HBV DNA Viral Load                             Rs  7500  hdvl        Blood
+INSERT  HBsAg                                          Rs   400  hbsag       Blood
+INSERT  HCV RNA Viral Load                             Rs  7500  hrvl        Blood
+INSERT  HDL -Cholesterol                               Rs   300  hdlchol     Blood
+INSERT  HDL/ LDL Ratio                                 Rs   600  hlr         Blood
+INSERT  Hepatitis B Surface Antigen (ICT)              Rs   400  hbsaict     Blood
+INSERT  Hepatitis B Surface Antigen (CLIA)             Rs  1000  hbsaclia    Blood
+INSERT  Hepatitis C CLIA                               Rs  1200  hcc         Blood
+INSERT  Hepatitis C Rapid                              Rs   600  hcr         Blood
+INSERT  HEV IGM                                        Rs  1800  hevigm      Blood
+INSERT  Highly Sensitive CRP                           Rs   900  hsc         Blood
+INSERT  HIV 1+2, CLIA                                  Rs  1200  h12c        Blood
+INSERT  HIV 1+2, Rapid                                 Rs   600  h12r        Blood
+INSERT  HLAB27                                         Rs  4000  hlab27      Blood
+INSERT  H.Pylori Antibody Rapid                        Rs   900  hpar        Blood
+INSERT  H. Pylori Ag Stool                             Rs  1000  hpas        Stool
+INSERT  HPV (Human Pappiloma Virus)                    Rs  3500  hpv         Swab
+INSERT  HSV 1 IgG                                      Rs   500  h1i         Blood
+INSERT  HSV 1 IgM                                      Rs   500  h1i2        Blood
+INSERT  HSV 2 IgG                                      Rs   500  h2i         Blood
+INSERT  HSV 2 IgM                                      Rs   500  h2i2        Blood
+INSERT  HVS For Culture                                Rs   400  hfc         Swab
+INSERT  IgE                                            Rs  1500  ige         Blood
+INSERT  IGRA                                           Rs  4800  igra        Blood
+INSERT  Immunoglobulin IgG                             Rs  1200  immunoigg   Blood
+INSERT  Immunoglobulin IgM                             Rs  1200  immunoigm   Blood
+INSERT  India Ink Preparation                          Rs   400  iip         Fluid
+INSERT  Indirect Coomb Test                            Rs  1200  ict         Blood
+INSERT  Infertility Panel (Female)                     Rs  6000  infertpane  Blood
+INSERT  Inhalant Allergy Panel                         Rs  4000  iap         Blood
+INSERT  Insulin Fasting                                Rs  1500  insulifast  Blood
+INSERT  Insulin PP                                     Rs  1500  insulipp    Blood
+INSERT  Insulin Random                                 Rs  1500  insulirand  Blood
+INSERT  Intact Para Thyroid Hormone                    Rs  2000  ipth        Blood
+INSERT  Iron                                           Rs   600  iron        Blood
+INSERT  Iron Profile                                   Rs  1800  ironprof    Blood
+INSERT  K39                                            Rs  1200  k39         Blood
+INSERT  Ketone Bodies / Acetone                        Rs   200  kba         Urine
+INSERT  KOH Wet Mount                                  Rs   300  kwm         Tissue
+INSERT  Lactate Dehydrogenase (LDH)                    Rs   600  ldh         Blood
+INSERT  Lactate Dehydrogenase(Fluid)                   Rs   600  lactatdehy  Blood
+INSERT  LBC (Liquid Based Cytology)                    Rs  1800  lbc         Swab
+INSERT  LDL Cholesterol                                Rs   400  ldlchol     Blood
+INSERT  Leptospira IgG,IgM                             Rs  1200  lii         Blood
+INSERT  Leutinising Hormone (LH)                       Rs  1200  lh          Blood
+INSERT  LH / FSH Ratio                                 Rs  2400  lfr         Blood
+INSERT  Lipase                                         Rs   700  lipase      Blood
+INSERT  Lipid Profile test                             Rs   800  lpt         Blood
+INSERT  Liver Function Test (LFT)                      Rs   800  lft         Blood
+INSERT  M C H (Mean Corp Hb)                           Rs   120  mch         Blood
+INSERT  M C H C (Mean Corp Hb Conc)                    Rs   120  mchc        Blood
+INSERT  M C V (Mean Corp Volume)                       Rs   120  mcv         Blood
+INSERT  Magnesium                                      Rs   600  magnesium   Blood
+INSERT  Malaria Antigen                                Rs   600  malarianti  Blood
+INSERT  Malarial Parasite (Slide)                      Rs   300  malaripara  Blood
+INSERT  Mean Platelet Volume                           Rs   120  mpv         Blood
+INSERT  Microalbumin                                   Rs   900  microalbum  Urine
+INSERT  Microalbumin/Creatinine ratio                  Rs  1000  mcr         Urine
+INSERT  Mycodot                                        Rs  1200  mycodot     Blood
+INSERT  Occult Blood                                   Rs   200  occultbloo  Stool
+INSERT  PCOD Panel                                     Rs  6500  pcodpane    Blood
+INSERT  PAP Smear                                      Rs   700  papsmea     Swab
+INSERT  PCV                                            Rs   120  pcv         Blood
+INSERT  Peripheral Blood Smear (PBS)                   Rs   600  pbs         Blood
+INSERT  Phosphorus                                     Rs   300  phosphorus  Blood
+INSERT  Platelet Count                                 Rs   150  platelcoun  Blood
+INSERT  Platelet Distribution Width                    Rs   150  pdw         Blood
+INSERT  Potassium                                      Rs   200  potassium   Blood
+INSERT  Pregnancy Test                                 Rs   150  pregnatest  Urine
+INSERT  Procalcitonin                                  Rs  3800  procalcito  Blood
+INSERT  Progesterone                                   Rs  1400  progestero  Blood
+INSERT  Prolactin (PRL)                                Rs  1200  prolactin   Blood
+INSERT  Prothromin Time With INR                       Rs   300  ptwi        Blood
+INSERT  PSA,Free                                       Rs  2000  psafree     Blood
+INSERT  PSA,Total                                      Rs  1400  psatota     Blood
+INSERT  Pus For Culture and Sensitivity                Rs   400  pfcas       Swab
+INSERT  Quantiferon TB Gold                            Rs  4800  qtg         Blood
+INSERT  RA Factor (RAF)                                Rs   300  raf         Blood
+INSERT  Renal Function Test (RFT)                      Rs   800  rft         Blood
+INSERT  Reticulocyte Count                             Rs   600  reticucoun  Blood
+INSERT  RH Antibody Titre                              Rs  1200  rat         Blood
+INSERT  RH Typing                                      Rs   100  rhtypi      Blood
+INSERT  Rubella IgG                                    Rs   800  rubelligg   Blood
+INSERT  Rubella IgM                                    Rs   800  rubelligm   Blood
+INSERT  Scrub Typhus Detect IgG/IgM                    Rs  2000  stdii       Blood
+INSERT  Semen Analysis                                 Rs   350  semenanal   Semen
+INSERT  SGOT/AST                                       Rs   180  sgotast     Blood
+INSERT  SGPT/ALT                                       Rs   180  sgptalt     Blood
+INSERT  Sodium                                         Rs   200  sodium      Blood
+INSERT  Sodium Potassium                               Rs   400  sodiumpota  Blood
+INSERT  SPOT Urine CAL / CREAT Ratio                   Rs   500  succr       Urine
+INSERT  Sputum For AFB                                 Rs   200  sfa         Sputum
+INSERT  Sputum For Culture                             Rs   350  sfc         Sputum
+INSERT  Stool For Culture                              Rs   400  sfc2        Stool
+INSERT  Stool for Helicobactor Pylori Ag               Rs  1000  sfhpa       Stool
+INSERT  Stool Routine                                  Rs    80  stoolrout   Stool
+INSERT  Sugar Fasting                                  Rs    80  sugarfast   Blood
+INSERT  Sugar PP                                       Rs    80  sugarpp     Blood
+INSERT  Sugar Random                                   Rs    80  sugarrand   Blood
+INSERT  Testosterone, Total                            Rs  1400  testostota  Blood
+INSERT  THC/Marijuana/Cannobinodes                     Rs  1000  tmc         Urine
+INSERT  TORCH IGG                                      Rs  2000  torchigg    Blood
+INSERT  TORCH IGM                                      Rs  2000  torchigm    Blood
+INSERT  TORCH Panel (IgG/ IgM)                         Rs  4000  torchpane   Blood
+INSERT  Total Count                                    Rs   120  totalcoun   Blood
+INSERT  T. Cholesterol/ HDL Ch Ratio                   Rs   400  tchcr       Blood
+INSERT  Total Protein                                  Rs   180  totalprot   Blood
+INSERT  Total Iron Binding Capacity                    Rs   600  tibc        Blood
+INSERT  Total Thyroxine (T4)                           Rs   400  t4          Blood
+INSERT  Total Triidothyronine (T3)                     Rs   400  t3          Blood
+INSERT  Toxoplasma IgG                                 Rs   800  toxopligg   Blood
+INSERT  Toxoplasma IgM                                 Rs   800  toxopligm   Blood
+INSERT  TPHA                                           Rs   600  tpha        Blood
+INSERT  Triglycerides                                  Rs   180  triglyceri  Blood
+INSERT  Troponin - I (Semi Quantitative)               Rs   600  troponi     Blood
+INSERT  TSH, CLIA                                      Rs   400  tshclia     Blood
+INSERT  Typhi Dot IgG                                  Rs   350  tdi         Blood
+INSERT  Typhi Dot IgM                                  Rs   350  tdi2        Blood
+INSERT  Unbound Iron Binding Capacity                  Rs   600  uibc        Blood
+INSERT  Unconjugated (I.D Bilirubin)                   Rs   180  unconjugat  Blood
+INSERT  Urea                                           Rs   180  urea        Blood
+INSERT  Urethral Swab For Gram Stain                   Rs   400  usfgs       Swab
+INSERT  Uric Acid                                      Rs   180  uricacid    Blood
+INSERT  Urine Culture                                  Rs   350  urinecult   Urine
+INSERT  Urine For Toxicology (6 Test Panel)            Rs  4000  uft6        Urine
+INSERT  Urine Routine                                  Rs    80  urinerout   Urine
+INSERT  V L D L Cholesterol                            Rs   200  vldlc       Blood
+INSERT  VDRL                                           Rs   300  vdrl        Blood
+INSERT  Vit D (25-Hydroxy)                             Rs  2400  vitd25      Blood
+INSERT  Vitamin B12                                    Rs  1600  vitamib12   Blood
+INSERT  Widal Test                                     Rs   300  widaltest   Blood
+INSERT  Ultrasound (A+P)                               Rs  1000  usgap       (ultrasound, nothing collected)
+INSERT  Ultrasound (Soft-Tissue)                       Rs  1500  usgsoft     (ultrasound, nothing collected)
+INSERT  Ultrasound (Thyroid)                           Rs  1500  usgthy      (ultrasound, nothing collected)
+INSERT  Ultrasound (Breast)                            Rs  1500  usgbreast   (ultrasound, nothing collected)
+INSERT  Ultrasound (Obs)                               Rs  1000  usgobs      (ultrasound, nothing collected)
+INSERT  Ultrasound (NT/NO)                             Rs  1200  usgntno     (ultrasound, nothing collected)

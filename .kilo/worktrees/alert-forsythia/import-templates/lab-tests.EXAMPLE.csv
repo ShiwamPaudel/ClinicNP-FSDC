@@ -1,0 +1,11 @@
+test_name,code,group_name,rate,sample_type,outsourced,partner_cost,doctor_required,vat_applicable
+Complete Blood Count,cbc,Haematology,600,Blood,Yes,350,No,No
+Haemoglobin,hb,Haematology,150,Blood,Yes,80,No,No
+Erythrocyte Sedimentation Rate,esr,Haematology,150,Blood,Yes,80,No,No
+Random Blood Sugar,rbs,Biochemistry,150,Blood,Yes,70,No,No
+Liver Function Test,lft,Biochemistry,1200,Blood,Yes,700,No,No
+Renal Function Test,rft,Biochemistry,1000,Blood,Yes,600,No,No
+Widal Test,widal,Serology,400,Blood,Yes,220,No,No
+Urine Routine Examination,ure,Urine Analysis,300,Urine,Yes,150,No,No
+Stool Routine Examination,stool,Microbiology,300,Stool,Yes,150,No,No
+Thyroid Function Test,tft,Hormone Assay,1200,Blood,Yes,750,No,No

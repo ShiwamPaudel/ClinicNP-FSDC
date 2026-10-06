@@ -1,0 +1,7 @@
+brand_name,generic_name,category,manufacturer,shape,controlled,reorder_level_base,unit1_name,unit1_rate,unit2_name,unit2_per_unit1,unit2_rate,unit3_name,unit3_per_unit2,unit3_rate,default_sell_unit
+Cetamol 500mg,Paracetamol 500mg,Medicine,Nepal Pharmaceuticals,tablet,No,100,Tablet,2,Strip,10,18,Box,10,170,2
+Amoxil 500mg,Amoxicillin 500mg,Medicine,Deurali-Janta,capsule,No,60,Capsule,12,Strip,10,110,,,,2
+Vicks VapoRub 25g,Menthol / Camphor ointment,Consumable,Procter & Gamble,tube,No,12,Jar,145,,,,,,,1
+Nivea Soft 100ml,Moisturising cream,Other,Beiersdorf,tube,No,6,Tube,395,,,,,,,1
+Dettol Antiseptic 250ml,Chloroxylenol 4.8%,Consumable,Reckitt,bottle,No,6,Bottle,320,,,,,,,1
+Cotton Roll 100g,Absorbent cotton,Consumable,,box,No,10,Roll,85,,,,,,,1

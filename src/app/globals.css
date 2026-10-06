@@ -1,0 +1,195 @@
+@import "tailwindcss";
+@import "../styles/print.css";
+
+/* ============================================================
+   ClinicNP design tokens — "The Green Counter and the Blue Case Sheet"
+   Source of truth: Design.md. Do not introduce colors outside these.
+   Sage = the counter. Cream = the paper. Magenta = the ink stamp (rare, for a
+   human decision). Navy = the case sheet, and ONLY ever about a patient.
+   ============================================================ */
+
+@theme {
+  /* Sage (primary / brand / pharmacy) */
+  --color-sage-950: #16241b;
+  --color-sage-900: #20342a;
+  --color-sage-700: #35553f;
+  --color-sage-600: #41684d;
+  /* Darkened from #557f60, which measured 4.50:1 on cream-50 and less on
+     the page background — a hair under AA for text this size. */
+  --color-sage-500: #4f7659;
+  --color-sage-300: #9dbca4;
+  --color-sage-150: #d5e4d7;
+  --color-sage-75: #ebf2ec;
+
+  /* Navy (the case sheet — clinic only). Navy marks WHO something is about:
+     the patient, their visit, their file. Never a button, never a focus ring,
+     never a status. If navy appears where no patient is involved, it is wrong. */
+  --color-clinic-900: #16283f;
+  --color-clinic-700: #234a78;
+  --color-clinic-500: #3e6fa3;
+  --color-clinic-150: #dce7f3;
+  --color-clinic-75: #eef3fa;
+
+  /* Cream (surfaces) */
+  --color-cream-100: #faf6eb;
+  --color-cream-50: #fffcf4;
+  --color-cream-200: #f1eada;
+  --color-line: #e3dbc6;
+
+  /* Magenta (the ink stamp — accent only) */
+  --color-magenta-600: #b02a6e;
+  --color-magenta-700: #93235c;
+  --color-magenta-100: #f7e2ed;
+
+  /* Status */
+  --color-ok-600: #2f7d4f;
+  --color-ok-100: #e2f1e7;
+  --color-warn-600: #a8681b;
+  --color-warn-100: #f9edd9;
+  --color-warn2-600: #8f7a1f;
+  --color-warn2-100: #f7f1d6;
+  --color-danger-600: #b3362b;
+  --color-danger-100: #f9e4e1;
+  --color-info-600: #2e6e8c;
+  --color-info-100: #e1eff5;
+
+  /* Typography — families come from next/font (self-hosted) via *-src vars set on <html> */
+  --font-display: var(--font-display-src), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-sans-src), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono-src), ui-monospace, "SF Mono", monospace;
+  --font-deva: var(--font-deva-src), var(--font-sans-src), sans-serif;
+
+  /* Radius */
+  --radius-card: 10px;
+  --radius-input: 8px;
+  --radius-chip: 999px;
+
+  /* Shadow — one level only */
+  --shadow-card: 0 1px 2px rgb(22 36 27 / 6%), 0 4px 12px rgb(22 36 27 / 5%);
+}
+
+/* Spacing scale is Tailwind's 4px base by default (matches 4,8,12,16,24,32,48). */
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--color-cream-100);
+  color: var(--color-sage-950);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Devanagari glyphs served only for that range via Mukta */
+.deva {
+  font-family: var(--font-deva);
+}
+
+/* Tabular figures for all money/quantity — amounts must align vertically, always */
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Visible focus — 2px sage ring, 2px offset. Never blue. */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-sage-700);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------
+   Interaction affordances — every actionable control must feel
+   clickable. Tailwind v4 dropped the default button pointer, so
+   restore it here once for the whole app (component-level classes
+   don't need to repeat it).
+   ------------------------------------------------------------ */
+:where(button, [role="button"], summary, label[for], a[href]):not(:disabled) {
+  cursor: pointer;
+}
+:where(button, [role="button"], input, select):disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+/* Selectable rows / clickable cards get the pointer + a subtle lift. */
+[data-clickable] {
+  cursor: pointer;
+}
+/* A tactile press on primary controls (honored only when motion is allowed). */
+@media (prefers-reduced-motion: no-preference) {
+  :where(button, [role="button"]):not(:disabled):active {
+    transform: translateY(0.5px);
+  }
+}
+
+/* ------------------------------------------------------------
+   Top navigation progress bar — shows instantly on tab switch so
+   a slow server render never feels like a dead click.
+   ------------------------------------------------------------ */
+#nav-progress {
+  position: fixed;
+  inset: 0 auto auto 0;
+  height: 2px;
+  width: 100%;
+  transform-origin: 0 50%;
+  background: linear-gradient(
+    90deg,
+    var(--color-sage-500),
+    var(--color-sage-300)
+  );
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+}
+#nav-progress[data-state="loading"] {
+  opacity: 1;
+  animation: nav-progress-grow 10s cubic-bezier(0.1, 0.7, 0.3, 1) forwards;
+}
+#nav-progress[data-state="done"] {
+  opacity: 0;
+  transform: scaleX(1);
+  transition:
+    transform 0.2s ease-out,
+    opacity 0.4s ease 0.2s;
+}
+@keyframes nav-progress-grow {
+  0% {
+    transform: scaleX(0);
+  }
+  40% {
+    transform: scaleX(0.7);
+  }
+  100% {
+    transform: scaleX(0.95);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #nav-progress[data-state="loading"] {
+    animation: none;
+    transform: scaleX(0.9);
+  }
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  line-height: 1.15;
+}
+
+/* Reduced motion honored everywhere */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
