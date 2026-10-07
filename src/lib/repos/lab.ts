@@ -1,7 +1,7 @@
 /**
  * lab.ts — where a sample actually is. All SQL for the laboratory worklists.
  *
- * Chunidevi does not run its own laboratory: it bills a test, draws the sample,
+ * Family Smile Dental Care Center does not run its own laboratory: it bills a test, draws the sample,
  * sends it out, and waits for a report. Four steps, each done by a person,
  * each with a moment where the thing is sitting on a bench and somebody has to
  * know it is there. That is what this table of work is for.

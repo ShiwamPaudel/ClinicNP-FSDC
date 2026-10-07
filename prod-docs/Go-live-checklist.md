@@ -8,7 +8,7 @@ clinic bills a real patient.
 
 ---
 
-## Where Chunidevi Health Polyclinic actually stands  ·  2083-06-09
+## Where Family Smile Dental Care Center actually stands  ·  2083-06-20
 
 Kept current so nobody re-does finished work or assumes unfinished work is done.
 
@@ -17,40 +17,43 @@ medicine catalogue and nothing else. None of the figures from the previous
 install carry over — the code is the same and as mature as it was, but the data
 starts at zero.
 
-**Done and verified against the database, 2083-06-09:**
-21 migrations applied (`_migrations` ends at `0021_purchase_bill_discount.sql`)
+**Done and verified against the database, 2083-06-20:**
+23 migrations applied (`_migrations` ends at `0023_payables.sql`)
 · **6,646 items and 14,187 units loaded** from
-`import-templates/chunidevi-items.csv` (Medicine 5,664 · Other 778 ·
-Consumable 204; every item has a base unit and a default selling unit) ·
-**bootstrapped**: company name, address, phone and PAN set, both modules on,
-fiscal year **2083/84 open**, one admin user (`admin` / Shreekrishna) whose
-password and PIN were verified against the app's own scrypt · **letterhead
-set** from `public/Chunidevi Health Polyclinic Pvt. Ltd. - Logo.jpeg` (872x546,
-46 KB as a data URL against a 220 KB cap), so it already shows on the sign-in
-screen and on every bill and slip · **`.env.local` filled**: `AUTH_SECRET` and
-`CRON_SECRET` generated, a VAPID pair generated with `pnpm alert-keys` · no
-prices, no stock, no services, no bills, no patients.
+`import-templates/fsdc-items.csv` (Medicine 5,664 · Other 778 ·
+Consumable 204; every item has a base unit and a default selling unit; checked
+field by field against `items.csv` with 0 differences) · **`.env.local`
+filled**: `AUTH_SECRET` and `CRON_SECRET` generated, a matched VAPID pair
+generated with `pnpm alert-keys` · no prices, no stock, no services, no bills,
+no patients.
 
-Sign-in was checked end to end against a running server, not assumed: the login
-page returns 200 with the letterhead on it, the right password returns a session
-for Shreekrishna with role `admin`, `/dashboard` opens with it and redirects to
-`/login` without it, and a wrong password is refused with `CredentialsSignin`.
+**Not done yet: the bootstrap.** There is no company row, no fiscal year and no
+user, so **nobody can sign in** until this runs (Deploy.md, "Deploying"):
+
+```bash
+pnpm db:bootstrap --clinic --name "Family Smile Dental Care Center" --pan <PAN>   --address "…" --phone "…" --admin <username> --admin-name "<name>"   --password "<8+ characters>" --pin <4-6 digits>
+```
+
+**No letterhead is set, on purpose.** `public/logo-fsdc.png` is the clinic's
+logo, not a letterhead band — and when an image is set, the bill prints the
+image *instead of* the name, address and phone. Until the clinic supplies a full
+letterhead (logo, name, address, phone, PAN on one strip), bills print the
+company details as text.
 
 **Left, and all of it needs the clinic in the room:**
 
 | | What | Where |
 |---|---|---|
-| 🔴 | **Replace the admin password** — it is eight repeated digits, set only to clear the length guard. Do this before the site is reachable from outside. Blocking, see §6 | Settings → Users |
-| 🔴 | Real user accounts, roles and PINs — one shared `admin` login is not an audit trail | Settings → Users |
+| 🔴 | **Run `db:bootstrap`** with the real PAN, address, phone and a real admin password — not a placeholder that clears the length guard. Blocking: nobody can sign in until it runs | Deploy.md |
+| 🔴 | Real user accounts, roles and PINs — one shared admin login is not an audit trail | Settings → Users |
 | 🟠 | **DDA number**, and the invoice footer text | Settings → Company |
-| 🟠 | Check the letterhead prints the way they want it — it was set from the file, not chosen on screen. Re-upload to replace | Settings → Company |
+| 🟠 | **Letterhead** — a full header band, if they want one, rather than the logo alone (see above) | Settings → Company |
 | 🟠 | **A private Blob store.** `BLOB_READ_WRITE_TOKEN` cannot be generated locally; until Vercel issues it, patient files land on the machine's own disk and nothing is backed up | Deploy.md |
 | 🟠 | The live site needs its own `AUTH_SECRET`, `CRON_SECRET` and VAPID pair in the hosting settings — the ones generated here are for local work. **A VAPID pair must never change once phones have alerts on** (D-122) | Vercel |
-| 🟠 | **Rates for the 245 laboratory tests** — all loaded at 0, and a service with no rate cannot be billed. Their partner cost (what NOVUS charges) is 0 too, so set both together | Settings → Services |
-| 🟠 | The rest of the services — Ultrasound, X-Ray, ECG, ECHO, Skin, Procedure — and follow-up rules | Settings → Services / Doctors |
+| 🟠 | Services, doctors and follow-up rules — none are loaded | Settings → Services / Doctors |
 | 🟠 | Prices for the 6,646 medicines, or let the counter set them as they sell | Items → Set prices |
 | 🟠 | Opening stock: batch numbers and expiry dates | Stock → Opening stock |
-| 🟠 | Laboratory partners | Settings → Lab partners |
+| 🟠 | Laboratory partners, if they send samples out | Settings → Lab partners |
 | 🟡 | Shop floor plan and racks, once the shelving is decided | Settings → Floor plan |
 
 **Until an item has a price it cannot be sold** — the counter refuses it and
@@ -88,8 +91,9 @@ the alternative is a real bill with Rs 0 on it.
 
 - [ ] **Company name** exactly as it should print on an invoice.
 - [ ] **Letterhead image uploaded** under Settings → Company. It is the band
-      across the top of every invoice. The artwork is in the repo at
-      `public/Chunidevi Health Polyclinic Pvt. Ltd. - Logo.jpeg`. If it carries
+      across the top of every invoice. Only the logo is in the repo
+      (`public/logo-fsdc.png`) — it is not a letterhead, and an image here
+      replaces the printed name, address and phone. If the letterhead carries
       the PAN or DDA number, read them off the image and check them against the
       registration certificate — a wrong number there is wrong on every bill.
 - [ ] **PAN** entered and checked against their registration certificate. The
@@ -116,7 +120,7 @@ letterhead image is what makes it theirs.
 ## 2. Modules
 
 - [ ] **Settings → Modules**: switch on what this clinic actually does. Both, for
-      Chunidevi Health Polyclinic.
+      Family Smile Dental Care Center.
 - [ ] With the intended modules on, walk the menu and confirm nothing is offered
       that this clinic does not do.
 

@@ -88,7 +88,7 @@ async function resolveLines(
     0,
   );
   // The supplier's own order: lines, then the discount on the whole bill,
-  // then VAT on what is left (D-143). Every invoice from Chunidevi's
+  // then VAT on what is left (D-143). Every invoice from Family Smile Dental Care Center's
   // distributors reads this way — "Discount", then "Taxable Amount",
   // then "VAT".
   if (d.billDiscountPaisa > netSubtotal) {

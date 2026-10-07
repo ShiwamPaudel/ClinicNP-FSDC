@@ -10,7 +10,7 @@ const METHOD_LABEL: Record<string, string> = {
 /**
  * invoice-a4.tsx — the bill. One format, on the paper the shop actually has.
  *
- * Chunidevi prints on a normal A4 sheet from a normal office printer, so that is
+ * Family Smile Dental Care Center prints on a normal A4 sheet from a normal office printer, so that is
  * what this is: a full sheet, the shop's own letterhead image across the top,
  * and the invoice underneath it. There is no second format to choose between —
  * a print-format setting is a thing that gets set wrong once and then prints

@@ -223,7 +223,7 @@ One row per test.
 | `group_name` | **yes** | Must match a `group_name` in `lab-test-groups.csv` **exactly**, spelling and capitals included. |
 | `rate` | **yes** | What the patient pays, in rupees. |
 | `sample_type` | no | What has to be collected: `Blood`, `Urine`, `Stool`, `Swab`, `Sputum`, `Semen`, `Fluid`, `Tissue`. Leave blank for anything that collects nothing. **Fill it for every test** — it is what the sample-collection screen groups by, so a test with no sample type is one nobody is told to draw. |
-| `outsourced` | **yes** | `Yes` if the sample goes to an outside laboratory. For Chunidevi this is `Yes` for essentially every test. |
+| `outsourced` | **yes** | `Yes` if the sample goes to an outside laboratory. For Family Smile Dental Care Center this is `Yes` for essentially every test. |
 | `partner_cost` | only if outsourced | What the outside laboratory charges **you**, in rupees. The difference between this and `rate` is what the clinic keeps, and it is what the laboratory statement is built from. |
 | `doctor_required` | **yes** | `Yes` only if a bill for this cannot be saved without naming a doctor. For most lab tests this is `No`. |
 | `vat_applicable` | **yes** | `No` unless you are VAT registered and this test is taxable. |

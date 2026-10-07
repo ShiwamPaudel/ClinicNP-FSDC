@@ -59,7 +59,7 @@ beforeAll(async () => {
   }
   await raw.execute(
     `INSERT INTO users (id, name, username, password_hash, role, created_at)
-     VALUES ('u1','Shreekrishna','admin','x','admin','t')`,
+     VALUES ('u1','Admin','admin','x','admin','t')`,
   );
   await raw.execute(
     `INSERT INTO fiscal_years (bs_label, start_ad, end_ad, active, status)
@@ -445,7 +445,7 @@ describe("editing a saved purchase", () => {
     expect(detail.before.lines[0].costPaisa).toBe(2000);
     expect(detail.after.lines[0].costPaisa).toBe(1800);
     // and the purchase says it was changed
-    expect((await linesOf(id)).lastEdit?.byName).toBe("Shreekrishna");
+    expect((await linesOf(id)).lastEdit?.byName).toBe("Admin");
   });
 
   it("refuses a line id that belongs to another purchase", async () => {

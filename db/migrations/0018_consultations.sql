@@ -8,7 +8,7 @@
 --           rebuilt exactly as 0006 rebuilt it.
 -- @verify   users, doctors, patients
 --
--- Until now a doctor was a name on a slip and a share of the takings. Chunidevi
+-- Until now a doctor was a name on a slip and a share of the takings. Family Smile Dental Care Center
 -- books consultations by phone all day and wrote them in a diary, which meant
 -- the answer to "who is Dr Karki seeing on Thursday" lived on one desk and
 -- nowhere else. A booking is not a visit: a visit is what happened, a booking

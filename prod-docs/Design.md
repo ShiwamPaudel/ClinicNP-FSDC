@@ -238,7 +238,7 @@ Three things the filled form says that a hand-typed one never had to. A line the
 
 **Invoice (80 mm thermal)** — as v1, with a patient block and a service block:
 ```
-    CHUNIDEVI HEALTH POLYCLINIC PVT. LTD.
+    FAMILY SMILE DENTAL CARE CENTER
        Address · 01-XXXXXXX · PAN: XXXXXXXXX
 ────────────────────────────────────────────
   Invoice  SI-2083/84-000123

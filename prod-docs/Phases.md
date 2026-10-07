@@ -3,7 +3,7 @@
 
 **Starting state:** the Faarma codebase, v1 feature-complete (all 5 v1 phases done, 68 tests green, not yet deployed to Vercel). ClinicNP continues that repository. Migrations continue from `0006`.
 
-**Target install:** Chunidevi Health Polyclinic Pvt. Ltd. — both modules on.
+**Target install:** Family Smile Dental Care Center — both modules on.
 
 ---
 
@@ -114,7 +114,7 @@ Acceptance:
 
 ---
 
-## Phase 5 — Resilience, offline registration, and the Chunidevi Health Polyclinic install
+## Phase 5 — Resilience, offline registration, and the Family Smile Dental Care Center install
 **Goal: production-ready, deployed, and handed over to a real clinic.**
 
 Build:
@@ -126,7 +126,7 @@ Build:
 - **Concurrency pass:** two devices selling the same last strip; two devices registering the same patient offline; two devices billing the same patient simultaneously.
 - **Performance pass:** counter search < 100 ms against 2,000 items + 300 services + 2,000 patients; counter bundle audit; Lighthouse PWA + a11y ≥ 90 on the counter, dashboard and patient card.
 - **Final sweep:** banned-vocabulary grep; `aushadhi` grep; empty states everywhere; Nepali labels for core counter actions; contrast verification of every navy pair; `requireModule` coverage check across all routes.
-- **The Chunidevi Health Polyclinic install:**
+- **The Family Smile Dental Care Center install:**
   - Seed script producing a clearly-sample clinic (sample services with placeholder rates flagged on screen, sample doctors, one sample lab partner, sample medicines) for training — and a separate **empty production bootstrap** that seeds only the company row, the fiscal year and the admin user.
   - Go-live checklist document in `prod-docs/`: company details and PAN entered, VAT decision confirmed with their accountant, services and rates entered and verified by the clinic, doctors and share bases confirmed, lab partner(s) entered, opening stock entered via stock-count-correction adjustments, printer tested on 80 mm and A5, users and PINs created, backup verified by a test restore, module toggles confirmed.
   - Updated **User Guide** (regenerate via the existing capture/build scripts) covering the counter, patients, visits, files, stock out and year close — screenshots captured against a throwaway seeded local database, **never against the clinic's live data**.

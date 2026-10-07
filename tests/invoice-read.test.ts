@@ -2,7 +2,7 @@
  * Reading a supplier's invoice off a photo (C-020).
  *
  * Every fixture below is real: it is the text PaddleOCR actually produced from
- * the photos of Chunidevi's own bills, misreadings and all ("TA8" for TAB, "S0LAY"
+ * the photos of Family Smile Dental Care Center's own bills, misreadings and all ("TA8" for TAB, "S0LAY"
  * for SOLAY, "4:896.80" for 1,896.80). That is deliberate — a parser for
  * invoices is only worth what it does with the mess, and inventing clean input
  * for it to succeed on would prove nothing.

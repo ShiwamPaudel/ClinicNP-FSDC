@@ -91,7 +91,7 @@ pnpm db:bootstrap --name "…" --pan … --admin … --password "…" --pin … 
 also refuses if it finds a table holding data that it does not know about,
 rather than leaving it behind quietly.
 
-**`--clinic` is not optional for Chunidevi.** The schema defaults to
+**`--clinic` is not optional for Family Smile Dental Care Center.** The schema defaults to
 pharmacy-only, and without that flag every clinic route returns 404 on the
 first morning for no visible reason.
 
@@ -124,7 +124,7 @@ deployment is blocked.
 pnpm db:migrate
 
 # 2. an empty production start (NOT db:seed, which is sample data)
-pnpm db:bootstrap --name "Chunidevi Health Polyclinic Pvt. Ltd." --pan 601234567 \
+pnpm db:bootstrap --clinic --name "Family Smile Dental Care Center" --pan 601234567 \
   --address "…" --phone "…" --admin sarita --admin-name "Sarita" \
   --password "…" --pin 1234
 

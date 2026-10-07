@@ -2,7 +2,7 @@
 --
 -- Append-only: never edit once applied.
 --
--- Real supplier invoices from Chunidevi's distributors end with a discount on the
+-- Real supplier invoices from Family Smile Dental Care Center's distributors end with a discount on the
 -- whole bill, not on each line: "LESS DISCOUNT 480.61", "10% Discount",
 -- "Discount 0%" + "Trade Discount 0%". Most also carry a rounding line
 -- ("ROUNDING 0.43", "-0.31") so the net total lands on whole rupees. Without

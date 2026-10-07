@@ -2,7 +2,7 @@
  * The discount a supplier takes off the whole bill, and the rounding line
  * under it (D-143). The point of both is that a purchase adds up to exactly
  * what the paper says, so the arithmetic is pinned to real invoices from
- * Chunidevi's own distributors.
+ * Family Smile Dental Care Center's own distributors.
  */
 import { describe, it, expect } from "vitest";
 import { purchaseTotals, type PurchaseLineInput } from "@/lib/repos/purchases";

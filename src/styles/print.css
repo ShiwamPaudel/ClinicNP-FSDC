@@ -1,7 +1,7 @@
 /* print.css — the A4 invoice, plus the slips that are not invoices.
    The .print-area is hidden on screen and revealed only when printing.
 
-   There is one bill format. Chunidevi prints on a normal A4 sheet from a normal
+   There is one bill format. Family Smile Dental Care Center prints on a normal A4 sheet from a normal
    office printer, and a format setting is a thing that gets set wrong once and
    then prints wrong for a year. The thermal and A5 rules below are kept only
    for the slips that still use those sizes. */

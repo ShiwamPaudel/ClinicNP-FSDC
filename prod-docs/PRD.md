@@ -6,7 +6,7 @@
 | **Product name** | **ClinicNP** |
 | **Version** | 2.0 (supersedes Faarma v1.0 / AushadhiPOS 1.0 — both names retired as product names) |
 | **Document status** | Final — build-ready |
-| **First installation** | **Chunidevi Health Polyclinic Pvt. Ltd.** |
+| **First installation** | **Family Smile Dental Care Center** |
 | **Target market** | Nepali clinics (OPD + diagnostics), pharmacies attached to clinics, and standalone retail pharmacies |
 | **Platform** | Web application / installable PWA (desktop-first for the counter, mobile-friendly for owner review) |
 | **Modules** | **Pharmacy** (shipped, feature-complete as Faarma v1) and **Clinic** (new). Each toggled independently in Settings. |
@@ -73,7 +73,7 @@ Sales register, purchase register, VAT summaries, party ledgers, doctor payouts,
 | Toggle | Default | Effect |
 |---|---|---|
 | **Pharmacy** | On | Items, batches, purchases, suppliers, stock, medicine lines at the counter, stock reports |
-| **Clinic** | Off (On for Chunidevi Health Polyclinic) | Patients, visits, services, doctors, lab partners, attachments, service lines at the counter, clinic reports |
+| **Clinic** | Off (On for Family Smile Dental Care Center) | Patients, visits, services, doctors, lab partners, attachments, service lines at the counter, clinic reports |
 
 - At least one module must stay on. Turning the last one off is refused with: *"At least one part of the system has to stay switched on."*
 - Turning a module **off never deletes data.** It hides the module and blocks its routes. Turning it back on restores everything exactly as it was.
@@ -279,7 +279,7 @@ Login by username + password; 4-digit PIN quick-switch on the shared counter dev
 
 ## 4C — DUES *(both modules, added 2083-06-05)*
 
-Chunidevi sometimes hands over medicine, or does a test, and is paid later — all of it, or the part the patient could not pay today. The owner asked for three things: bills sold on dues or part payment, for medicine and services alike; the patient's details on such a bill, exactly as a service bill has them; and a place to track who owes what by name and clear it when the money comes in.
+Family Smile Dental Care Center sometimes hands over medicine, or does a test, and is paid later — all of it, or the part the patient could not pay today. The owner asked for three things: bills sold on dues or part payment, for medicine and services alike; the patient's details on such a bill, exactly as a service bill has them; and a place to track who owes what by name and clear it when the money comes in.
 
 ### 4C.1 At the counter
 - The payment methods are **Cash · QR · Dues**. Dues replaces the old "Credit" button and covers both cases: nothing paid now, or part paid now.
@@ -334,10 +334,10 @@ Typing a distributor's invoice is the longest job on the pharmacy side: ten to f
 - **Nothing of the photo is kept** (D-144). It is read on the device and dropped: not uploaded, not attached to the purchase, not backed up.
 - **It runs on the device.** PaddleOCR as WebAssembly, the model served by this app. No account, no key, no per-page charge, and nothing leaves the clinic.
 - **What it says when it is unsure**, because that is the whole value: a row whose quantity times rate does not come to the printed amount is flagged; a medicine it could not find is left empty with the supplier's own wording beside it; and the net total the lines come to is set against the net total printed on the bill.
-- **Handwritten bills are still typed by hand.** Three of Chunidevi's suppliers write theirs out; OCR returns nothing usable from those and the screen says so rather than inventing rows.
+- **Handwritten bills are still typed by hand.** Three of Family Smile Dental Care Center's suppliers write theirs out; OCR returns nothing usable from those and the screen says so rather than inventing rows.
 
 ### 4D.5 A purchase adds up to the supplier's paper *(added 2083-06-07)*
-Real invoices from Chunidevi's distributors take their discount off the **whole bill**, after the lines, and then round the net total to whole rupees: *LESS DISCOUNT 480.61 / ROUNDING 0.43 / NET TOTAL 9,132.00*, *10% Discount*, *Discount 0% + Trade Discount 0% + Taxable Amount + VAT + Net Total*.
+Real invoices from Family Smile Dental Care Center's distributors take their discount off the **whole bill**, after the lines, and then round the net total to whole rupees: *LESS DISCOUNT 480.61 / ROUNDING 0.43 / NET TOTAL 9,132.00*, *10% Discount*, *Discount 0% + Trade Discount 0% + Taxable Amount + VAT + Net Total*.
 - Purchase entry carries the supplier's own block: per-line discounts as before, then **Discount on the bill** (rupees or a percentage) and **Rounding** (which may be a minus figure), then VAT on what is left, then **Net total** (D-143).
 - The order is the paper's order: lines → line discounts → discount on the bill → VAT → rounding → net total. The net total is what the supplier is owed, so the ledger and the VAT summary follow it.
 - A discount bigger than the bill is refused; rounding is capped at a rupee or two.
@@ -393,10 +393,10 @@ Real invoices from Chunidevi's distributors take their discount off the **whole 
 
 ## 8. Open Decisions (tracked, not blocking)
 
-1. **VAT on health services** — the per-service `VAT applicable` flag exists; whether Chunidevi Health Polyclinic bills VAT on services, and on which ones, must be confirmed with their accountant before go-live. Nothing about Nepali tax treatment is assumed or hard-coded beyond `VAT_RATE = 13%`.
-2. **Doctor share basis** per doctor at Chunidevi Health Polyclinic — confirm before the payout report is trusted.
+1. **VAT on health services** — the per-service `VAT applicable` flag exists; whether Family Smile Dental Care Center bills VAT on services, and on which ones, must be confirmed with their accountant before go-live. Nothing about Nepali tax treatment is assumed or hard-coded beyond `VAT_RATE = 13%`.
+2. **Doctor share basis** per doctor at Family Smile Dental Care Center — confirm before the payout report is trusted.
 3. Patient number format: `P-000123` flat and lifetime (recommended) vs. fiscal-year prefixed. Confirm at install.
-4. Whether the pharmacy counter at Chunidevi Health Polyclinic is the same physical device as the clinic front desk (affects default counter mode and the PIN switch list).
+4. Whether the pharmacy counter at Family Smile Dental Care Center is the same physical device as the clinic front desk (affects default counter mode and the PIN switch list).
 5. Nepali-numeral display default: off. Grand-total rounding: default off. (Carried from v1.)
 6. CBMS activation timing — depends on the clinic's IRD registration.
 7. **Invoice photo → purchase entry** — **built** (C-020, §4D.6). Open: whether blank batch and expiry should be allowed on a purchase line for Consumable and Other items, which is what suppliers who print no batch column would need; today every line still requires both, so those are typed off the pack. Also open: remembering a supplier's own wording for a medicine, so the same name matches by itself next month.

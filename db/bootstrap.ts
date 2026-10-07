@@ -17,7 +17,7 @@
  *
  * Running it twice is safe: it fills in only what is missing.
  *
- *   pnpm db:bootstrap --name "Chunidevi Health Polyclinic Pvt. Ltd." --pan 601234567 \
+ *   pnpm db:bootstrap --clinic --name "Family Smile Dental Care Center" --pan 601234567 \
  *     --admin sarita --password "…" --pin 1234
  */
 import { createClient } from "@libsql/client";

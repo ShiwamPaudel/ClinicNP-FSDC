@@ -10,7 +10,7 @@
  * The model files and the runtime are served from this app, not from a CDN, so
  * a clinic on a bad line is not at the mercy of somebody else's server.
  *
- * Settings below are the ones measured against Chunidevi's own ten bills: the tiny
+ * Settings below are the ones measured against Family Smile Dental Care Center's own ten bills: the tiny
  * model beat the small and medium ones on dot-matrix print and is a quarter of
  * their size, "per-line" keeps a row's figures together on one line of text,
  * which is what makes a row usable at all, and the image is scaled up rather

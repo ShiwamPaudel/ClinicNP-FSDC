@@ -26,3 +26,6 @@ public/ort/
 
 # scratch files from tooling runs (screenshots, one-off scripts)
 .tmp-*
+
+# Kilo Code worktrees: a full second copy of the repo, never committed
+.kilo/

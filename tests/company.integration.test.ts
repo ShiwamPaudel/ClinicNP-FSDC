@@ -58,7 +58,7 @@ describe("the company profile", () => {
     const { saveCompany, getCompany } = await import("@/lib/repos/company");
 
     await saveCompany({
-      name: "Chunidevi Health Polyclinic Pvt. Ltd.",
+      name: "Family Smile Dental Care Center",
       address: "Bhaktapur, Suryabinayak-4",
       phone: "01-6612345",
       panNo: "601234567",
@@ -75,7 +75,7 @@ describe("the company profile", () => {
     });
 
     const saved = await getCompany();
-    expect(saved.name).toBe("Chunidevi Health Polyclinic Pvt. Ltd.");
+    expect(saved.name).toBe("Family Smile Dental Care Center");
     expect(saved.address).toBe("Bhaktapur, Suryabinayak-4");
     expect(saved.phone).toBe("01-6612345");
     expect(saved.panNo).toBe("601234567");
@@ -93,10 +93,10 @@ describe("the company profile", () => {
     const { db } = await import("@/lib/db");
 
     const before = await getCompany();
-    await saveCompany({ ...before, name: "Chunidevi Health Polyclinic" });
+    await saveCompany({ ...before, name: "Family Smile Dental Care" });
 
     const after = await getCompany();
-    expect(after.name).toBe("Chunidevi Health Polyclinic");
+    expect(after.name).toBe("Family Smile Dental Care");
     // everything else survives the rename
     expect(after.panNo).toBe(before.panNo);
     expect(after.printFormat).toBe(before.printFormat);

@@ -1,6 +1,6 @@
 import { createClient } from "@libsql/client";
 import { readFileSync, readdirSync } from "node:fs";
-const P="C:/Users/paude/AppData/Local/Temp/claude/d--IBN-Installations-clinicnp-chp/80e7059c-c978-49f6-884f-7692a37369c8/scratchpad/dry.db";
+const P="C:/Users/paude/AppData/Local/Temp/claude/d--IBN-Installations-clinicnp-fsdc/80e7059c-c978-49f6-884f-7692a37369c8/scratchpad/dry.db";
 const c=createClient({url:"file:"+P});
 const split=(s)=>s.split(/\r?\n/).filter(l=>!l.trim().startsWith("--")).join("\n").split(";").map(x=>x.trim()).filter(Boolean);
 for(const f of readdirSync("db/migrations").filter(f=>/^000[1-5]/.test(f)).sort())

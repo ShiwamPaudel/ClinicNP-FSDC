@@ -2,7 +2,7 @@
 --
 -- Append-only: never edit once applied.
 --
--- Chunidevi sends samples to an outside laboratory, and the step the counter
+-- Family Smile Dental Care Center sends samples to an outside laboratory, and the step the counter
 -- actually performs is collecting one. Blood, urine, stool and a swab are
 -- collected differently, go into different containers, and a sample-collection
 -- screen that does not say which is a screen that gets it wrong once.

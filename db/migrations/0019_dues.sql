@@ -2,7 +2,7 @@
 --
 -- Append-only: never edit once applied.
 --
--- Chunidevi sometimes hands over medicine or does a test and is paid later — all of
+-- Family Smile Dental Care Center sometimes hands over medicine or does a test and is paid later — all of
 -- it, or the part the patient could not pay today. Until now a bill could only
 -- be wholly paid or wholly "credit", with one button to call the whole thing
 -- paid. Nothing recorded a part payment, who owed what, or the money when it

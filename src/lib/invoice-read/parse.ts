@@ -4,7 +4,7 @@
  *
  * Nothing here touches the database, the network or the DOM: text in, a draft
  * purchase out. That is deliberate — every rule below was written against the
- * actual OCR output of Chunidevi's own suppliers' bills, and the only way to keep
+ * actual OCR output of Family Smile Dental Care Center's own suppliers' bills, and the only way to keep
  * it honest as the suppliers change their stationery is to be able to pin a
  * real line of text in a test.
  *

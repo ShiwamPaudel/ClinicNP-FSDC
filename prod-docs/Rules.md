@@ -10,7 +10,7 @@ Read PRD.md, Architecture.md and Design.md before writing any code. Read Memory.
 1. **This is a continuation, not a rewrite.** ClinicNP continues the existing Faarma codebase: 5 phases complete, 68 tests green, POS/FEFO/outbox/print/reports all working. You are adding to it.
 2. **Do not refactor working pharmacy code.** No "while I'm here" cleanups of `fefo.ts`, `units.ts`, `bill-calc.ts`, `ingestBill`, the outbox, the print components, or the migration history. If a pharmacy change is genuinely required by a v2 feature, make the smallest possible change and record it in Memory.md.
 3. **The name is ClinicNP.** `AushadhiPOS` must not survive anywhere: not in code, strings, comments, filenames, asset paths, IndexedDB store names, package name, README, seed data, or backup filenames. Grep for it and for `aushadhi` (case-insensitive) as part of Phase 1's Definition of Done. **Faarma** survives in exactly two places: Memory.md history, and the derived `appName` for a pharmacy-only install (PRD §3.3).
-4. **First customer is Chunidevi Health Polyclinic Pvt. Ltd.** — both modules on. Their company details, services and rates are entered by them at install, not hard-coded by you.
+4. **First customer is Family Smile Dental Care Center** — both modules on. Their company details, services and rates are entered by them at install, not hard-coded by you.
 
 ---
 

@@ -59,7 +59,7 @@ beforeAll(async () => {
   }
   await raw.execute(
     `INSERT INTO users (id, name, username, password_hash, role, created_at)
-     VALUES ('u1','Shreekrishna','admin','x','admin','t')`,
+     VALUES ('u1','Admin','admin','x','admin','t')`,
   );
   await raw.execute(
     `INSERT INTO fiscal_years (bs_label, start_ad, end_ad, active, status)
