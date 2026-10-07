@@ -8,6 +8,7 @@ import { SALE_METHOD_LABEL, MONEY_METHOD_LABEL, type SaleMethod } from "@/lib/du
 import { formatPatientNo } from "@/lib/patient-no";
 import { adFromIso, toBS, formatBS, bsFromDbText } from "@/lib/bs";
 import { formatPaisa } from "@/lib/money";
+import { nepalTime } from "@/lib/clock";
 import { formatDocNo } from "@/lib/invoice-number";
 import { PageShell } from "@/components/app/page-shell";
 import { Table, THead, TR, TH, TD } from "@/components/ui/table";
@@ -60,7 +61,7 @@ export default async function BillDetailPage({
       form: "long",
       monthScript: "en",
     }),
-    timeStr: "",
+    timeStr: nepalTime(bill.createdAt),
     patientName: bill.patientName,
     patient: bill.patientNo != null || bill.registeredName
       ? {
@@ -97,6 +98,8 @@ export default async function BillDetailPage({
     subtotalPaisa: bill.subtotalPaisa,
     billDiscountPaisa: bill.discountPaisa,
     vatPaisa: bill.vatPaisa,
+    taxablePaisa: bill.taxablePaisa,
+    vatInclusive: bill.vatInclusive,
     totalPaisa: bill.totalPaisa,
     paymentMethod: bill.paymentMethod as "cash" | "qr" | "credit",
     tenderedPaisa: bill.tenderedPaisa,
@@ -266,8 +269,19 @@ export default async function BillDetailPage({
             {bill.discountPaisa > 0 && (
               <Row label="Discount" value={`− ${formatPaisa(bill.discountPaisa, false)}`} />
             )}
-            {company.vatRegistered && bill.vatPaisa > 0 && (
-              <Row label="VAT (13%)" value={formatPaisa(bill.vatPaisa)} />
+            {bill.vatPaisa > 0 && (
+              <>
+                <Row
+                  label="Taxable amount"
+                  value={formatPaisa(
+                    bill.taxablePaisa ?? bill.subtotalPaisa - bill.discountPaisa,
+                  )}
+                />
+                <Row
+                  label={bill.vatInclusive ? "VAT 13% (included)" : "VAT 13%"}
+                  value={formatPaisa(bill.vatPaisa)}
+                />
+              </>
             )}
             <div className="mt-2 border-t border-line pt-2 text-[16px] font-semibold">
               <Row label="Total" value={formatPaisa(bill.totalPaisa)} />

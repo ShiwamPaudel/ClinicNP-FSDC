@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Plus, Tag } from "lucide-react";
 import { requireAdmin } from "@/lib/session";
-import { requireModulePage } from "@/lib/modules";
+import { requireModulePage, getModules } from "@/lib/modules";
 import { listItems, isUnpriced } from "@/lib/repos/items";
 import { itemStockMap } from "@/lib/repos/batches";
 import { adToIso } from "@/lib/bs";
@@ -11,13 +11,17 @@ import { Button } from "@/components/ui/button";
 
 export default async function ItemsPage() {
   await requireAdmin();
-  await requireModulePage("pharmacy");
-  const [items, stock] = await Promise.all([
+  await requireModulePage("supplies");
+  const [items, stock, modules] = await Promise.all([
     listItems(true),
     itemStockMap(adToIso(new Date())),
+    getModules(),
   ]);
 
-  const unpriced = items.filter(isUnpriced).length;
+  // Selling prices only matter where medicine is sold at the counter. A
+  // clinic buying its own materials is never nagged to price them.
+  const sells = modules.pharmacy;
+  const unpriced = sells ? items.filter(isUnpriced).length : 0;
   // A Map does not survive the trip to the browser; a plain list does.
   const stockRows: ItemStock[] = items.map((i) => ({
     itemId: i.id,
@@ -29,12 +33,14 @@ export default async function ItemsPage() {
       title="Items"
       actions={
         <div className="flex items-center gap-2">
-          <Link href="/items/pricing">
-            <Button variant="secondary">
-              <Tag className="h-4 w-4" />
-              Set prices
-            </Button>
-          </Link>
+          {sells && (
+            <Link href="/items/pricing">
+              <Button variant="secondary">
+                <Tag className="h-4 w-4" />
+                Set prices
+              </Button>
+            </Link>
+          )}
           <Link href="/items/new">
             <Button>
               <Plus className="h-4 w-4" />

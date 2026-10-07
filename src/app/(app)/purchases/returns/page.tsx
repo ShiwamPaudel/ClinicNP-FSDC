@@ -11,7 +11,7 @@ import {
 
 export default async function PurchaseReturnPage() {
   await requireAdmin();
-  await requireModulePage("pharmacy");
+  await requireModulePage("supplies");
   const [suppliers, items, batches] = await Promise.all([
     listSuppliers(),
     listItems(true),

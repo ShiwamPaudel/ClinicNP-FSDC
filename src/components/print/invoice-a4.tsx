@@ -80,7 +80,6 @@ export function InvoiceA4({ bill }: { bill: PrintBill }) {
           <div>
             <span className="a4-k">Bill no.</span>
             <b>{bill.invoiceLabel}</b>
-            {bill.provisional ? " (pending)" : ""}
           </div>
           <div>
             <span className="a4-k">Date</span>
@@ -188,10 +187,21 @@ export function InvoiceA4({ bill }: { bill: PrintBill }) {
               </tr>
             )}
             {c.vatRegistered && bill.vatPaisa > 0 && (
-              <tr>
-                <td>VAT 13%</td>
-                <td className="a4-r">{formatPaisa(bill.vatPaisa)}</td>
-              </tr>
+              <>
+                <tr>
+                  <td>Taxable amount</td>
+                  <td className="a4-r">
+                    {formatPaisa(
+                      bill.taxablePaisa ??
+                        bill.subtotalPaisa - bill.billDiscountPaisa,
+                    )}
+                  </td>
+                </tr>
+                <tr>
+                  <td>{bill.vatInclusive ? "VAT 13% (included)" : "VAT 13%"}</td>
+                  <td className="a4-r">{formatPaisa(bill.vatPaisa)}</td>
+                </tr>
+              </>
             )}
             <tr className="a4-grand">
               <td>Total</td>

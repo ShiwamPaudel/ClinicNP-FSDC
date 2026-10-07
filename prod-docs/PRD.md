@@ -72,8 +72,9 @@ Sales register, purchase register, VAT summaries, party ledgers, doctor payouts,
 
 | Toggle | Default | Effect |
 |---|---|---|
-| **Pharmacy** | On | Items, batches, purchases, suppliers, stock, medicine lines at the counter, stock reports |
+| **Pharmacy** | On | Medicine lines at the counter, selling prices, shelves and shop layout, profit and fast/slow-moving reports |
 | **Clinic** | Off (On for Family Smile Dental Care Center) | Patients, visits, services, doctors, lab partners, attachments, service lines at the counter, clinic reports |
+| *Supplies* — not a toggle | On with **either** module | Items, purchases, suppliers, stock (opening, stock out, expiry, value), supplier payables, purchase register. A clinic buys its materials on credit and pays in parts exactly as a pharmacy does (C-034). With Pharmacy off the menu calls it **Supplies**. |
 
 - At least one module must stay on. Turning the last one off is refused with: *"At least one part of the system has to stay switched on."*
 - Turning a module **off never deletes data.** It hides the module and blocks its routes. Turning it back on restores everything exactly as it was.
@@ -166,7 +167,7 @@ New screen: **Stock → Stock out** (Admin only; Staff can view the register, no
 
 - **Duplicate guard:** on save, if name + phone or name + age + address closely match an existing patient, the system offers the match first: *"Is this the same person?"* with the existing patient's last visit date. Merging two patients is Admin-only, audit-logged, and moves visits, bills and files to the kept record.
 - **Search** by name (partial), phone, or patient number — under 100 ms against the local cache, same as item search.
-- **The patient card** is the one screen the clinic will live in: identity strip, allergy strip, quick actions (New visit, New bill, Add file), and a reverse-chronological **timeline** of visits, bills and attached files.
+- **The patient card** is the one screen the clinic will live in: identity strip, allergy strip, quick actions (New visit, New bill, Add file), a **history table** laid out like the clinic's paper card — *Date · Treatment notes · Service charge · Payment · Due / Advance*, oldest first, one line per bill, later payment, refund or visit, with the running balance (C-034) — and the patient's files.
 - Patient data is **never** used for marketing. No bulk export of patient contact lists exists in the product (Admin data export exists for backup and is audit-logged).
 
 ### 4B.2 Visits
@@ -202,7 +203,7 @@ Everything the clinic bills that is not a medicine is a **service**. All of it i
 | Keeps a file | if on, the visit expects a report/image to be attached later; unattached ones show in a "Files pending" list |
 | Follow-up window | days of free/reduced follow-up (consultations only) |
 | Follow-up rate | 0 = free |
-| VAT applicable | per-service flag, only meaningful when the company VAT toggle is on |
+| VAT applicable | per-service flag, only meaningful when the company VAT toggle is on. **Ticked by default** — a VAT-registered clinic charges VAT on its services and an exempt one is the exception, marked *No VAT* in the list (C-034) |
 | Active | inactive services disappear from search, stay in history |
 
 **Doctors** (Settings → Doctors): name, qualification as printed, specialty, NMC number, contact, **share basis** (none / percentage of consultation / fixed amount per consultation / percentage of listed services), share value, active. Drives the doctor payout report. A doctor is not a login — a doctor who also uses the system gets a normal user account separately.
@@ -289,9 +290,9 @@ Family Smile Dental Care Center sometimes hands over medicine, or does a test, a
 - Offline: a bill on dues queues and prints like any other bill.
 
 ### 4C.2 Dues (sidebar, beside Bills)
-- **Owed**: everyone who owes, grouped by person (registered patient; else the typed name; a bill with no name stands alone), biggest debt first. Each person shows number, phone, bill count, amount owed and the age of the oldest bill; opens to list the bills behind it. Search by name, phone or patient number.
+- **Owed**: everyone who owes, grouped by person (registered patient; else the typed name; a bill with no name stands alone), biggest debt first. Each person shows number, phone, bill count, amount owed and the age of the oldest bill; opens to list the bills behind it, and **under each bill every payment against it — date, time, amount, how, and who took it**, starting with what was paid at the counter (C-034). Search by name, phone or patient number.
 - **Receive payment**: the amount starts at everything owed; a smaller amount clears the **oldest bill first**, and the split is shown before saving. More than is owed is refused. Cash or QR, with an optional note.
-- **Paid back**: every payment, newest first, shown once however many bills it cleared. The owner can **Undo** a payment entered by mistake; it stays listed, marked Undone, and the amount is owed again.
+- **Paid back**: every payment, newest first, with its date and time, shown once however many bills it cleared. The owner can **Undo** a payment entered by mistake; it stays listed, marked Undone, and the amount is owed again.
 - Money is recorded on the day it arrives, in the year that is open — a debt from a closed year can still be collected, and the closed year does not move (the rule D-060 already set for refunds).
 
 ### 4C.3 Elsewhere
@@ -350,6 +351,22 @@ Real invoices from Family Smile Dental Care Center's distributors take their dis
 
 ---
 
+## 4E — VAT PRICING *(added 2083-06-22, C-034)*
+
+With **VAT registered** on, Settings → Company asks **How rates are priced**:
+
+| Choice | Crown filling at Rs 10,000 | Bill shows |
+|---|---|---|
+| **Add 13% VAT on top** *(default)* | patient pays **Rs 11,300** | Taxable Rs 10,000 · VAT 13% Rs 1,300 · Total Rs 11,300 |
+| **Rates already include VAT** | patient pays **Rs 10,000** | Taxable Rs 8,849.56 · VAT 13% (included) Rs 1,150.44 · Total Rs 10,000 |
+
+- VAT applies to medicines and to every service ticked *VAT applicable*; a bill discount is shared across the bill, so only its VAT-able share lowers the VAT.
+- The counter's preview and the saved bill use the same calculation, so they never differ.
+- **Each bill records the choice it was made under and its taxable amount.** Changing the setting later never changes how an old bill reads, reprints or is refunded. The VAT report adds up each bill's own taxable amount.
+- A refund on a VAT-included bill gives back the amount paid; the VAT inside it goes with it.
+
+---
+
 ## 5. Non-Functional Requirements
 
 | Area | Requirement |
@@ -393,7 +410,7 @@ Real invoices from Family Smile Dental Care Center's distributors take their dis
 
 ## 8. Open Decisions (tracked, not blocking)
 
-1. **VAT on health services** — the per-service `VAT applicable` flag exists; whether Family Smile Dental Care Center bills VAT on services, and on which ones, must be confirmed with their accountant before go-live. Nothing about Nepali tax treatment is assumed or hard-coded beyond `VAT_RATE = 13%`.
+1. **VAT on health services** — *decided by the owner 2083-06-22 (C-034):* Family Smile Dental Care Center is VAT registered and charges VAT on its services; every service is VAT-able unless unticked. Whether rates **include** VAT or have it **added on top** is a setting (Settings → Company → *How rates are priced*). Which services, if any, are exempt should still be confirmed with their accountant. Nothing about Nepali tax treatment is hard-coded beyond `VAT_RATE = 13%`.
 2. **Doctor share basis** per doctor at Family Smile Dental Care Center — confirm before the payout report is trusted.
 3. Patient number format: `P-000123` flat and lifetime (recommended) vs. fiscal-year prefixed. Confirm at install.
 4. Whether the pharmacy counter at Family Smile Dental Care Center is the same physical device as the clinic front desk (affects default counter mode and the PIN switch list).

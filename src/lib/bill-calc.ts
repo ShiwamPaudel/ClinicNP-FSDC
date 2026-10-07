@@ -3,7 +3,7 @@
  * fefo/units/money code (Rules §6: never mock FEFO/unit math in POS previews).
  */
 import { allocate, type FefoBatch, type Allocation } from "@/lib/fefo";
-import { vatOf, roundToRupee } from "@/lib/money";
+import { vatOf, vatIncludedIn, roundToRupee } from "@/lib/money";
 import type { PosItem, PosUnit } from "@/lib/pos-types";
 
 export interface BillLine {
@@ -93,12 +93,63 @@ export interface BillTotals {
   subtotalPaisa: number;
   billDiscountPaisa: number;
   vatPaisa: number;
+  /** What the VAT was charged on: after discount, without the VAT itself. */
+  taxablePaisa: number;
   totalPaisa: number;
 }
 
 export interface BillConfig {
   vatRegistered: boolean;
+  /** Rates already include VAT, rather than VAT being added on top. */
+  vatInclusive: boolean;
   roundingOn: boolean;
+}
+
+/**
+ * The VAT on a bill, given how much of it is VAT-able. The one place this is
+ * worked out — the counter's preview and the server's saved bill both call it,
+ * so they cannot disagree by a paisa.
+ *
+ * The bill-level discount is shared across the whole bill in proportion to
+ * line amount, so on a mixed bill only the VAT-able share of it reduces the
+ * VAT base.
+ *
+ * Added on top: VAT is 13% of the VAT-able amount and the total grows by it.
+ * Included: the VAT-able amount already contains its VAT (13/113 of it), and
+ * the total is what the rates say.
+ */
+export function vatSplit(input: {
+  subtotalPaisa: number;
+  vatableSubtotalPaisa: number;
+  billDiscountPaisa: number;
+  vatRegistered: boolean;
+  vatInclusive: boolean;
+}): { vatPaisa: number; taxablePaisa: number; totalBeforeRoundingPaisa: number } {
+  const afterDiscount = Math.max(0, input.subtotalPaisa - input.billDiscountPaisa);
+  if (!input.vatRegistered) {
+    return { vatPaisa: 0, taxablePaisa: 0, totalBeforeRoundingPaisa: afterDiscount };
+  }
+  const discountApplied = Math.min(input.billDiscountPaisa, input.subtotalPaisa);
+  const vatableDiscount =
+    input.subtotalPaisa > 0
+      ? Math.floor((discountApplied * input.vatableSubtotalPaisa) / input.subtotalPaisa)
+      : 0;
+  const vatableNet = Math.max(0, input.vatableSubtotalPaisa - vatableDiscount);
+
+  if (input.vatInclusive) {
+    const vat = vatIncludedIn(vatableNet);
+    return {
+      vatPaisa: vat,
+      taxablePaisa: vatableNet - vat,
+      totalBeforeRoundingPaisa: afterDiscount,
+    };
+  }
+  const vat = vatOf(vatableNet);
+  return {
+    vatPaisa: vat,
+    taxablePaisa: vatableNet,
+    totalBeforeRoundingPaisa: afterDiscount + vat,
+  };
 }
 
 /**
@@ -159,31 +210,29 @@ export function billTotals(
     0,
   );
   const subtotal = medicineSubtotal + serviceSubtotal;
-  const afterDiscount = Math.max(0, subtotal - billDiscountPaisa);
 
-  let vat = 0;
-  if (config.vatRegistered) {
-    // Medicines are always VAT-able; a service only when its flag is on.
-    const vatableSubtotal =
-      medicineSubtotal +
-      serviceLines.reduce(
-        (s, l) => s + (l.vatApplicable ? serviceLineAmountPaisa(l) : 0),
-        0,
-      );
-    const discountApplied = Math.min(billDiscountPaisa, subtotal);
-    const vatableDiscount =
-      subtotal > 0
-        ? Math.floor((discountApplied * vatableSubtotal) / subtotal)
-        : 0;
-    vat = vatOf(Math.max(0, vatableSubtotal - vatableDiscount));
-  }
+  // Medicines are always VAT-able; a service only when its flag is on.
+  const vatableSubtotal =
+    medicineSubtotal +
+    serviceLines.reduce(
+      (s, l) => s + (l.vatApplicable ? serviceLineAmountPaisa(l) : 0),
+      0,
+    );
+  const split = vatSplit({
+    subtotalPaisa: subtotal,
+    vatableSubtotalPaisa: vatableSubtotal,
+    billDiscountPaisa,
+    vatRegistered: config.vatRegistered,
+    vatInclusive: config.vatInclusive,
+  });
 
-  let total = afterDiscount + vat;
+  let total = split.totalBeforeRoundingPaisa;
   if (config.roundingOn) total = roundToRupee(total);
   return {
     subtotalPaisa: subtotal,
     billDiscountPaisa,
-    vatPaisa: vat,
+    vatPaisa: split.vatPaisa,
+    taxablePaisa: split.taxablePaisa,
     totalPaisa: total,
   };
 }

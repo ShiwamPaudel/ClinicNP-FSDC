@@ -243,8 +243,7 @@ export function ConsultationDay({
 
       {!doctor.active && (
         <p className="rounded-[10px] border border-line bg-warn-100 px-4 py-3 text-[13px] text-warn-600">
-          {doctor.name} is switched off in Settings, so nobody new can be booked
-          in with them. Anything already booked is still here.
+          {doctor.name} is switched off, so no new bookings. Existing ones stay.
         </p>
       )}
 

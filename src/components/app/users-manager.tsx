@@ -106,9 +106,8 @@ export function UsersManager({ initial }: { initial: User[] }) {
     <div>
       <div className="mb-4 flex items-center justify-between">
         <p className="text-[14px] text-sage-500">
-          Everyone who can sign in. A doctor signs in to their own booked
-          consultations and nothing else — attach the sign-in to them under
-          Doctors once it is made.
+          Everyone who can sign in. Doctors see only their own bookings — link
+          their sign-in under Doctors.
         </p>
         <Button
           onClick={() => {

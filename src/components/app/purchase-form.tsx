@@ -860,8 +860,8 @@ export function PurchaseForm({
               </p>
             )}
             <p className="max-w-[320px] text-right text-[12px] text-sage-500">
-              What is on credit is added to what the supplier is owed. Pay the
-              rest later from Payables.
+              The unpaid part is added to what you owe them. Pay it later in
+              Payables.
             </p>
           </div>
         )}
@@ -911,9 +911,8 @@ export function PurchaseForm({
             className="flex flex-col gap-3"
           >
             <p className="text-[13.5px] text-sage-700">
-              This changes a saved purchase and the stock it put on the shelf.
-              Type your password to save it. The change is recorded under your
-              name.
+              This changes a saved purchase and its stock. Enter your password
+              to confirm.
             </p>
             <Field label="Your password" htmlFor="confirm-password">
               <Input

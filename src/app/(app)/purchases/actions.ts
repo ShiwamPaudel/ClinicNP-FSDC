@@ -103,7 +103,7 @@ async function resolveLines(
 
 export async function createPurchaseAction(input: unknown): Promise<ActionResult> {
   try {
-    await requireModule("pharmacy");
+    await requireModule("supplies");
     const user = await assertAdmin();
     const parsed = purchaseSchema.safeParse(input);
     if (!parsed.success) {
@@ -164,7 +164,7 @@ export async function createPurchaseAction(input: unknown): Promise<ActionResult
  */
 export async function updatePurchaseAction(input: unknown): Promise<ActionResult> {
   try {
-    await requireModule("pharmacy");
+    await requireModule("supplies");
     const user = await assertAdmin();
     const parsed = purchaseUpdateSchema.safeParse(input);
     if (!parsed.success) {
@@ -226,7 +226,7 @@ export async function createPurchaseReturnAction(
   input: unknown,
 ): Promise<ActionResult> {
   try {
-    await requireModule("pharmacy");
+    await requireModule("supplies");
     const user = await assertAdmin();
     const parsed = purchaseReturnSchema.safeParse(input);
     if (!parsed.success) {

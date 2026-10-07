@@ -15,7 +15,7 @@ const TABS: {
   pharmacy?: boolean;
 }[] = [
   { href: "/settings/company", label: "Company" },
-  { href: "/settings/modules", label: "Modules" },
+  { href: "/settings/modules", label: "Features" },
   { href: "/settings/services", label: "Services", clinic: true },
   { href: "/settings/doctors", label: "Doctors", clinic: true },
   { href: "/settings/lab-partners", label: "Lab partners", clinic: true },

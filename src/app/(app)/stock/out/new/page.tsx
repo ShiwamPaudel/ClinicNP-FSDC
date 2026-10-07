@@ -12,7 +12,7 @@ export const metadata = { title: "Record stock out" };
 
 export default async function NewStockOutPage() {
   await requireAdmin();
-  await requireModulePage("pharmacy");
+  await requireModulePage("supplies");
 
   const modules = await getModules();
   const [items, batches, suppliers] = await Promise.all([

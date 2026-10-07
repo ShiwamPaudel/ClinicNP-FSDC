@@ -178,10 +178,10 @@ export function DoctorsManager({
       {(!phoneAlertsReady || !emailReady) && (
         <div className="mb-4 rounded-[10px] border border-line bg-warn-100 px-4 py-3 text-[13px] text-warn-600">
           {!phoneAlertsReady && !emailReady
-            ? "Alerts to phones and emails are not switched on yet, so nothing will reach a doctor when a consultation is booked. Everything else here works."
+            ? "Phone and email alerts aren't set up yet, so doctors won't be told about bookings."
             : !phoneAlertsReady
-              ? "Alerts to phones are not switched on yet. Emails will still go out."
-              : "Email is not switched on yet. Alerts to phones will still go out."}
+              ? "Phone alerts aren't set up yet. Emails still go out."
+              : "Email isn't set up yet. Phone alerts still go out."}
         </div>
       )}
 

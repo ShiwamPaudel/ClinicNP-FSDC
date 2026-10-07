@@ -217,7 +217,7 @@ export function DoctorProfile({
             : alerts.state === "blocked"
               ? strings.alertsBlocked
               : alerts.state === "unsupported"
-                ? "Add this to your home screen and open it from there, then alerts can be turned on."
+                ? "Add this app to your home screen and open it from there to turn on alerts."
                 : alerts.state === "checking"
                   ? "Checking…"
                   : strings.alertsOff}
@@ -260,8 +260,7 @@ export function DoctorProfile({
         {alerts.state === "on" && (
           <p className="flex items-start gap-2 text-[12px] text-sage-500">
             <BellRing className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-            Alerts are on for this phone only. Turn them on again on any other
-            phone or tablet you want to be alerted on.
+            Alerts are on for this phone only.
           </p>
         )}
       </section>

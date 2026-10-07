@@ -62,9 +62,8 @@ export function LogoUpload({
           Bill header image
         </div>
         <p className="mt-0.5 max-w-[560px] text-[12px] text-sage-500">
-          Printed across the top of every bill, above the invoice details. Use
-          your letterhead band — the whole strip, name and logo together. PNG or
-          JPG, wide rather than tall.
+          Printed across the top of every bill. Use a wide image of your
+          letterhead (PNG or JPG).
         </p>
       </div>
 

@@ -271,12 +271,13 @@ export const ingestBillSchema = z.object({
 export type IngestBillPayload = z.infer<typeof ingestBillSchema>;
 
 export const companySchema = z.object({
-  name: z.string().min(1, "Enter the pharmacy name"),
+  name: z.string().min(1, "Enter the name"),
   address: z.string(),
   phone: z.string(),
   panNo: z.string(),
   ddaNo: z.string(),
   vatRegistered: z.boolean(),
+  vatInclusive: z.boolean().default(false),
   invoiceFooter: z.string(),
   logoUrl: z.string().nullable(),
   // Kept only so an older stored value still parses. There is one bill

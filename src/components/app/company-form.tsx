@@ -11,11 +11,23 @@ import { LogoUpload } from "@/components/app/logo-upload";
 import type { Company } from "@/lib/repos/company";
 import { strings } from "@/lib/strings";
 
-export function CompanyForm({ initial }: { initial: Company }) {
+export function CompanyForm({
+  initial,
+  pharmacyOn,
+}: {
+  initial: Company;
+  /** Medicine-only settings are hidden when the Pharmacy module is off. */
+  pharmacyOn: boolean;
+}) {
   const toast = useToast();
   const [saving, setSaving] = useState(false);
   const { register, handleSubmit, watch, setValue } = useForm<Company>({
-    defaultValues: initial,
+    // Radio inputs carry text, so the VAT choice starts as "true"/"false"
+    // and is turned back into a boolean on save.
+    defaultValues: {
+      ...initial,
+      vatInclusive: String(initial.vatInclusive) as unknown as boolean,
+    },
   });
 
   const values = watch();
@@ -25,6 +37,8 @@ export function CompanyForm({ initial }: { initial: Company }) {
     const res = await saveCompanyAction({
       ...data,
       vatRegistered: Boolean(data.vatRegistered),
+      // Radio values arrive as text.
+      vatInclusive: String(data.vatInclusive) === "true",
       roundingOn: Boolean(data.roundingOn),
       minRateIsCost: Boolean(data.minRateIsCost),
       expiryAlertDays: Number(data.expiryAlertDays) as 30 | 60 | 90,
@@ -47,7 +61,7 @@ export function CompanyForm({ initial }: { initial: Company }) {
           {strings.companyDetails}
         </h2>
 
-        <Field label={strings.pharmacyName} htmlFor="name">
+        <Field label={pharmacyOn ? strings.pharmacyName : "Clinic name"} htmlFor="name">
           <Input id="name" {...register("name")} />
         </Field>
         <div className="grid gap-4 sm:grid-cols-2">
@@ -62,26 +76,30 @@ export function CompanyForm({ initial }: { initial: Company }) {
           <Input id="address" {...register("address")} />
         </Field>
         <div className="grid gap-4 sm:grid-cols-2">
-          <Field label={strings.ddaNumber} htmlFor="dda">
-            <Input id="dda" {...register("ddaNo")} />
-          </Field>
+          {pharmacyOn && (
+            <Field label={strings.ddaNumber} htmlFor="dda">
+              <Input id="dda" {...register("ddaNo")} />
+            </Field>
+          )}
           <Field label={strings.invoiceFooter} htmlFor="footer">
             <Input id="footer" {...register("invoiceFooter")} />
           </Field>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
-          <Field label={strings.expiryAlertWindow} htmlFor="expiry">
-            <Select id="expiry" {...register("expiryAlertDays")}>
-              <option value={30}>30 days</option>
-              <option value={60}>60 days</option>
-              <option value={90}>90 days</option>
-            </Select>
-          </Field>
+          {pharmacyOn && (
+            <Field label={strings.expiryAlertWindow} htmlFor="expiry">
+              <Select id="expiry" {...register("expiryAlertDays")}>
+                <option value={30}>30 days</option>
+                <option value={60}>60 days</option>
+                <option value={90}>90 days</option>
+              </Select>
+            </Field>
+          )}
           <Field
             label="Calendar for dates"
             htmlFor="dateCalendar"
-            hint="Date boxes open in this one. Each box can switch for a single pick. Bills and reports stay in Nepali dates."
+            hint="Which calendar date boxes open in. Bills and reports always use Nepali dates."
           >
             <Select id="dateCalendar" {...register("dateCalendar")}>
               <option value="bs">Nepali (BS)</option>
@@ -100,29 +118,68 @@ export function CompanyForm({ initial }: { initial: Company }) {
             <input type="checkbox" {...register("vatRegistered")} />
             {strings.vatRegistered}
           </label>
+          {values.vatRegistered && (
+            <fieldset className="ml-6 flex flex-col gap-1.5 rounded-[8px] border border-line bg-cream-100 px-3 py-2.5">
+              <legend className="px-1 text-[12px] font-semibold text-sage-700">
+                How rates are priced
+              </legend>
+              <label className="flex items-start gap-2 text-[13.5px] text-sage-900">
+                <input
+                  type="radio"
+                  value="false"
+                  className="mt-1"
+                  {...register("vatInclusive")}
+                />
+                <span>
+                  Add 13% VAT on top
+                  <span className="block text-[12px] text-sage-500">
+                    Rate Rs 10,000 → patient pays Rs 11,300
+                  </span>
+                </span>
+              </label>
+              <label className="flex items-start gap-2 text-[13.5px] text-sage-900">
+                <input
+                  type="radio"
+                  value="true"
+                  className="mt-1"
+                  {...register("vatInclusive")}
+                />
+                <span>
+                  Rates already include VAT
+                  <span className="block text-[12px] text-sage-500">
+                    Rate Rs 10,000 → patient pays Rs 10,000 (VAT Rs 1,150.44 inside)
+                  </span>
+                </span>
+              </label>
+            </fieldset>
+          )}
           <label className="flex items-center gap-2 text-[14px] text-sage-900">
             <input type="checkbox" {...register("roundingOn")} />
             {strings.roundGrandTotal}
           </label>
-          <label className="flex items-center gap-2 text-[14px] text-sage-900">
-            <input type="checkbox" {...register("minRateIsCost")} />
-            {strings.minRateIsCost}
-          </label>
+          {pharmacyOn && (
+            <label className="flex items-center gap-2 text-[14px] text-sage-900">
+              <input type="checkbox" {...register("minRateIsCost")} />
+              {strings.minRateIsCost}
+            </label>
+          )}
         </div>
 
-        <div className="border-t border-line pt-3">
-          <Field
-            label="Where a medicine is kept"
-            htmlFor="rackDisplay"
-            hint="Shown at the counter once a medicine is found."
-          >
-            <Select id="rackDisplay" {...register("rackDisplay")}>
-              <option value="off">Do not show</option>
-              <option value="text">Write the shelf out — Rack 1 · R2C3</option>
-              <option value="visual">Show the racks and light up the shelf</option>
-            </Select>
-          </Field>
-        </div>
+        {pharmacyOn && (
+          <div className="border-t border-line pt-3">
+            <Field
+              label="Where a medicine is kept"
+              htmlFor="rackDisplay"
+              hint="Shown at the counter once a medicine is found."
+            >
+              <Select id="rackDisplay" {...register("rackDisplay")}>
+                <option value="off">Do not show</option>
+                <option value="text">Write the shelf out — Rack 1 · R2C3</option>
+                <option value="visual">Show the racks and light up the shelf</option>
+              </Select>
+            </Field>
+          </div>
+        )}
 
         <div className="flex justify-end">
           <Button type="submit" disabled={saving}>
@@ -151,7 +208,7 @@ export function CompanyForm({ initial }: { initial: Company }) {
           ) : (
             <>
               <div className="text-center text-[15px] font-bold">
-                {values.name || "Your pharmacy name"}
+                {values.name || (pharmacyOn ? "Your pharmacy name" : "Your clinic name")}
               </div>
               <div className="text-center text-[11px]">
                 {values.address || "Address"}
@@ -171,8 +228,7 @@ export function CompanyForm({ initial }: { initial: Company }) {
           </div>
         </div>
         <p className="mt-2 text-[11px] text-sage-500">
-          Bills print on a normal A4 sheet. Change the header image above to
-          change how this looks.
+          Bills print on A4. Change the header image to change this.
         </p>
       </div>
     </div>

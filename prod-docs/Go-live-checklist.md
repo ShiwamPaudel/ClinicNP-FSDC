@@ -8,7 +8,7 @@ clinic bills a real patient.
 
 ---
 
-## Where Family Smile Dental Care Center actually stands  ·  2083-06-20
+## Where Family Smile Dental Care Center actually stands  ·  2083-06-22
 
 Kept current so nobody re-does finished work or assumes unfinished work is done.
 
@@ -37,6 +37,13 @@ was:
 pnpm db:bootstrap --clinic --name "Family Smile Dental Care Center" --pan <PAN>   --address "…" --phone "…" --admin <username> --admin-name "<name>"   --password "<8+ characters>" --pin <4-6 digits>
 ```
 
+**Since then, 2083-06-22** (C-034): the owner turned **Pharmacy off** (clinic
+only — suppliers, purchases, stock and payables stay, under **Supplies**) and
+**VAT registered on** (VAT added on top of rates until they choose *Rates
+already include VAT*). Their doctor, laboratory, service groups and **Crown
+Filling** (VAT-able) are kept. **Trial patients, visits, bills and dues were
+cleared**, and patient, bill and visit numbering restart at 1. 24 migrations.
+
 **No letterhead is set, on purpose.** `public/logo-fsdc.png` is the clinic's
 logo, not a letterhead band — and when an image is set, the bill prints the
 image *instead of* the name, address and phone. Until the clinic supplies a full
@@ -48,7 +55,7 @@ company details as text.
 | | What | Where |
 |---|---|---|
 | 🔴 | **Replace the admin password and PIN** — both are simple placeholders, set so the clinic can configure their own. Do this before the site is reachable from outside | Settings → Users |
-| 🟠 | **Address**, and the **VAT registered** switch once their accountant confirms it | Settings → Company |
+| 🟠 | **Address**; confirm with their accountant which services, if any, are VAT-exempt, and whether rates include VAT | Settings → Company · Settings → Services |
 | 🔴 | Real user accounts, roles and PINs — one shared admin login is not an audit trail | Settings → Users |
 | 🟠 | **DDA number**, and the invoice footer text | Settings → Company |
 | 🟠 | **Letterhead** — a full header band, if they want one, rather than the logo alone (see above) | Settings → Company |

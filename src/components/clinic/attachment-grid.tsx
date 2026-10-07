@@ -8,6 +8,7 @@ import { useToast } from "@/components/ui/toast";
 import { Dialog } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { formatSize, isImage, MAX_FILES_PER_UPLOAD } from "@/lib/files";
+import { nepalDayIso } from "@/lib/clock";
 import { cn } from "@/lib/cn";
 
 export interface AttachmentView {
@@ -193,7 +194,7 @@ export function AttachmentGrid({
                   {KIND_LABEL[f.kind] ?? f.kind} · {formatSize(f.sizeBytes)}
                 </span>
                 <span className="text-[11px] text-sage-500">
-                  {f.createdAt.slice(0, 10)}
+                  {nepalDayIso(f.createdAt)}
                 </span>
               </a>
               <div className="mt-2 flex gap-1">

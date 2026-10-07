@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/toast";
 import type { BackupRecord } from "@/lib/repos/backup";
+import { nepalDayIso } from "@/lib/clock";
 import type { BackupStorage } from "@/lib/backups";
 import { KEEP, isKeptKey, purposeOf, type BackupPurpose } from "@/lib/backup-keys";
 import { adFromIso, toBS, formatBS } from "@/lib/bs";
@@ -96,8 +97,7 @@ export function BackupPanel({
       <div className="rounded-[10px] border border-line bg-cream-50 p-5">
         <h2 className="text-[16px] font-semibold text-sage-900">Back up your data</h2>
         <p className="mt-1 max-w-md text-[13px] text-sage-500">
-          Download a full copy of everything — items, stock, bills, and settings —
-          as a single file you can keep safe.
+          Download one file with all your data. Keep it somewhere safe.
         </p>
         <a href="/api/backup/download" className="mt-3 inline-block">
           <Button>
@@ -116,16 +116,12 @@ export function BackupPanel({
           </h2>
         </div>
         <p className="mt-1 max-w-md text-[13px] text-sage-500">
-          This returns the <b>whole system</b> to how it was when the backup was
-          taken — every bill, patient, visit, service, price and stock figure,
-          and the fiscal years with whichever one was open at the time. Anything
-          entered since then is gone, and it can&apos;t be undone. Type{" "}
-          <b>RESTORE</b> to confirm.
+          Puts <b>everything</b> back as it was in the backup. Anything entered
+          since is lost, and this can&apos;t be undone. Type <b>RESTORE</b> to
+          confirm.
         </p>
         <p className="mt-1 max-w-md text-[13px] text-sage-500">
-          Patient files are not inside the backup file — a clinic&apos;s scans
-          are far too large for that. The backup lists which files should exist,
-          and after restoring you are told how many of them can still be found.
+          Patient files (scans, photos) are not inside the backup.
         </p>
         <div className="mt-3 flex flex-col gap-3 sm:max-w-md">
           <input
@@ -166,7 +162,7 @@ export function BackupPanel({
           <ul className="flex flex-col divide-y divide-line text-[14px]">
             {backups.map((b) => {
               const kept = isKeptKey(b.blobUrl);
-              const date = formatBS(toBS(adFromIso(b.createdAt.slice(0, 10))), {
+              const date = formatBS(toBS(adFromIso(nepalDayIso(b.createdAt))), {
                 form: "long",
                 monthScript: "en",
               });
@@ -204,10 +200,8 @@ export function BackupPanel({
         )}
         {backups.some((b) => !isKeptKey(b.blobUrl)) && (
           <p className="mt-3 max-w-xl text-[12px] text-sage-500">
-            “Not kept” and “Downloaded only” mean no copy is stored here. Before
-            backups were kept, the nightly job wrote down a backup&apos;s size
-            and nothing else. A “Back up now” file is wherever it was saved on
-            the computer that downloaded it.
+            “Not kept” and “Downloaded only” have no copy here. A downloaded
+            backup is wherever it was saved.
           </p>
         )}
       </div>
@@ -222,11 +216,9 @@ function StorageStatus({ storage }: { storage: BackupStorage }) {
       <p className="mt-3 flex max-w-xl items-start gap-2 rounded-[8px] bg-ok-100 p-3 text-[13px] text-ok-600">
         <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0" />
         <span>
-          Automatic backups are on. A full copy is saved to private storage
-          every night and the last {KEEP.nightly} are kept. Each “Back up now”
-          keeps a copy there too (the last {KEEP.manual}), and the copy taken
-          before closing a year is kept for good.
-          {storage === "local" && " (Test setup: copies are kept on this computer.)"}
+          Automatic backups are on. Saved every night; the last {KEEP.nightly}{" "}
+          are kept.
+          {storage === "local" && " (Test setup: kept on this computer.)"}
         </span>
       </p>
     );
@@ -237,10 +229,9 @@ function StorageStatus({ storage }: { storage: BackupStorage }) {
       <span>
         <b>Automatic backups are off.</b>{" "}
         {storage === "refused"
-          ? "The storage connected to ClinicNP is public, so it is not used for anything with patient details in it."
-          : "No private storage is connected, so nothing is saved on its own."}{" "}
-        Until it is, press “Back up now” regularly and keep the file somewhere
-        safe, away from this computer.
+          ? "They can't be turned on as set up — ask support."
+          : "Ask support to turn them on."}{" "}
+        Until then, press “Back up now” often and keep the file safe.
       </span>
     </p>
   );

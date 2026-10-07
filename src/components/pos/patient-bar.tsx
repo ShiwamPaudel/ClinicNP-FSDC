@@ -474,8 +474,8 @@ export function PatientBar({
             {offline && (
               <p className="flex items-center gap-2 px-1 text-[13px] text-warn-600">
                 <CloudOff className="h-4 w-4" />
-                The connection is down, so this is searching only the people
-                seen here recently. Someone new can still be registered.
+                Offline: searching recent patients only. You can still add a new
+                one.
               </p>
             )}
 

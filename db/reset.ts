@@ -244,8 +244,25 @@ async function main() {
     );
   }
 
-  console.log(`Emptied ${total} row(s); patient numbering restarts at 1.`);
-  if (keepAccess) {
+  // A kept fiscal year still carries the numbering of the bills, visits,
+  // returns, purchases and stock-outs just deleted. Every transaction is gone,
+  // so numbering starts again too — otherwise the first real bill would be
+  // SI-…-000003 with no 1 or 2 anywhere.
+  if (KEPT_BY_FLAG.includes("fiscal_years") && present.has("fiscal_years")) {
+    await client.execute(
+      `UPDATE fiscal_years
+          SET next_invoice_no = 1, next_return_no = 1, next_purchase_no = 1,
+              next_visit_no = 1, next_stockout_no = 1`,
+    );
+  }
+
+  console.log(
+    `Emptied ${total} row(s); patient, bill, visit, return, purchase and ` +
+      "stock-out numbering restart at 1.",
+  );
+  if (keepSetup) {
+    console.log("Setup was kept — nothing else to run.\n");
+  } else if (keepAccess) {
     console.log("Users and company were kept. Check Settings → Company still");
     console.log("reads right, and change the Admin password if it is seeded.\n");
   } else {

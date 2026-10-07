@@ -198,7 +198,7 @@ export async function closeYearAction(
       const since = new Date(Date.now() - DOWNLOADED_BACKUP_WINDOW_MS).toISOString();
       if (!(await backupTakenSince(since))) {
         return fail(
-          "Download a backup first with “Download a backup”, then close the year. Automatic backups are not set up, so that file is the way back.",
+          "Download a backup first, then close the year.",
         );
       }
     }

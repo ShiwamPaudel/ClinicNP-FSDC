@@ -142,10 +142,9 @@ export function PricingGrid({ items }: { items: PricingItem[] }) {
                 {unpricedCount} medicine{unpricedCount === 1 ? " has" : "s have"} no
                 price yet
               </strong>
-              . Type a price against each unit you sell by and save. Leaving a
-              box empty leaves that price as it is. You can also price a
-              medicine at the counter: the first time one is sold, it asks for
-              a price and keeps what you type.
+              . Enter a price for each unit and save. Empty boxes are left as
+              they are. You can also set a price at the counter on its first
+              sale.
             </>
           ) : (
             <>

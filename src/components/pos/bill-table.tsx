@@ -20,6 +20,8 @@ import { cn } from "@/lib/cn";
 export interface PosConfig {
   appName: string;
   vatRegistered: boolean;
+  /** rates already include VAT, rather than VAT being added on top */
+  vatInclusive: boolean;
   roundingOn: boolean;
   /** whether the counter says where a medicine is kept, and how loudly */
   rackDisplay: RackDisplay;

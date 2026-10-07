@@ -37,7 +37,7 @@ function handle(err: unknown): ActionResult {
 
 export async function saveSupplierAction(input: unknown): Promise<ActionResult> {
   try {
-    await requireModule("pharmacy");
+    await requireModule("supplies");
     await assertAdmin();
     const parsed = supplierSchema.safeParse(input);
     if (!parsed.success) {
@@ -60,7 +60,7 @@ export async function saveSupplierAction(input: unknown): Promise<ActionResult> 
 
 export async function recordPaymentAction(input: unknown): Promise<ActionResult> {
   try {
-    await requireModule("pharmacy");
+    await requireModule("supplies");
     const user = await assertAdmin();
     const parsed = supplierPaymentSchema.safeParse(input);
     if (!parsed.success) {

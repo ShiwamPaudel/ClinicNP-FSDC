@@ -25,6 +25,8 @@ export interface Company {
   panNo: string;
   ddaNo: string;
   vatRegistered: boolean;
+  /** Rates already include VAT (0024). Only means anything when VAT registered. */
+  vatInclusive: boolean;
   invoiceFooter: string;
   logoUrl: string | null;
   printFormat: PrintFormat;
@@ -43,6 +45,7 @@ const DEFAULTS: Company = {
   panNo: "",
   ddaNo: "",
   vatRegistered: false,
+  vatInclusive: false,
   invoiceFooter: "Get well soon",
   logoUrl: null,
   printFormat: "thermal",
@@ -61,6 +64,7 @@ function mapCompany(r: Row): Company {
     panNo: r.pan_no as string,
     ddaNo: r.dda_no as string,
     vatRegistered: Number(r.vat_registered) === 1,
+    vatInclusive: Number(r.vat_inclusive ?? 0) === 1,
     invoiceFooter: r.invoice_footer as string,
     logoUrl: (r.logo_url as string | null) ?? null,
     printFormat: r.print_format as PrintFormat,
@@ -82,10 +86,10 @@ export async function getCompany(): Promise<Company> {
 export async function saveCompany(c: Company): Promise<void> {
   await db().execute({
     sql: `INSERT INTO company
-            (id, name, address, phone, pan_no, dda_no, vat_registered, invoice_footer,
-             logo_url, print_format, rounding_on, expiry_alert_days, min_rate_is_cost,
-             rack_display, date_calendar, updated_at)
-          VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            (id, name, address, phone, pan_no, dda_no, vat_registered, vat_inclusive,
+             invoice_footer, logo_url, print_format, rounding_on, expiry_alert_days,
+             min_rate_is_cost, rack_display, date_calendar, updated_at)
+          VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
           ON CONFLICT(id) DO UPDATE SET
             name = excluded.name,
             address = excluded.address,
@@ -93,6 +97,7 @@ export async function saveCompany(c: Company): Promise<void> {
             pan_no = excluded.pan_no,
             dda_no = excluded.dda_no,
             vat_registered = excluded.vat_registered,
+            vat_inclusive = excluded.vat_inclusive,
             invoice_footer = excluded.invoice_footer,
             logo_url = excluded.logo_url,
             print_format = excluded.print_format,
@@ -109,6 +114,7 @@ export async function saveCompany(c: Company): Promise<void> {
       c.panNo,
       c.ddaNo,
       c.vatRegistered ? 1 : 0,
+      c.vatInclusive ? 1 : 0,
       c.invoiceFooter,
       c.logoUrl,
       c.printFormat,

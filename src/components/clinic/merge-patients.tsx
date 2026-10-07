@@ -179,9 +179,8 @@ export function MergePatients({
       >
         <p className="text-[14px] leading-[1.5] text-sage-900">
           Everything under <span className="font-semibold">{merge?.name}</span>{" "}
-          moves to <span className="font-semibold">{keep?.name}</span>. The
-          merged record stays visible, pointing at the one you kept, and its
-          number is retired for good. This can&apos;t be undone.
+          moves to <span className="font-semibold">{keep?.name}</span>. This
+          can&apos;t be undone.
         </p>
         <label className="mt-4 block text-[13px] font-medium text-sage-900">
           Type <span className="font-mono text-magenta-600">merge</span> to confirm

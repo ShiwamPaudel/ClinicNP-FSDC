@@ -9,7 +9,7 @@ import {
 
 export default async function SuppliersPage() {
   await requireAdmin();
-  await requireModulePage("pharmacy");
+  await requireModulePage("supplies");
   const suppliers = await listSuppliers(true);
   const rows: SupplierRow[] = await Promise.all(
     suppliers.map(async (s) => ({

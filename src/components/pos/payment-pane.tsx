@@ -119,6 +119,7 @@ export const PaymentPane = forwardRef<
     },
     {
       vatRegistered: config.vatRegistered,
+      vatInclusive: config.vatInclusive,
       roundingOn: config.roundingOn,
     },
   );
@@ -228,7 +229,10 @@ export const PaymentPane = forwardRef<
           </div>
         )}
         {config.vatRegistered && (
-          <Row label="VAT (13%)" value={formatPaisa(totals.vatPaisa)} />
+          <Row
+            label={config.vatInclusive ? "VAT 13% (included)" : "VAT 13%"}
+            value={formatPaisa(totals.vatPaisa)}
+          />
         )}
       </div>
 

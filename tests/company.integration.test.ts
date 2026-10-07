@@ -64,6 +64,7 @@ describe("the company profile", () => {
       panNo: "601234567",
       ddaNo: "DDA-99",
       vatRegistered: true,
+      vatInclusive: true,
       invoiceFooter: "Get well soon",
       logoUrl: null,
       printFormat: "a5",
@@ -81,6 +82,7 @@ describe("the company profile", () => {
     expect(saved.panNo).toBe("601234567");
     expect(saved.ddaNo).toBe("DDA-99");
     expect(saved.vatRegistered).toBe(true);
+    expect(saved.vatInclusive).toBe(true);
     expect(saved.printFormat).toBe("a5");
     expect(saved.roundingOn).toBe(true);
     expect(saved.expiryAlertDays).toBe(90);
@@ -118,6 +120,7 @@ describe("the company profile", () => {
       panNo: "1",
       ddaNo: "2",
       vatRegistered: true,
+      vatInclusive: false,
       invoiceFooter: "f",
       logoUrl: null,
       printFormat: "thermal",

@@ -39,8 +39,11 @@ interface NavItem {
  * on the server.
  */
 interface NavGroup {
-  /** null = ungrouped, always shown. */
-  module: "clinic" | "pharmacy" | null;
+  /**
+   * null = ungrouped, always shown. "supplies" is shown with either module:
+   * a clinic buys materials from suppliers too, without selling medicine.
+   */
+  module: "clinic" | "pharmacy" | "supplies" | null;
   label?: string;
   /**
    * How many tiles sit side by side when the menu is open. Two is the default
@@ -73,7 +76,8 @@ const GROUPS: NavGroup[] = [
     ],
   },
   {
-    module: "pharmacy",
+    // Called "Supplies" on a clinic with no pharmacy (see groupLabel).
+    module: "supplies",
     label: "Pharmacy",
     items: [
       { href: "/stock", label: "Stock", icon: Boxes },
@@ -109,12 +113,16 @@ export function Nav({
 }) {
   const pathname = usePathname();
 
+  const groupOn = (m: NavGroup["module"]) =>
+    m === null ||
+    (m === "supplies" ? modules.pharmacy || modules.clinic : modules[m]);
+
   const visible = GROUPS.map((g) => ({
     ...g,
+    label:
+      g.module === "supplies" && !modules.pharmacy ? "Supplies" : g.label,
     items: g.items.filter(
-      (i) =>
-        (!i.adminOnly || role === "admin") &&
-        (g.module === null || modules[g.module]),
+      (i) => (!i.adminOnly || role === "admin") && groupOn(g.module),
     ),
   })).filter((g) => g.items.length > 0);
 

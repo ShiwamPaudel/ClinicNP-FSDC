@@ -198,6 +198,24 @@ export interface OwedBill {
   /** the registered name, or what was typed on the bill */
   name: string;
   phone: string;
+  /**
+   * Every payment against this bill, oldest first: what was paid at the
+   * counter when it was made, then each payment since. Undone payments are
+   * left out. Filled by the dues screen; absent where it is not needed.
+   */
+  payments?: DuePaymentEntry[];
+}
+
+/** One payment against a bill on dues, with when it was taken. */
+export interface DuePaymentEntry {
+  /** paid at the counter when the bill was made, or received later */
+  kind: "at_sale" | "later";
+  dateBs: string;
+  /** UTC timestamp; shown in Nepal time */
+  at: string;
+  amountPaisa: number;
+  method: string;
+  userName: string;
 }
 
 /** Everything one person owes. */

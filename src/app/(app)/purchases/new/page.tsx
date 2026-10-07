@@ -11,7 +11,7 @@ import { PackagePlus } from "lucide-react";
 
 export default async function NewPurchasePage() {
   await requireAdmin();
-  await requireModulePage("pharmacy");
+  await requireModulePage("supplies");
   const [items, suppliers] = await Promise.all([
     listItems(),
     listSuppliers(),

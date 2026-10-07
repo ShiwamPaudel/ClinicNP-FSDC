@@ -29,6 +29,7 @@ import {
   type MoneyMethod,
   type OwedBill,
   type DuePerson,
+  type DuePaymentEntry,
 } from "@/lib/dues";
 import {
   getOpenFiscalYear,
@@ -81,12 +82,15 @@ export function balanceOfRow(r: Row): number {
 const OWED_SELECT = `
   SELECT b.id, b.invoice_no, b.date_ad, b.date_bs, b.total_paisa, b.due_paisa,
          b.payment_method, b.status, b.credit_settled_at, b.patient_id,
-         b.patient_name, f.bs_label, p.patient_no,
+         b.patient_name, b.client_created_at, b.paid_now_method,
+         f.bs_label, p.patient_no,
          p.name AS registered_name, p.phone AS patient_phone,
+         u.name AS bill_user_name,
          ${DUE_FACTS_SQL}
     FROM bills b
     LEFT JOIN fiscal_years f ON f.id = b.fiscal_year_id
     LEFT JOIN patients p ON p.id = b.patient_id
+    LEFT JOIN users u ON u.id = b.user_id
    WHERE b.payment_method = 'credit'
      AND b.status = 'saved'
      AND b.credit_settled_at IS NULL`;
@@ -108,7 +112,53 @@ function mapOwed(r: Row): OwedBill {
     patientNo: r.patient_no != null ? Number(r.patient_no) : null,
     name: registered || ((r.patient_name as string | null) ?? ""),
     phone: (r.patient_phone as string | null) ?? "",
+    payments: atSalePayment(r),
   };
+}
+
+/** What was paid at the counter when a bill on dues was made, if anything. */
+function atSalePayment(r: Row): DuePaymentEntry[] {
+  const paidNow = Number(r.total_paisa) - Number(r.owed_at_sale_paisa);
+  if (paidNow <= 0) return [];
+  return [
+    {
+      kind: "at_sale",
+      dateBs: r.date_bs as string,
+      at: (r.client_created_at as string | null) ?? "",
+      amountPaisa: paidNow,
+      method: (r.paid_now_method as string | null) ?? "cash",
+      userName: (r.bill_user_name as string | null) ?? "",
+    },
+  ];
+}
+
+/** Payments received later against these bills, oldest first, undone ones left out. */
+async function laterPayments(billIds: string[]): Promise<Map<string, DuePaymentEntry[]>> {
+  const out = new Map<string, DuePaymentEntry[]>();
+  if (billIds.length === 0) return out;
+  const res = await db().execute({
+    sql: `SELECT dp.bill_id, dp.date_bs, dp.created_at, dp.amount_paisa, dp.method,
+                 u.name AS user_name
+            FROM due_payments dp
+            LEFT JOIN users u ON u.id = dp.user_id
+           WHERE dp.voided_at IS NULL
+             AND dp.bill_id IN (${billIds.map(() => "?").join(",")})
+           ORDER BY dp.created_at`,
+    args: billIds,
+  });
+  for (const r of res.rows) {
+    const id = r.bill_id as string;
+    if (!out.has(id)) out.set(id, []);
+    out.get(id)!.push({
+      kind: "later",
+      dateBs: r.date_bs as string,
+      at: r.created_at as string,
+      amountPaisa: Number(r.amount_paisa),
+      method: r.method as string,
+      userName: (r.user_name as string | null) ?? "",
+    });
+  }
+  return out;
 }
 
 /** Every bill that still owes something, oldest first. */
@@ -119,10 +169,15 @@ export async function listOwedBills(
     sql: `${OWED_SELECT} ${filter.patientId ? "AND b.patient_id = ?" : ""}`,
     args: filter.patientId ? [filter.patientId] : [],
   });
-  return res.rows
+  const owed = res.rows
     .map(mapOwed)
     .filter((b) => b.balancePaisa > 0)
     .sort(compareOldestFirst);
+  const later = await laterPayments(owed.map((b) => b.id));
+  for (const b of owed) {
+    b.payments = [...(b.payments ?? []), ...(later.get(b.id) ?? [])];
+  }
+  return owed;
 }
 
 /** Everybody who owes money, biggest debt first. */
@@ -159,6 +214,8 @@ export interface DuePaymentRow {
   note: string;
   dateBs: string;
   dateAd: string;
+  /** when it was taken, UTC; shown in Nepal time */
+  createdAt: string;
   userName: string;
   voided: boolean;
   /** only a payment recorded in the open year can be undone */
@@ -223,6 +280,7 @@ export async function getBillDues(billId: string): Promise<BillDues | null> {
       note: (r.note as string) ?? "",
       dateBs: r.date_bs as string,
       dateAd: r.date_ad as string,
+      createdAt: (r.created_at as string | null) ?? "",
       userName: (r.user_name as string | null) ?? "",
       voided: r.voided_at != null,
       yearOpen: (r.fy_status as string | null) === "open",

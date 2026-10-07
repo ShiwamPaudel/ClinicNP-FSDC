@@ -23,7 +23,7 @@
 
 *Last rewritten 2083-05-26 (C-014); production figures re-read 2083-06-06 (C-016). Everything below is verified against production, not remembered.*
 
-> **This install's database is new, bootstrapped and signs in.** Checked 2083-06-20 against `clinicnpforfsdc-fsdc.aws-ap-south-1.turso.io`: it held **0 tables** before this session; **23 migrations** applied (ends at `0023_payables.sql`), and **6,646 items and 14,187 units** imported from `import-templates/fsdc-items.csv`, every rate blank (C-032). **Bootstrapped 2083-06-21** (C-033): company row with PAN/VAT no. and phone (address blank, `vat_registered` off pending their accountant), **clinic + pharmacy on**, fiscal year **2083/84 open**, one Admin (`admin`). Sign-in verified end to end against a running server. 🔴 The admin password and PIN are deliberately simple placeholders the owner chose, to be changed by the clinic (Rule 7: the values are not written here). **No letterhead is set**: `public/logo-fsdc.png` is a logo, not a header band, and the bill prints only the image when one is set — so until the clinic supplies a full letterhead, bills print the name, address and phone as text. No prices, stock, services, doctors, patients or bills. **Still the owner's:** connect a private Blob store (Deploy.md, "The storage has to be a private store"); until a *Nightly* row with *Download* appears, nothing is backed up on its own.
+> **This install is set up and empty of trading.** Checked 2083-06-22 against `clinicnpforfsdc-fsdc.aws-ap-south-1.turso.io`: **24 migrations** (ends at `0024_vat_inclusive.sql`, C-034); **6,646 items and 14,187 units** from `import-templates/fsdc-items.csv`, every rate blank (C-032); bootstrapped 2083-06-21 (C-033) with PAN/VAT no. and phone, address blank. **Settings the owner has since changed in the app:** **clinic on, pharmacy off** — so suppliers, purchases, stock and payables show under **Supplies** (C-034) — and **VAT registered on**, rates priced *VAT on top* until they choose otherwise. Kept from their setup: 2 users, 1 doctor, 1 laboratory partner, 10 service groups and **Crown Filling** (Rs 10,000, VAT-able). **Trial patients, visits, bills and dues were cleared 2083-06-22** (C-034) with `db:reset --keep-setup`, after a full backup to `backups/prod-before-clear-patients-*.json`; patient, bill and visit numbering restart at 1. 🔴 The admin password and PIN are simple placeholders the owner chose (Rule 7: not written here). **No letterhead is set** (the logo alone would replace the printed name, address and phone). A private Blob store **is connected** (probed 2083-06-21: private writes accepted).
 >
 > The figures in the paragraph above replaced the previous install's. **The code is unchanged and still at the same maturity**; what reset is the data.
 
@@ -1270,3 +1270,84 @@ same routine as Settings → Company (1600x1837 JPEG, 219,475 chars against the
 `company.logo_url`, and an image there replaces the printed name, address,
 phone and PAN on bills — so it waits on the owner's choice between keeping
 that text under the logo or not.
+
+### C-034  ·  2083-06-22  ·  VAT that is charged, supplies for a clinic, dues with times, a paper-card history, shorter words
+
+**"I turned on VAT Registered, still the bill didn't calculate VAT."** The
+calculation was right; the service was not VAT-able. VAT applies to medicines
+and to services ticked *VAT applicable*, the box was off by default, and the
+one service the owner had made — Crown Filling — had it off. Owner's call:
+every service is VAT-able unless unticked. The form now starts ticked, an
+unticked service shows *No VAT* in the list, and Crown Filling was ticked in
+production.
+
+**VAT included or on top, as a setting** (owner's example: a Rs 10,000 crown).
+`0024_vat_inclusive.sql` adds `company.vat_inclusive`, and on each bill
+`vat_inclusive` and `taxable_paisa`. On top: Rs 10,000 + Rs 1,300 = Rs 11,300.
+Included: Rs 10,000 of which Rs 1,150.44 (13/113) is VAT, taxable Rs 8,849.56.
+`vatSplit` in `lib/bill-calc.ts` is now the one calculation — the counter's
+preview and `ingestBill` both call it; before, each had its own copy. A bill
+keeps the mode it was made under, so changing the setting never changes an old
+bill. The printed bill and the bill page show *Taxable amount* and *VAT 13%*
+(or *VAT 13% (included)*). The VAT report sums each bill's own taxable amount,
+which also fixes an older error: it used `subtotal − discount`, counting exempt
+services as taxable on a mixed bill. Pinned by `vat-inclusive.test.ts`,
+`vat-saved-bill.integration.test.ts` and `print-vat.test.tsx`.
+
+**Suppliers for a clinic with no pharmacy.** The owner switched Pharmacy off
+and then had nowhere to enter the materials they buy on credit. Suppliers,
+purchases, items, stock (opening, stock out — *Used in the clinic* was already
+a reason — expiry, value), supplier payables and the purchase register now open
+with **either** module: `requireModule("supplies")` in `lib/modules.ts`. The
+menu group reads **Supplies** with Pharmacy off. Still pharmacy-only: selling
+prices, shelves and shop layout, profit and fast/slow-moving reports — they are
+about selling medicine. Checked in a browser: those four answer 404 on a
+clinic-only install, the rest 200.
+
+**Dues show when each part was paid.** Every owed bill lists its payments under
+it — date, time in Nepal, amount, how, and who took it — starting with what was
+paid at the counter. *Paid back* and the bill page's dues table show the time
+too. The time is from `created_at` / `client_created_at`, already stored;
+`lib/clock.ts` formats it in Asia/Kathmandu so the server and the browser agree.
+Reprinted bills now print their time (it was blank).
+
+**The patient card's history is a table**, laid out like the clinic's paper
+card the owner sent: *Date · Treatment notes · Service charge · Payment ·
+Due / Advance*, oldest first, with a total. One line per bill (its services and
+medicines, with the visit's complaint, findings, advice and doctor), per later
+payment, per refund, per visit with no bill. `buildLedger` in
+`lib/patient-ledger.ts` decides the order and the running balance and is pure;
+the last balance equals what Dues says (`tests/patient-ledger.test.ts`). It
+replaced the visit timeline, which was removed with `listBillsForPatient`.
+
+**"(pending)" is gone from the bill.** The counter prints before the server
+numbers the bill, so the first print carries a slip number; it no longer says
+"(pending)" after it. A reprint from Bills shows the SI number.
+
+**Shorter, plainer words** (Rules §1, amended). About forty passages rewritten
+— backup, restore, modules, fiscal years, users, doctors, laboratories, opening
+stock, the photo reader, the offline page, duplicate patients, reports — e.g.
+*"Automatic backups are on. Saved every night; the last 30 are kept."* *Modules*
+reads **Features**; *queue* reads *list*. Company settings hide the medicine-only
+fields (DDA, expiry window, shelf display, minimum rate) when Pharmacy is off,
+and say *Clinic name*.
+
+**Dates in Nepal, not UTC.** The patient card's *Since*, backup dates and file
+dates sliced the UTC timestamp, so anything done before 5:45 in the morning
+showed yesterday. Found while checking the new table at 12:13 AM.
+
+**Test data cleared from production**, as asked: a full copy of all 43 tables
+to `backups/prod-before-clear-patients-*.json`, then `db:reset --keep-setup` —
+1 patient, 2 visits, 2 bills, 2 service lines, 2 dues payments, 11 audit rows,
+11 throttle rows. Kept: company, 2 users, fiscal year, 1 doctor, 1 laboratory,
+10 service groups, Crown Filling, 6,646 items. **The reset left the year's
+numbering at 3**, so the first real bill would have been SI-…-000003;
+`db/reset.ts` now restarts the open year's bill, visit, return, purchase and
+stock-out numbers with the patient number, and production was put back to 1.
+Its closing message no longer tells a `--keep-setup` run to bootstrap.
+
+**Checked:** 583 tests across 50 files; typecheck clean; production build; and
+in a browser against a scratch copy (clinic only, VAT on, Crown Filling billed
+Rs 11,300 with Rs 5,000 paid and Rs 2,000 later): the history table, dues
+times, the bill's VAT lines, the VAT setting saving and the counter switching
+to *VAT 13% (included)*, supplies pages, and the pharmacy-only 404s.

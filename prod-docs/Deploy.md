@@ -91,6 +91,21 @@ pnpm db:bootstrap --name "…" --pan … --admin … --password "…" --pin … 
 also refuses if it finds a table holding data that it does not know about,
 rather than leaving it behind quietly.
 
+**Clearing test bills and patients but keeping the setup** — the go-live case:
+
+```bash
+pnpm db:reset --keep-setup          # shows what would go; deletes nothing
+pnpm db:reset --keep-setup --yes
+```
+
+This deletes bills, dues payments, returns, purchases, stock movements,
+patients, visits, bookings, files and the audit log, and keeps the company,
+users, fiscal year, services, doctors, laboratories, suppliers and the item
+catalogue. No bootstrap afterwards. Patient numbering **and the open year's
+bill, visit, return, purchase and stock-out numbering** restart at 1 — before
+C-034 the year's numbering was left where it was, so the first real bill after
+a reset came out as SI-…-000003.
+
 **`--clinic` is not optional for Family Smile Dental Care Center.** The schema defaults to
 pharmacy-only, and without that flag every clinic route returns 404 on the
 first morning for no visible reason.
@@ -290,6 +305,23 @@ Nothing to migrate. Two things to know about the deploy:
 - The first photo read on a device fetches roughly 20 MB — the model, the
   runtime and the OpenCV chunk — and then it is cached. Later reads are a few
   seconds. Worth knowing before somebody tries it on a phone on mobile data.
+
+## 0024 VAT included in the rate — already applied
+
+`0024_vat_inclusive.sql` adds `company.vat_inclusive` (rates already include
+VAT, or VAT goes on top) and, on every bill, `vat_inclusive` and
+`taxable_paisa` — the mode it was made under and what its VAT was charged on.
+Additive with defaults: the code deployed before it reads none of them, so it
+could go first.
+
+**Applied to production on 2083-06-22** (C-034), after a full copy of every
+table was written to `backups/prod-before-clear-patients-*.json` (gitignored):
+3 statements, row counts identical. The one Crown Filling service was ticked
+*VAT applicable* the same day, by the owner's choice that every service is
+VAT-able unless unticked. Deploying the code that uses it is only:
+
+    pnpm db:check            # "schema is up to date (24 migrations)"
+    git push                 # Vercel builds; db:check lets it through
 
 ## 0023 payables — already applied
 

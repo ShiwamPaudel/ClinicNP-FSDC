@@ -486,7 +486,10 @@ export async function vatSummary(
   toIso: string,
 ): Promise<VatSummary> {
   const sales = await db().execute({
-    sql: `SELECT IFNULL(SUM(subtotal_paisa - discount_paisa),0) AS taxable,
+    // A bill's own taxable amount (0024) excludes exempt services and, on a
+    // VAT-inclusive bill, the VAT itself. Bills made before it fall back to
+    // what this report always used.
+    sql: `SELECT IFNULL(SUM(COALESCE(taxable_paisa, subtotal_paisa - discount_paisa)),0) AS taxable,
                  IFNULL(SUM(vat_paisa),0) AS vat
           FROM bills b WHERE ${NOT_CANCELLED} AND vat_paisa > 0
             AND b.date_ad >= ? AND b.date_ad <= ?`,

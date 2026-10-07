@@ -70,8 +70,8 @@ export function FiscalYearsPanel({
             Fiscal years
           </h1>
           <p className="mt-1 text-[14px] text-sage-500">
-            One year is open at a time. Closed years stay readable and printable
-            forever — they just can&apos;t be changed.
+            One year is open at a time. Closed years can be viewed and printed,
+            not changed.
           </p>
         </div>
         {openLabel && nextLabel && (
@@ -139,8 +139,8 @@ export function FiscalYearsPanel({
               </li>
             ) : (
               <li>
-                You need a backup from the last day. Automatic backups are not
-                set up, so download one now and keep the file safe:{" "}
+                You need a backup from the last 24 hours. Download one and keep it
+                safe:{" "}
                 <a
                   href="/api/backup/download"
                   className="inline-flex items-center gap-1 font-medium text-sage-900 underline"

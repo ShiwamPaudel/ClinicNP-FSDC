@@ -14,7 +14,7 @@ export default async function SupplierDetailPage({
   params: Promise<{ id: string }>;
 }) {
   await requireAdmin();
-  await requireModulePage("pharmacy");
+  await requireModulePage("supplies");
   const { id } = await params;
   const supplier = await getSupplier(id);
   if (!supplier) notFound();

@@ -39,7 +39,7 @@ export default async function EditPurchasePage({
   params: Promise<{ id: string }>;
 }) {
   await requireAdmin();
-  await requireModulePage("pharmacy");
+  await requireModulePage("supplies");
 
   const { id } = await params;
   const [p, items, suppliers] = await Promise.all([
@@ -123,13 +123,12 @@ export default async function EditPurchasePage({
         <p className="mb-4 flex items-start gap-2 rounded-[10px] border border-line bg-cream-50 px-4 py-3 text-[13px] text-sage-700">
           <Wallet className="mt-0.5 h-4 w-4 shrink-0 text-sage-500" />
           <span>
-            {formatPaisa(paidPaisa)} was paid when this purchase was entered.
-            Changing the purchase does not change that payment — undo it from{" "}
+            {formatPaisa(paidPaisa)} was paid on this purchase. Editing it
+            doesn&apos;t change that payment — undo it in{" "}
             <Link href="/payables" className="underline underline-offset-2">
               Payables
             </Link>{" "}
-            if it was wrong. If you change the supplier, the payment moves to
-            the new supplier with the bill.
+            if it was wrong.
           </span>
         </p>
       )}

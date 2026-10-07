@@ -11,7 +11,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 
 export default async function PurchasesPage() {
   await requireAdmin();
-  await requireModulePage("pharmacy");
+  await requireModulePage("supplies");
   const purchases = await listPurchases();
 
   return (

@@ -33,6 +33,7 @@ import type { DueReceipt } from "@/lib/repos/dues";
 import { formatPaisa } from "@/lib/money";
 import { formatDocNo } from "@/lib/invoice-number";
 import { formatPatientNo } from "@/lib/patient-no";
+import { nepalTime } from "@/lib/clock";
 import { strings } from "@/lib/strings";
 import { cn } from "@/lib/cn";
 
@@ -326,6 +327,7 @@ function PersonBills({ person }: { person: DuePerson }) {
               {b.dateBs} · bill {formatPaisa(b.totalPaisa, false)} · paid{" "}
               {formatPaisa(paidSoFar(b), false)}
             </div>
+            <PaymentLines bill={b} />
           </li>
         ))}
       </ul>
@@ -342,7 +344,8 @@ function PersonBills({ person }: { person: DuePerson }) {
           </thead>
           <tbody>
             {person.bills.map((b) => (
-              <tr key={b.id} className="border-t border-line">
+              <Fragment key={b.id}>
+              <tr className="border-t border-line">
                 <td className="px-3 py-1.5">
                   <Link
                     href={`/bills/${b.id}`}
@@ -362,11 +365,49 @@ function PersonBills({ person }: { person: DuePerson }) {
                   {formatPaisa(b.balancePaisa, false)}
                 </td>
               </tr>
+              {(b.payments?.length ?? 0) > 0 && (
+                <tr>
+                  <td colSpan={5} className="px-3 pb-2 pt-0">
+                    <PaymentLines bill={b} />
+                  </td>
+                </tr>
+              )}
+              </Fragment>
             ))}
           </tbody>
         </table>
       </div>
     </div>
+  );
+}
+
+/**
+ * Each payment against one bill, oldest first: when it was taken, how much,
+ * how, and by whom. What was paid at the counter when the bill was made comes
+ * first.
+ */
+function PaymentLines({ bill }: { bill: OwedBill }) {
+  const payments = bill.payments ?? [];
+  if (payments.length === 0) return null;
+  return (
+    <ul className="mt-1.5 flex flex-col gap-0.5 border-l-2 border-ok-600/40 pl-3 text-[12px] text-sage-700">
+      {payments.map((p, i) => (
+        <li key={i} className="flex flex-wrap items-baseline gap-x-2 tnum">
+          <span className="text-sage-500">
+            {p.dateBs}
+            {p.at ? ` · ${nepalTime(p.at)}` : ""}
+          </span>
+          <span className="font-semibold text-ok-600">
+            {formatPaisa(p.amountPaisa, false)}
+          </span>
+          <span>
+            {isMoneyMethod(p.method) ? MONEY_METHOD_LABEL[p.method] : p.method}
+            {p.kind === "at_sale" ? " · at the counter" : ""}
+          </span>
+          {p.userName && <span className="text-sage-500">· {p.userName}</span>}
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -416,7 +457,14 @@ function ReceiptsTable({
         <tbody>
           {receipts.map((r) => (
             <TR key={r.receiptId} className={r.voided ? "text-sage-500" : undefined}>
-              <TD>{r.dateBs}</TD>
+              <TD>
+                <span className="flex flex-col tnum">
+                  {r.dateBs}
+                  <span className="text-[12px] text-sage-500">
+                    {nepalTime(r.createdAt)}
+                  </span>
+                </span>
+              </TD>
               <TD>
                 <span className="flex flex-col">
                   <span className={r.name ? undefined : "italic"}>
@@ -490,8 +538,8 @@ function ReceiptsTable({
       >
         <p className="text-[14px] text-sage-700">
           {undoing ? formatPaisa(undoing.amountPaisa) : ""} goes back onto what{" "}
-          {undoing?.name || "they"} owe. Only do this for a payment entered by
-          mistake — the payment stays listed here, marked as undone.
+          {undoing?.name || "they"} owe. Use this only for a payment entered by
+          mistake.
         </p>
       </Dialog>
     </>

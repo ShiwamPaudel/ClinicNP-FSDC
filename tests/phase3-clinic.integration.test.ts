@@ -422,7 +422,7 @@ describe("Phase 3 — the follow-up rule", () => {
         dateAd: "2026-08-20",
         dateBs: "2083-05-04",
       }),
-    ).rejects.toThrow(/outside the follow-up period/i);
+    ).rejects.toThrow(/no longer a follow-up/i);
   });
 
   it("charges the full rate 9 days after the last paid consultation", async () => {

@@ -135,8 +135,7 @@ export function VisitDetail({
     <div className="flex flex-col gap-5">
       {cancelled && (
         <div className="rounded-[10px] bg-danger-100 px-4 py-3 text-[14px] text-danger-600">
-          This visit was cancelled. It stays on the record and is left out of the
-          counts.
+          This visit was cancelled.
         </div>
       )}
 
@@ -234,8 +233,7 @@ export function VisitDetail({
         title="Cancel this visit?"
       >
         <p className="text-[14px] text-sage-900">
-          The visit stays on the patient&apos;s record, marked cancelled, and is
-          left out of the counts. Visits are never deleted.
+          It stays in the patient&apos;s history, marked cancelled.
         </p>
         <label className="mt-4 block text-[13px] font-medium text-sage-900">
           Why is it being cancelled?

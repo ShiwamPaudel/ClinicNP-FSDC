@@ -17,7 +17,19 @@ import { notFound } from "next/navigation";
 import { getModuleFlags, type ModuleFlags } from "@/lib/repos/company";
 import { appNameFor } from "@/lib/app-name";
 
-export type ModuleName = "pharmacy" | "clinic";
+/**
+ * "supplies" is not a switch of its own: suppliers, purchases, stock and
+ * what is owed for them are open whenever either module is on. A clinic buys
+ * its materials from suppliers and pays them in parts exactly as a pharmacy
+ * does, without selling any medicine at the counter.
+ */
+export type ModuleName = "pharmacy" | "clinic" | "supplies";
+
+export function isModuleOn(modules: ModuleFlags, module: ModuleName): boolean {
+  return module === "supplies"
+    ? modules.pharmacy || modules.clinic
+    : modules[module];
+}
 export type { ModuleFlags };
 
 /**
@@ -50,7 +62,7 @@ export class ModuleDisabledError extends Error {
  */
 export async function requireModulePage(module: ModuleName): Promise<void> {
   const modules = await getModules();
-  if (!modules[module]) notFound();
+  if (!isModuleOn(modules, module)) notFound();
 }
 
 /**
@@ -59,7 +71,7 @@ export async function requireModulePage(module: ModuleName): Promise<void> {
  */
 export async function requireModule(module: ModuleName): Promise<void> {
   const modules = await getModules();
-  if (!modules[module]) throw new ModuleDisabledError();
+  if (!isModuleOn(modules, module)) throw new ModuleDisabledError();
 }
 
 /** At least one module must stay on (PRD §3.1). */

@@ -452,9 +452,8 @@ function PaymentsSection({ payments }: { payments: PaymentMade[] }) {
         >
           <p className="text-[14px] text-sage-700">
             {undoing ? formatPaisa(undoing.amountPaisa) : ""} goes back onto what
-            is owed to {undoing?.partyName ?? "them"}. Only do this for a
-            payment entered by mistake — it stays listed here, marked as undone,
-            with your name and the reason.
+            is owed to {undoing?.partyName ?? "them"}. Use this only for a
+            payment entered by mistake.
           </p>
           <Field label="Why is it being undone?">
             <Input

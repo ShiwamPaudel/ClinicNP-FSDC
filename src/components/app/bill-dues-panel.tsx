@@ -14,6 +14,7 @@ import { ReceiveDuesDialog } from "@/components/app/receive-dues-dialog";
 import { MONEY_METHOD_LABEL, isMoneyMethod } from "@/lib/dues";
 import type { DuePaymentRow } from "@/lib/repos/dues";
 import { formatPaisa } from "@/lib/money";
+import { nepalTime } from "@/lib/clock";
 import { strings } from "@/lib/strings";
 
 export function BillDuesPanel({
@@ -77,7 +78,12 @@ export function BillDuesPanel({
           <tbody>
             {payments.map((p) => (
               <TR key={p.id} className={p.voided ? "text-sage-500" : undefined}>
-                <TD>{p.dateBs}</TD>
+                <TD className="tnum">
+                  {p.dateBs}
+                  <span className="ml-1.5 text-[12px] text-sage-500">
+                    {nepalTime(p.createdAt)}
+                  </span>
+                </TD>
                 <TD numeric className={p.voided ? "line-through" : undefined}>
                   {formatPaisa(p.amountPaisa)}
                 </TD>

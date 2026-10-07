@@ -146,10 +146,9 @@ export function OpeningStockForm({ items }: { items: Item[] }) {
     return (
       <div className="rounded-[10px] border border-dashed border-line bg-cream-50 p-8 text-center">
         <PackagePlus className="mx-auto mb-2 h-6 w-6 text-sage-500" />
-        <p className="text-[15px] font-medium text-sage-900">No medicines yet</p>
+        <p className="text-[15px] font-medium text-sage-900">No items yet</p>
         <p className="mx-auto mt-1 max-w-[460px] text-[13px] text-sage-500">
-          Opening stock says how much of each medicine is already on the shelf,
-          so the medicines have to exist first. Add them under Items.
+          Add your items first, under Items.
         </p>
       </div>
     );
@@ -162,9 +161,8 @@ export function OpeningStockForm({ items }: { items: Item[] }) {
           What is already on the shelf
         </h2>
         <p className="mt-1 max-w-[720px] text-[13px] text-sage-500">
-          Use this once, when the software arrives, for stock you already own.
-          It is not a purchase: no supplier, no invoice, and nothing owed to
-          anybody. Everything bought afterwards goes through Purchases.
+          Enter stock you already have, once, when you start. It isn&apos;t a
+          purchase — nothing is owed. Buy new stock through Purchases.
         </p>
         <div className="mt-3 max-w-[240px]">
           <Field label="Counted on" htmlFor="opening-date">

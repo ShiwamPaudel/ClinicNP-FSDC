@@ -36,7 +36,7 @@ export async function voidPaymentAction(input: unknown): Promise<PayablesActionR
       return fail(parsed.error.issues[0]?.message ?? "Please check the details.");
     }
     const d = parsed.data;
-    await requireModule(d.kind === "supplier" ? "pharmacy" : "clinic");
+    await requireModule(d.kind === "supplier" ? "supplies" : "clinic");
 
     const res = await voidPayment({
       kind: d.kind,

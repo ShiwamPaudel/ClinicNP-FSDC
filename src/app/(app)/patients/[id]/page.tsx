@@ -4,19 +4,16 @@ import { Pencil, Stethoscope, Receipt, GitMerge } from "lucide-react";
 import { requireUser } from "@/lib/session";
 import { requireModulePage } from "@/lib/modules";
 import { getPatient } from "@/lib/repos/patients";
-import { visitsForPatient } from "@/lib/repos/visits";
 import { attachmentsForPatient } from "@/lib/repos/attachments";
-import { listBillsForPatient } from "@/lib/repos/bills";
 import { owedByPatient } from "@/lib/repos/dues";
+import { patientLedger } from "@/lib/repos/patient-ledger";
 import { formatPaisa } from "@/lib/money";
-import { formatDocNo } from "@/lib/invoice-number";
+import { nepalDayIso } from "@/lib/clock";
 import { adToIso, toBS, adFromIso, formatBS, today, bsToDbText } from "@/lib/bs";
 import { PageShell } from "@/components/app/page-shell";
 import { Button } from "@/components/ui/button";
-import {
-  PatientHeader,
-  VisitTimeline,
-} from "@/components/clinic/patient-card";
+import { PatientHeader } from "@/components/clinic/patient-card";
+import { PatientLedgerTable } from "@/components/clinic/patient-ledger-table";
 import { AttachmentGrid } from "@/components/clinic/attachment-grid";
 import { StartVisitButton } from "@/components/clinic/start-visit-button";
 
@@ -32,15 +29,14 @@ export default async function PatientCardPage({
   const patient = await getPatient(id);
   if (!patient) notFound();
 
-  const [visits, attachments, bills, owed] = await Promise.all([
-    visitsForPatient(patient.id),
+  const [ledger, attachments, owed] = await Promise.all([
+    patientLedger(patient.id),
     attachmentsForPatient(patient.id),
-    listBillsForPatient(patient.id),
     owedByPatient(patient.id),
   ]);
 
   const todayAd = adToIso(new Date());
-  const sinceBs = formatBS(toBS(adFromIso(patient.createdAt.slice(0, 10))));
+  const sinceBs = formatBS(toBS(adFromIso(nepalDayIso(patient.createdAt))));
   const isAdmin = user.role === "admin";
 
   return (
@@ -98,20 +94,7 @@ export default async function PatientCardPage({
             <Stethoscope className="h-4 w-4 text-clinic-500" />
             History
           </h2>
-          <VisitTimeline
-            visits={visits}
-            attachments={attachments}
-            bills={bills.map((b) => ({
-              id: b.id,
-              invoiceLabel:
-                b.invoiceNo != null
-                  ? formatDocNo("SI", b.fiscalLabel, b.invoiceNo)
-                  : "Pending",
-              dateBs: b.dateBs,
-              totalPaisa: b.totalPaisa,
-              visitId: b.visitId,
-            }))}
-          />
+          <PatientLedgerTable rows={ledger} />
         </section>
 
         <section>

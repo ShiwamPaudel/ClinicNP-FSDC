@@ -99,7 +99,7 @@ export function StuckQueue({ isAdmin }: { isAdmin: boolean }) {
     else await discardPatient(row.id);
     await refresh();
     setBusy(false);
-    toast.success("Taken out of the queue");
+    toast.success("Removed from the list");
   }
 
   return (
@@ -118,8 +118,8 @@ export function StuckQueue({ isAdmin }: { isAdmin: boolean }) {
         title="These have not been sent"
       >
         <p className="mb-4 text-[14px] text-sage-700">
-          Each of these has been tried several times and has not gone through.
-          Nothing has been lost — they are still on this machine.
+          These haven&apos;t gone through yet. Nothing is lost — they&apos;re
+          saved on this computer.
         </p>
 
         <ul className="flex flex-col gap-3">
@@ -142,7 +142,7 @@ export function StuckQueue({ isAdmin }: { isAdmin: boolean }) {
                   className="mt-2 inline-flex items-center gap-1 text-[13px] text-danger-600 hover:underline"
                 >
                   <Trash2 className="h-3.5 w-3.5" />
-                  Take it out of the queue
+                  Remove from the list
                 </button>
               )}
             </li>
@@ -151,8 +151,7 @@ export function StuckQueue({ isAdmin }: { isAdmin: boolean }) {
 
         {!isAdmin && (
           <p className="mt-4 text-[13px] text-sage-500">
-            Show this to the owner — only they can take something out of the
-            queue.
+            Show this to the owner.
           </p>
         )}
 

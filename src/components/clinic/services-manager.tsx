@@ -53,7 +53,9 @@ function blank(groupId: string): FormState {
     sampleType: "",
     followupDays: "",
     followupRate: "",
-    vatApplicable: false,
+    // VAT-able unless somebody unticks it: a VAT-registered clinic charges
+    // VAT on its services, and an exempt one is the exception (owner, C-034).
+    vatApplicable: true,
     active: true,
   };
 }
@@ -299,7 +301,14 @@ export function ServicesManager({
                               {s.sampleType}
                             </Badge>
                           )}
-                          {!s.doctorRequired && !s.outsourced && !s.sampleType && "—"}
+                          {vatRegistered && !s.vatApplicable && (
+                            <Badge tone="warn">No VAT</Badge>
+                          )}
+                          {!s.doctorRequired &&
+                            !s.outsourced &&
+                            !s.sampleType &&
+                            !(vatRegistered && !s.vatApplicable) &&
+                            "—"}
                         </span>
                       </TD>
                       <TD className="text-sage-500">

@@ -61,8 +61,8 @@ function svc(over?: Partial<ServiceLine>): ServiceLine {
   };
 }
 
-const noVat = { vatRegistered: false, roundingOn: false };
-const withVat = { vatRegistered: true, roundingOn: false };
+const noVat = { vatRegistered: false, vatInclusive: false, roundingOn: false };
+const withVat = { vatRegistered: true, vatInclusive: false, roundingOn: false };
 
 describe("billTotals with no service lines is the v1 calculation", () => {
   it("an empty service list leaves the v1 medicine arithmetic untouched", () => {
@@ -144,7 +144,7 @@ describe("billTotals with service lines", () => {
   });
 
   it("applies rupee rounding to the grand total as before", () => {
-    const t = billTotals([], 0, { vatRegistered: false, roundingOn: true }, [
+    const t = billTotals([], 0, { vatRegistered: false, vatInclusive: false, roundingOn: true }, [
       svc({ ratePaisa: 49_949 }),
     ]);
     expect(t.totalPaisa % 100).toBe(0);

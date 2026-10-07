@@ -68,6 +68,10 @@ export interface PrintBill {
   subtotalPaisa: number;
   billDiscountPaisa: number;
   vatPaisa: number;
+  /** What the VAT was charged on. Absent on bills made before 0024. */
+  taxablePaisa?: number | null;
+  /** The rates on this bill already included VAT. */
+  vatInclusive?: boolean;
   totalPaisa: number;
   paymentMethod: "cash" | "qr" | "credit";
   tenderedPaisa: number;

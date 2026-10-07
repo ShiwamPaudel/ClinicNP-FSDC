@@ -6,7 +6,7 @@ import { ItemForm } from "@/components/app/item-form";
 
 export default async function NewItemPage() {
   await requireAdmin();
-  await requireModulePage("pharmacy");
+  await requireModulePage("supplies");
   const suppliers = await listSuppliers();
   return (
     <PageShell title="Add item">

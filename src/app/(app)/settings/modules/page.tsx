@@ -2,7 +2,7 @@ import { requireAdmin } from "@/lib/session";
 import { getModules } from "@/lib/modules";
 import { ModulesPanel } from "@/components/app/modules-panel";
 
-export const metadata = { title: "Modules" };
+export const metadata = { title: "Features" };
 
 export default async function ModulesPage() {
   await requireAdmin();

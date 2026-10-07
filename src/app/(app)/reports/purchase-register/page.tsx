@@ -14,7 +14,7 @@ export default async function PurchaseRegisterPage({
   searchParams: Promise<{ preset?: string; from?: string; to?: string; fy?: string }>;
 }) {
   await requireAdmin();
-  await requireModulePage("pharmacy");
+  await requireModulePage("supplies");
   const sp = await searchParams;
   const range = resolveRange(sp);
   const rows = await purchaseRegister(range.fromIso, range.toIso);

@@ -29,7 +29,7 @@ export default async function ExpiryReportPage({
   searchParams: Promise<{ by?: string }>;
 }) {
   await requireAdmin();
-  await requireModulePage("pharmacy");
+  await requireModulePage("supplies");
   const { by } = await searchParams;
   const order: Order = by === "shelf" ? "shelf" : "expiry";
 

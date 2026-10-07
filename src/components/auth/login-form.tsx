@@ -167,8 +167,7 @@ export function LoginForm({
         </form>
 
         <p className="mt-6 text-[12.5px] leading-relaxed text-sage-500">
-          Accounts are set up by the owner under Settings. There is no public
-          sign-up — ask them for one, or to reset a password you have forgotten.
+          No account, or forgot your password? Ask the owner.
         </p>
       </div>
     </section>

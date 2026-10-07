@@ -71,10 +71,8 @@ export default async function DoctorPayoutsPage({
         </div>
       )}
       <p className="mt-3 text-[12px] text-sage-500">
-        Each doctor&apos;s share was worked out when the bill was made and does
-        not change afterwards, even if their terms are edited later. Where a
-        share does not divide into whole paisa, the remainder stays with the
-        clinic.
+        Each share is fixed when the bill is made. Changing a doctor&apos;s
+        terms later doesn&apos;t change past bills.
       </p>
     </ReportFrame>
   );

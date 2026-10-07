@@ -21,16 +21,16 @@ const COPY: Record<
 > = {
   pharmacy: {
     title: "Pharmacy",
-    on: "Medicines, batches and expiry, purchases, suppliers, stock and the medicine lines at the counter.",
+    on: "Sell medicines at the counter, with prices, batches and shelves.",
     offConfirm:
-      "Turning off the pharmacy hides medicines, purchases, suppliers and stock. Nothing is deleted — turn it back on any time.",
+      "This stops medicine sales at the counter. Suppliers, purchases and stock stay while the clinic is on. Nothing is deleted.",
     icon: Pill,
   },
   clinic: {
     title: "Clinic",
-    on: "Patients and their visits, services and doctors, report files, and the service lines at the counter.",
+    on: "Patients, visits, doctors, services and lab tests.",
     offConfirm:
-      "Turning off the clinic hides patients, visits and services. Nothing is deleted — turn it back on any time.",
+      "This hides patients, visits and services. Nothing is deleted.",
     icon: Stethoscope,
   },
 };
@@ -70,11 +70,10 @@ export function ModulesPanel({ initial }: { initial: ModuleFlags }) {
     <>
       <header className="mb-5">
         <h1 className="font-display text-[28px] font-semibold text-sage-900">
-          Modules
+          Features
         </h1>
         <p className="mt-1 text-[14px] text-sage-500">
-          Switch off a part of the system you don&apos;t use. Nothing is ever
-          deleted — switching it back on brings everything back exactly as it was.
+          Turn off what you don&apos;t use. Nothing is deleted.
         </p>
       </header>
 

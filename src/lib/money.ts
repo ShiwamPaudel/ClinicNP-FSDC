@@ -25,6 +25,14 @@ export function vatOf(basePaisa: number): number {
 }
 
 /**
+ * The VAT already inside an amount that includes it: 13/113 of it. Rs 10,000
+ * with VAT included is Rs 8,849.56 taxable + Rs 1,150.44 VAT.
+ */
+export function vatIncludedIn(grossPaisa: number): number {
+  return Math.round((grossPaisa * 13) / 113);
+}
+
+/**
  * Line amount = qty * rate, minus discount, all in paisa.
  * qty is an integer count of the selling unit; rate is paisa per that unit.
  */

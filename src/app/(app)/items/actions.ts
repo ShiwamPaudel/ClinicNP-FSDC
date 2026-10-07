@@ -26,7 +26,7 @@ function handle(err: unknown): ActionResult {
 
 export async function saveItemAction(input: unknown): Promise<ActionResult> {
   try {
-    await requireModule("pharmacy");
+    await requireModule("supplies");
     await assertAdmin();
     const parsed = itemSchema.safeParse(input);
     if (!parsed.success) {

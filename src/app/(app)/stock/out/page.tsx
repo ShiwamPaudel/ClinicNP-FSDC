@@ -36,7 +36,7 @@ export default async function StockOutRegisterPage({
   }>;
 }) {
   const user = await requireUser();
-  await requireModulePage("pharmacy");
+  await requireModulePage("supplies");
 
   const sp = await searchParams;
   const range = resolveRange(sp);

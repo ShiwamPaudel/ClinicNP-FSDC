@@ -10,7 +10,8 @@ import { ulid } from "ulid";
 import { db } from "@/lib/db";
 import type { Row } from "@/lib/db";
 import { allocate, type FefoBatch } from "@/lib/fefo";
-import { vatOf, roundToRupee } from "@/lib/money";
+import { roundToRupee } from "@/lib/money";
+import { vatSplit } from "@/lib/bill-calc";
 import { fiscalYearOf, bsFromDbText } from "@/lib/bs";
 import {
   ensureFiscalYear,
@@ -307,7 +308,7 @@ export async function ingestBill(input: IngestBillInput): Promise<IngestResult> 
       // discount when the rule does not actually allow it.
       if (line.followupApplied && !outcome.applied) {
         throw new ServiceLineError(
-          `${service.name} was billed as a follow-up, but this patient is outside the follow-up period. Take the line off and add it again.`,
+          `${service.name} is no longer a follow-up for this patient. Remove the line and add it again.`,
         );
       }
       if (line.followupApplied && outcome.applied) {
@@ -500,27 +501,26 @@ export async function ingestBill(input: IngestBillInput): Promise<IngestResult> 
     );
     subtotal += serviceSubtotal;
 
-    const afterBillDiscount = Math.max(0, subtotal - input.billDiscountPaisa);
+    // Medicines are always VAT-able; a service only when its own flag is on.
+    // The same vatSplit the counter previews with, so the two cannot differ.
+    const vatableSubtotal =
+      subtotal -
+      serviceSubtotal +
+      resolvedServices.reduce(
+        (acc, r) => acc + (r.vatApplicable ? r.amountPaisa : 0),
+        0,
+      );
+    const split = vatSplit({
+      subtotalPaisa: subtotal,
+      vatableSubtotalPaisa: vatableSubtotal,
+      billDiscountPaisa: input.billDiscountPaisa,
+      vatRegistered: company.vatRegistered,
+      vatInclusive: company.vatInclusive,
+    });
+    const vatPaisa = split.vatPaisa;
+    const vatInclusive = company.vatRegistered && company.vatInclusive;
 
-    let vatPaisa = 0;
-    if (company.vatRegistered) {
-      // Medicines are always VAT-able; a service only when its own flag is on.
-      const vatableSubtotal =
-        subtotal -
-        serviceSubtotal +
-        resolvedServices.reduce(
-          (acc, r) => acc + (r.vatApplicable ? r.amountPaisa : 0),
-          0,
-        );
-      const discountApplied = Math.min(input.billDiscountPaisa, subtotal);
-      const vatableDiscount =
-        subtotal > 0
-          ? Math.floor((discountApplied * vatableSubtotal) / subtotal)
-          : 0;
-      vatPaisa = vatOf(Math.max(0, vatableSubtotal - vatableDiscount));
-    }
-
-    let total = afterBillDiscount + vatPaisa;
+    let total = split.totalBeforeRoundingPaisa;
     if (company.roundingOn) total = roundToRupee(total);
 
     // What was paid now and what is left owing, against the total worked out
@@ -593,8 +593,9 @@ export async function ingestBill(input: IngestBillInput): Promise<IngestResult> 
               (id, invoice_no, fiscal_year_id, date_ad, date_bs, patient_name,
                subtotal_paisa, discount_paisa, vat_paisa, total_paisa,
                payment_method, tendered_paisa, status, user_id, client_created_at,
-               synced_at, patient_id, visit_id, kind, due_paisa, paid_now_method)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'saved', ?, ?, ?, ?, ?, ?, ?, ?)`,
+               synced_at, patient_id, visit_id, kind, due_paisa, paid_now_method,
+               vat_inclusive, taxable_paisa)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'saved', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       args: [
         input.id,
         invoiceNo,
@@ -616,6 +617,8 @@ export async function ingestBill(input: IngestBillInput): Promise<IngestResult> 
         kind,
         sale.duePaisa,
         sale.paidNowMethod,
+        vatInclusive ? 1 : 0,
+        split.taxablePaisa,
       ],
     });
 
@@ -870,6 +873,12 @@ export interface BillDetail extends BillListRow {
   subtotalPaisa: number;
   discountPaisa: number;
   vatPaisa: number;
+  /** What the VAT was charged on; null on bills made before 0024. */
+  taxablePaisa: number | null;
+  /** The rates on this bill already included VAT. */
+  vatInclusive: boolean;
+  /** When the counter made it, UTC; printed in Nepal time. */
+  createdAt: string;
   tenderedPaisa: number;
   creditSettledAt: string | null;
   userName: string;
@@ -977,6 +986,9 @@ export async function getBillDetail(id: string): Promise<BillDetail | null> {
     subtotalPaisa: Number(h.subtotal_paisa),
     discountPaisa: Number(h.discount_paisa),
     vatPaisa: Number(h.vat_paisa),
+    taxablePaisa: h.taxable_paisa != null ? Number(h.taxable_paisa) : null,
+    vatInclusive: Number(h.vat_inclusive ?? 0) === 1,
+    createdAt: (h.client_created_at as string | null) ?? "",
     tenderedPaisa: Number(h.tendered_paisa),
     creditSettledAt: (h.credit_settled_at as string | null) ?? null,
     userName: (h.user_name as string) ?? "",
@@ -1032,38 +1044,5 @@ export async function cancelBill(id: string, userId: string): Promise<void> {
 
 // Bills on dues are listed, and paid off, in `lib/repos/dues.ts`. The old
 // whole-bill "Mark paid" (`credit_settled_at`) is no longer written; a bill it
-// already cleared still reads as cleared.
-
-export interface PatientBillRow {
-  id: string;
-  invoiceNo: number | null;
-  fiscalLabel: string;
-  dateBs: string;
-  totalPaisa: number;
-  status: string;
-  visitId: string | null;
-}
-
-/** Every bill for one patient, newest first — feeds the patient card timeline. */
-export async function listBillsForPatient(
-  patientId: string,
-): Promise<PatientBillRow[]> {
-  const res = await db().execute({
-    sql: `SELECT b.id, b.invoice_no, b.date_bs, b.total_paisa, b.status,
-                 b.visit_id, f.bs_label
-            FROM bills b
-            LEFT JOIN fiscal_years f ON f.id = b.fiscal_year_id
-           WHERE b.patient_id = ?
-           ORDER BY b.date_bs DESC, b.client_created_at DESC`,
-    args: [patientId],
-  });
-  return res.rows.map((r) => ({
-    id: r.id as string,
-    invoiceNo: r.invoice_no != null ? Number(r.invoice_no) : null,
-    fiscalLabel: (r.bs_label as string) ?? "",
-    dateBs: r.date_bs as string,
-    totalPaisa: Number(r.total_paisa),
-    status: r.status as string,
-    visitId: (r.visit_id as string | null) ?? null,
-  }));
-}
+// already cleared still reads as cleared. A patient's bills, with their
+// payments, are gathered for the card by `lib/repos/patient-ledger.ts`.

@@ -688,7 +688,7 @@ export async function updatePurchase(input: PurchaseUpdateInput): Promise<void> 
     const newFy = fiscalYearOf(bsFromDbText(input.dateBs));
     if (originalFy.label !== newFy.label) {
       throw new PurchaseEditError(
-        `The date must stay in fiscal year ${originalFy.label}, the year this purchase is numbered in.`,
+        `The date must stay in fiscal year ${originalFy.label}.`,
       );
     }
     // Read inside the transaction, so the check and the write see one state.
@@ -788,7 +788,7 @@ export async function updatePurchase(input: PurchaseUpdateInput): Promise<void> 
     async function removeLine(old: StoredLine): Promise<void> {
       if (old.batchHasMoved) {
         throw new PurchaseEditError(
-          `${old.brandName} cannot be taken off this purchase — stock from its batch has already been sold, returned or counted.`,
+          `${old.brandName} can't be removed — some of it has already been sold, used or returned.`,
         );
       }
       await shiftBatch(
@@ -856,7 +856,7 @@ export async function updatePurchase(input: PurchaseUpdateInput): Promise<void> 
         // A different medicine is a different batch. Only while untouched.
         if (old.batchHasMoved) {
           throw new PurchaseEditError(
-            `${old.brandName} cannot be changed to another item — stock from its batch has already been sold, returned or counted.`,
+            `${old.brandName} can't be changed — some of it has already been sold, used or returned.`,
           );
         }
         await removeLine(old);
@@ -869,7 +869,7 @@ export async function updatePurchase(input: PurchaseUpdateInput): Promise<void> 
       if (old.remainingBaseQty + delta < 0) {
         const gone = old.receivedBaseQty - old.remainingBaseQty;
         throw new PurchaseEditError(
-          `${old.brandName}: ${gone} of this batch (in its smallest unit) has already been sold, returned or used, so the quantity cannot go below that.`,
+          `${old.brandName}: ${gone} (smallest unit) is already sold, used or returned. The quantity can't go below that.`,
         );
       }
       await shiftBatch(

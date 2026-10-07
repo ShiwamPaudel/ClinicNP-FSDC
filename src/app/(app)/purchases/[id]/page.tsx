@@ -31,7 +31,7 @@ export default async function PurchaseDetailPage({
   params: Promise<{ id: string }>;
 }) {
   await requireAdmin();
-  await requireModulePage("pharmacy");
+  await requireModulePage("supplies");
 
   const { id } = await params;
   const p = await getPurchase(id);

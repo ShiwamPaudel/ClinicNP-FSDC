@@ -50,7 +50,7 @@ export async function recordStockOutAction(
 ): Promise<StockOutActionResult> {
   try {
     const user = await assertAdmin();
-    await requireModule("pharmacy");
+    await requireModule("supplies");
 
     // "Used in the clinic" only exists when the clinic module is on, and the
     // guard is here rather than only on the screen.

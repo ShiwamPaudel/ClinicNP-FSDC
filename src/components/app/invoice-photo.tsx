@@ -32,11 +32,11 @@ const STAGE_TEXT: Record<ReadStage, string> = {
  */
 const STAGE_FAILED: Record<ReadStage, string> = {
   opening:
-    "That photo could not be opened. Use a JPG or PNG picture — some phones save HEIC/HEIF photos, which the browser cannot open.",
+    "That photo couldn't be opened. Use a JPG or PNG photo.",
   loading:
-    "The reader could not be downloaded (about 40 MB, only the first time on each device). Check the internet connection and try again.",
+    "Couldn't download the reader (about 40 MB, first time only). Check the internet and try again.",
   reading:
-    "The reader stopped part-way through the photo. This usually means the device ran out of memory — try again on a computer, or with a smaller photo.",
+    "Reading stopped part-way. Try a smaller photo, or use a computer.",
 };
 
 export function InvoicePhotoButton({
@@ -115,8 +115,8 @@ export function InvoicePhotoButton({
       </Button>
       <p className="text-[12px] text-sage-500">
         {stage
-          ? "Keep this page open. About 15–30 seconds on a computer; a phone can take a minute or more."
-          : "Take or pick a photo of the supplier's bill. It only fills the boxes below — check them against the paper before saving. The photo is not kept."}
+          ? "Keep this page open — this can take up to a minute."
+          : "Take a photo of the supplier's bill to fill the boxes below. Check them before saving."}
       </p>
     </div>
   );

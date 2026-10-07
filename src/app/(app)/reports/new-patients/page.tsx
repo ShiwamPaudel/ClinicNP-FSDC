@@ -43,9 +43,7 @@ export default async function NewPatientsPage({
           : `${pct}% of the visits in this period were by someone who had been here before.`}
       </p>
       <p className="mt-2 text-[12px] text-sage-500">
-        A visit counts as a first-ever visit only if the patient had never been
-        seen before — not merely that this was their first visit inside the
-        chosen dates.
+        &ldquo;New&rdquo; means their first visit ever, not just in these dates.
       </p>
     </ReportFrame>
   );

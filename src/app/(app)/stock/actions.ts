@@ -53,7 +53,7 @@ export async function writeOffBatchAction(
   note?: string,
 ): Promise<ActionResult> {
   try {
-    await requireModule("pharmacy");
+    await requireModule("supplies");
     const user = await assertAdmin();
     const batch = await getBatch(batchId);
     if (!batch) return fail("That batch no longer exists.");
@@ -95,7 +95,7 @@ export async function returnExpiredBatchAction(
   batchId: string,
 ): Promise<ActionResult> {
   try {
-    await requireModule("pharmacy");
+    await requireModule("supplies");
     const user = await assertAdmin();
     const batch = await getBatch(batchId);
     if (!batch) return fail("That batch no longer exists.");

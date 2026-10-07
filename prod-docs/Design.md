@@ -102,14 +102,19 @@ scrolling at 232 px:
     Visits      │ Doctors
     Laboratory                 ← odd one out takes the whole row
 
-  PHARMACY        (sage group label)
+  PHARMACY        (sage group label; reads SUPPLIES with Pharmacy off)
     Stock       │ Items
     Purchases   │ Suppliers
   ─────────────────────────    ← divider: what follows is neither module's
     Bills       │ Dues           (dues cover medicine and services, 0019)
-    Reports     │ Settings      (Settings is admin-only; staff see Reports
-                                 alone on its row)
+    Payables    │ Reports       (what is owed to suppliers and labs)
+    Settings                    (Settings is admin-only)
 ```
+
+The stock group shows with **either** module (C-034): a clinic with no pharmacy
+still buys materials from suppliers, keeps stock of them and pays in parts. It
+is labelled **Supplies** there, because nothing is sold from it. Selling prices,
+shelves and the shop layout stay behind the Pharmacy switch.
 Two columns rather than a scrolling menu: the list is short enough to fit if it
 is laid out, and a menu that has to be scrolled hides half of itself. The tile
 drops to 13 px with a tighter gap to earn the width, a name too long to fit is
@@ -165,18 +170,25 @@ One screen the clinic staff will open a hundred times a day. It must feel like p
 ├────────────────────────────────────────────────────────────┤
 │ ⚠ Allergy: Penicillin                                      │  danger strip, only when filled
 ├────────────────────────────────────────────────────────────┤
-│ [Start visit]  [New bill]  [Add file]                      │
+│ [Start visit]  [New bill]  [Edit]  [Merge]                 │
 │                                                            │
-│ ●───── 2083-04-12  Visit V-…-000456 · Dr. Karki · Follow-up│  navy timeline spine
-│ │        Consultation, USG Abdomen        रु 1,700         │
-│ │        📎 USG report.pdf                                  │
-│ ●───── 2083-02-02  Visit V-…-000188 · Dr. Karki · New      │
-│ │        Consultation, CBC, RBS           रु 950            │
-│ ○───── 2082-11-20  Bill SI-…-000901 (medicines only)       │
+│ HISTORY                                                    │
+│ ┌──────────┬──────────────────┬─────────┬────────┬───────┐ │
+│ │ Date     │ Treatment notes  │ Service │Payment │ Due / │ │  clinic-75 header,
+│ │          │                  │ charge  │        │Advance│ │  navy-ruled table
+│ ├──────────┼──────────────────┼─────────┼────────┼───────┤ │
+│ │2083-06-22│ Crown filling    │ 11,300  │ 5,000  │ 6,300 │ │
+│ │ 10:15 AM │ Complaint: …     │         │        │  due  │ │
+│ │2083-06-28│ Payment received │         │ 2,000  │ 4,300 │ │
+│ │ 11:40 AM │ · QR             │         │        │  due  │ │
+│ ├──────────┴──────────────────┼─────────┼────────┼───────┤ │
+│ │                       Total │ 11,300  │ 7,000  │ 4,300 │ │
+│ └─────────────────────────────┴─────────┴────────┴───────┘ │
+│ FILES                                                      │
 └────────────────────────────────────────────────────────────┘
 ```
 
-Rules for the timeline: one vertical navy hairline spine; a filled node for a visit, a hollow node for a bill with no visit; BS date leading, AD on hover; money right-aligned tabular; attachments as small paperclip chips that open inline. The spine is the only decorative line in the product and it earns its place — it is what makes eighteen months of a person's history readable in one scroll. No cards-in-cards, no avatars, no colour-coded visit types beyond the type word itself.
+Rules for the history table (C-034, replacing the timeline): it is the clinic's paper card — *Date · Treatment notes · Service charge · Payment · Due / Advance* — so it reads oldest first, the way a card is filled in. One line per bill (its services and medicines as the title, the visit's complaint, findings, advice and doctor under it), per later payment, per refund, and per visit with no bill. BS date with the time in Nepal under it; money right-aligned tabular; the balance amber when owed, a dash when clear, green as an advance. The last balance must equal what Dues says the patient owes (`lib/patient-ledger.ts`, pinned by `tests/patient-ledger.test.ts`). It scrolls inside itself on a phone. Files keep their own grid below.
 
 ---
 

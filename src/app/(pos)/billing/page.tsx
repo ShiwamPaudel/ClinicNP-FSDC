@@ -15,6 +15,7 @@ export default async function BillingPage() {
   const config: PosConfig = {
     appName: appNameFor(modules),
     vatRegistered: company.vatRegistered,
+    vatInclusive: company.vatInclusive,
     roundingOn: company.roundingOn,
     rackDisplay: company.rackDisplay,
     minRateIsCost: company.minRateIsCost,

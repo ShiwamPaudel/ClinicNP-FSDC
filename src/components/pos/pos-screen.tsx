@@ -214,6 +214,7 @@ export function PosScreen({ config }: { config: PosConfig }) {
       },
       {
         vatRegistered: config.vatRegistered,
+        vatInclusive: config.vatInclusive,
         roundingOn: config.roundingOn,
       },
     );
@@ -307,7 +308,7 @@ export function PosScreen({ config }: { config: PosConfig }) {
     if (unprintable.length > 0) {
       const names = Array.from(new Set(unprintable)).join(", ");
       toast.error(
-        `The batch number or expiry for ${names} is missing, and a medicine bill must show both. Reload this page; if it still says this, check that medicine's batch under Stock.`,
+        `Batch number or expiry missing for ${names}. Reload the page, or check its batch under Stock.`,
       );
       return;
     }
@@ -429,6 +430,8 @@ export function PosScreen({ config }: { config: PosConfig }) {
         subtotalPaisa: totals.subtotalPaisa,
         billDiscountPaisa: totals.billDiscountPaisa,
         vatPaisa: totals.vatPaisa,
+        taxablePaisa: totals.taxablePaisa,
+        vatInclusive: config.vatRegistered && config.vatInclusive,
         totalPaisa: totals.totalPaisa,
         paymentMethod: s.paymentMethod,
         tenderedPaisa: s.tenderedPaisa,

@@ -12,7 +12,7 @@ export default async function EditItemPage({
   params: Promise<{ id: string }>;
 }) {
   await requireAdmin();
-  await requireModulePage("pharmacy");
+  await requireModulePage("supplies");
   const { id } = await params;
   const item = await getItem(id);
   if (!item) notFound();

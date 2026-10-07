@@ -28,10 +28,8 @@ export default async function DuplicatesPage() {
     <PageShell title="Possible duplicate patients">
       <div className="flex flex-col gap-4">
         <p className="max-w-[720px] text-[14px] text-sage-500">
-          These records share a name or a phone number. That does not make them
-          the same person — households share phones, and names repeat — so
-          nothing has been joined. Open a pair to compare them, and join them
-          only if they really are one person.
+          These share a name or phone number, but may be different people.
+          Open a pair to compare, and merge only if they are the same person.
         </p>
 
         {pairs.length === 0 ? (

@@ -310,6 +310,23 @@ describe("receiving money", () => {
     expect(r.voided).toBe(false);
   });
 
+  it("keeps each part payment on the bill, with when it was taken", async () => {
+    // B2: Rs 50, Rs 20 by QR at the counter, Rs 10 in cash since, Rs 20 owed.
+    const { listOwedBills } = await import("@/lib/repos/dues");
+    const b2 = (await listOwedBills({ patientId: sita })).find((b) => b.id === "B2")!;
+    expect(b2.balancePaisa).toBe(2_000);
+    expect(
+      b2.payments!.map((p) => [p.kind, p.amountPaisa, p.method, p.userName]),
+    ).toEqual([
+      ["at_sale", 2_000, "qr", "Bikash"],
+      ["later", 1_000, "cash", "Bikash"],
+    ]);
+    for (const p of b2.payments!) {
+      expect(p.dateBs).toBe(TODAY_BS);
+      expect(Number.isNaN(new Date(p.at).getTime())).toBe(false);
+    }
+  });
+
   it("writes it to the audit log without the patient's name", async () => {
     const rows = await q("SELECT detail_json FROM audit_log WHERE action = 'dues.received'");
     expect(rows).toHaveLength(1);

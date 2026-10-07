@@ -24,7 +24,7 @@ function service(ratePaisa: number, vatApplicable = false): ServiceLine {
 }
 
 describe("counterTotals", () => {
-  const plain = { vatRegistered: false, roundingOn: false };
+  const plain = { vatRegistered: false, vatInclusive: false, roundingOn: false };
 
   it("takes a percentage off the whole bill", () => {
     const t = counterTotals([], [service(45_000), service(900)], { mode: "percent", amountPaisa: 0, percent: 10 }, plain);
@@ -40,7 +40,7 @@ describe("counterTotals", () => {
   });
 
   it("computes VAT on what is left after the percentage", () => {
-    const t = counterTotals([], [service(10_000, true)], { mode: "percent", amountPaisa: 0, percent: 10 }, { vatRegistered: true, roundingOn: false });
+    const t = counterTotals([], [service(10_000, true)], { mode: "percent", amountPaisa: 0, percent: 10 }, { vatRegistered: true, vatInclusive: false, roundingOn: false });
     expect(t.billDiscountPaisa).toBe(1_000);
     expect(t.vatPaisa).toBe(1_170); // 13% of 9,000
     expect(t.totalPaisa).toBe(10_170);
