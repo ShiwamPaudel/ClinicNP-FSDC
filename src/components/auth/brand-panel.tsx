@@ -2,9 +2,11 @@ import Image from "next/image";
 import {
   Boxes,
   CalendarDays,
+  ClipboardList,
   FlaskConical,
   Phone,
   Receipt,
+  Smartphone,
   Stethoscope,
   WifiOff,
 } from "lucide-react";
@@ -27,62 +29,112 @@ import { VENDOR_NAME, SUPPORT_PHONES } from "@/lib/vendor";
  * arrives as artwork rather than as colour.
  */
 
+/** Each icon sits on its own colour, so the list reads at a glance. */
+type Tone = "info" | "ok" | "magenta" | "warn" | "clinic" | "cream";
+
+/** Literal class strings, so Tailwind sees every one of them. */
+const TONE_CLASSES: Record<Tone, string> = {
+  info: "bg-info-100 text-info-600",
+  ok: "bg-ok-100 text-ok-600",
+  magenta: "bg-magenta-100 text-magenta-600",
+  warn: "bg-warn-100 text-warn-600",
+  clinic: "bg-clinic-150 text-clinic-700",
+  cream: "bg-cream-50 text-sage-900",
+};
+
 interface Feature {
   icon: LucideIcon;
+  tone: Tone;
   title: string;
   body: string;
 }
-/** What this install can actually do, in the order it matters at a counter. */
+
+/** What this install can actually do, in the order it matters to it. */
 export function featuresFor(modules: ModuleFlags): Feature[] {
-  const both = modules.pharmacy && modules.clinic;
-  const list: Feature[] = [];
+  return modules.clinic ? clinicFeatures(modules) : pharmacyFeatures();
+}
 
-  list.push({
-    icon: Receipt,
-    title: both ? "One bill for everything" : "Billing that prints",
-    body: both
-      ? "Medicines and services on a single invoice, under your own letterhead."
-      : "Your own letterhead across the top, on a normal A4 sheet.",
-  });
-
-  if (modules.pharmacy) {
-    list.push({
-      icon: Boxes,
-      title: "Stock that watches itself",
-      body: "Batch numbers, expiry dates and a warning before anything runs out.",
-    });
-  }
-
-  if (modules.clinic) {
-    list.push({
+/**
+ * With the Clinic module on, the clinic leads: the doctors, their patients
+ * and the samples come first, and the pharmacy is folded into the one bill
+ * rather than given places of its own. Six, so the two columns come out even.
+ */
+function clinicFeatures(modules: ModuleFlags): Feature[] {
+  return [
+    {
       icon: Stethoscope,
-      title: "Patients and their visits",
+      tone: "info",
+      title: "Doctor consultations, booked",
+      body: "Book a patient with a doctor for a time, and a double booking is caught before it happens.",
+    },
+    {
+      icon: Smartphone,
+      tone: "magenta",
+      title: "Every doctor gets an app",
+      body: "Their day's consultations on their own phone, and an alert the moment a patient is booked.",
+    },
+    {
+      icon: ClipboardList,
+      tone: "clinic",
+      title: "Patient visits, tracked",
       body: "One record per person, every visit on it, and each doctor's share worked out.",
-    });
-    list.push({
+    },
+    {
       icon: FlaskConical,
+      tone: "warn",
       title: "Samples followed to the report",
       body: "Collected, sent, come back, handed over — nothing is lost between two of them.",
-    });
-  }
+    },
+    {
+      icon: Receipt,
+      tone: "ok",
+      title: "One bill for everything",
+      body: modules.pharmacy
+        ? "Services and medicines on one invoice, paid now or on dues tracked by name."
+        : "Every service on one invoice, paid now or on dues tracked by name.",
+    },
+    {
+      icon: WifiOff,
+      tone: "cream",
+      title: "Keeps working offline",
+      body: "The front desk carries on when the internet stops, and catches up by itself.",
+    },
+  ];
+}
 
-  // Offline before Nepali dates, deliberately. Five is the cap, and a clinic
-  // with a pharmacy has already used four — so the last place goes to the
-  // thing a shopkeeper cannot get anywhere else. Bikram Sambat dates are
-  // table stakes for anything sold here; billing through a power cut is not.
-  list.push({
-    icon: WifiOff,
-    title: "Keeps working offline",
-    body: "The counter carries on when the internet stops, and catches up by itself.",
-  });
-
-  list.push({
-    icon: CalendarDays,
-    title: "Nepali dates throughout",
-    body: "Bikram Sambat everywhere, and fiscal years that close properly.",
-  });
-
-  return list.slice(0, 5);
+/**
+ * A pharmacy-only install. Offline before Nepali dates, deliberately: five is
+ * the cap, so the last place goes to the thing a shopkeeper cannot get
+ * anywhere else. Bikram Sambat dates are table stakes for anything sold here;
+ * billing through a power cut is not.
+ */
+function pharmacyFeatures(): Feature[] {
+  return [
+    {
+      icon: Receipt,
+      tone: "ok",
+      title: "Billing that prints",
+      body: "Your own letterhead across the top, on a normal A4 sheet.",
+    },
+    {
+      icon: Boxes,
+      tone: "warn",
+      title: "Stock that watches itself",
+      body: "Batch numbers, expiry dates and a warning before anything runs out.",
+    },
+    {
+      icon: WifiOff,
+      tone: "cream",
+      title: "Keeps working offline",
+      body: "The counter carries on when the internet stops, and catches up by itself.",
+    },
+    {
+      icon: CalendarDays,
+      tone: "info",
+      title: "Nepali dates throughout",
+      body: "Bikram Sambat everywhere, and fiscal years that close properly.",
+    },
+  ];
 }
 
 export function BrandPanel({
@@ -132,17 +184,22 @@ export function BrandPanel({
 
       <div className="relative my-auto pt-10 lg:pt-0">
         <h1 className="max-w-[16ch] font-display text-[30px] font-bold leading-[1.15] sm:text-[38px] lg:text-[42px]">
-          The whole counter, on one screen.
+          {modules.clinic
+            ? "The whole clinic, on one screen."
+            : "The whole counter, on one screen."}
         </h1>
         <p className="mt-4 max-w-[46ch] text-[15px] leading-relaxed text-sage-150">
-          {tagline}, built for how a Nepali counter actually runs the day.
+          {tagline}, built for how a Nepali{" "}
+          {modules.clinic ? "clinic" : "counter"} actually runs the day.
         </p>
 
         <ul className="mt-9 grid gap-x-8 gap-y-6 sm:grid-cols-2">
           {features.map((f) => (
-            <li key={f.title} className="flex gap-3.5">
-              <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-[9px] bg-cream-50/12 ring-1 ring-cream-50/20">
-                <f.icon aria-hidden="true" className="h-[18px] w-[18px]" />
+            <li key={f.title} className="flex gap-4">
+              <span
+                className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-[12px] shadow-sm ${TONE_CLASSES[f.tone]}`}
+              >
+                <f.icon aria-hidden="true" className="h-6 w-6" strokeWidth={2.1} />
               </span>
               <span>
                 <span className="block text-[14px] font-semibold leading-snug">

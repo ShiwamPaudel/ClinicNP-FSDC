@@ -27,8 +27,11 @@ filled**: `AUTH_SECRET` and `CRON_SECRET` generated, a matched VAPID pair
 generated with `pnpm alert-keys` · no prices, no stock, no services, no bills,
 no patients.
 
-**Not done yet: the bootstrap.** There is no company row, no fiscal year and no
-user, so **nobody can sign in** until this runs (Deploy.md, "Deploying"):
+**Bootstrapped, 2083-06-21:** company name, PAN/VAT no. and phone set (address
+blank), **clinic + pharmacy on**, fiscal year **2083/84 open**, one admin user
+(`admin`) whose password and PIN were verified against the app's own scrypt.
+Sign-in checked end to end against a running server. For reference, the command
+was:
 
 ```bash
 pnpm db:bootstrap --clinic --name "Family Smile Dental Care Center" --pan <PAN>   --address "…" --phone "…" --admin <username> --admin-name "<name>"   --password "<8+ characters>" --pin <4-6 digits>
@@ -44,7 +47,8 @@ company details as text.
 
 | | What | Where |
 |---|---|---|
-| 🔴 | **Run `db:bootstrap`** with the real PAN, address, phone and a real admin password — not a placeholder that clears the length guard. Blocking: nobody can sign in until it runs | Deploy.md |
+| 🔴 | **Replace the admin password and PIN** — both are simple placeholders, set so the clinic can configure their own. Do this before the site is reachable from outside | Settings → Users |
+| 🟠 | **Address**, and the **VAT registered** switch once their accountant confirms it | Settings → Company |
 | 🔴 | Real user accounts, roles and PINs — one shared admin login is not an audit trail | Settings → Users |
 | 🟠 | **DDA number**, and the invoice footer text | Settings → Company |
 | 🟠 | **Letterhead** — a full header band, if they want one, rather than the logo alone (see above) | Settings → Company |

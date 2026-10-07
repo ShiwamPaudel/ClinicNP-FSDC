@@ -29,10 +29,13 @@ function saidBy(modules: { pharmacy: boolean; clinic: boolean }): string {
 }
 
 describe("what the sign-in screen claims", () => {
-  it("offers between four and five things, never a wall of them", () => {
-    for (const m of [BOTH, PHARMACY_ONLY, CLINIC_ONLY]) {
-      expect(featuresFor(m).length).toBeGreaterThanOrEqual(4);
-      expect(featuresFor(m).length).toBeLessThanOrEqual(5);
+  it("offers a short list, never a wall of them", () => {
+    // Four or five for a pharmacy; six for a clinic, so its two columns
+    // come out even.
+    expect(featuresFor(PHARMACY_ONLY).length).toBeGreaterThanOrEqual(4);
+    expect(featuresFor(PHARMACY_ONLY).length).toBeLessThanOrEqual(5);
+    for (const m of [BOTH, CLINIC_ONLY]) {
+      expect(featuresFor(m).length).toBe(6);
     }
   });
 
@@ -50,11 +53,24 @@ describe("what the sign-in screen claims", () => {
     expect(said).not.toContain("expiry");
   });
 
-  it("names both halves when both are switched on", () => {
+  it("leads with the clinic whenever the Clinic module is on", () => {
+    for (const m of [BOTH, CLINIC_ONLY]) {
+      const said = saidBy(m);
+      expect(said).toContain("consultation");
+      expect(said).toContain("doctor");
+      expect(said).toContain("phone");
+      expect(said).toContain("patient");
+      expect(said).toContain("visit");
+      expect(said).toContain("sample");
+      expect(featuresFor(m)[0]!.title.toLowerCase()).toContain("doctor");
+    }
+  });
+
+  it("folds the pharmacy into the one bill rather than giving it places", () => {
     const said = saidBy(BOTH);
-    expect(said).toContain("patient");
-    expect(said).toContain("batch");
-    expect(said).toContain("sample");
+    expect(said).toContain("medicines");
+    expect(said).not.toContain("batch");
+    expect(said).not.toContain("expiry");
   });
 
   it("always finds room to say it keeps working offline", () => {
@@ -66,15 +82,15 @@ describe("what the sign-in screen claims", () => {
     }
   });
 
-  it("mentions Nepali dates whenever there is a place left for it", () => {
+  it("mentions Nepali dates to a pharmacy, where there is a place left for it", () => {
     expect(saidBy(PHARMACY_ONLY)).toContain("bikram sambat");
-    expect(saidBy(CLINIC_ONLY)).toContain("bikram sambat");
   });
 
-  it("gives every entry an icon and its own words", () => {
+  it("gives every entry an icon, a colour and its own words", () => {
     const list = featuresFor(BOTH);
     for (const f of list) {
       expect(f.icon).toBeTruthy();
+      expect(f.tone).toBeTruthy();
       expect(f.title.length).toBeGreaterThan(3);
       expect(f.body.length).toBeGreaterThan(20);
     }

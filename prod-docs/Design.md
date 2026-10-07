@@ -298,15 +298,15 @@ Everything behind the login belongs to the clinic: their name on the bill, their
 ┌───────────────────────────────┬────────────────────────┐
 │ ClinicNP  (white artwork)     │                        │
 │                               │  ┌──────────────────┐  │
-│ The whole counter,            │  │ their letterhead │  │
+│ The whole clinic,             │  │ their letterhead │  │
 │ on one screen.                │  └──────────────────┘  │
 │ <derived tagline>             │                        │
 │                               │  Log in                │
-│ ▢ One bill for everything     │  Use the username and  │
-│ ▢ Stock that watches itself   │  password you were     │
-│ ▢ Patients and their visits   │  given.                │
-│ ▢ Samples followed to report  │                        │
-│ ▢ Keeps working offline       │  Username [_________]  │
+│ ■ Doctor consultations ■ App  │  Use the username and  │
+│ ■ Patient visits  ■ Samples   │  password you were     │
+│ ■ One bill        ■ Offline   │  given.                │
+│                               │                        │
+│                               │  Username [_________]  │
 │                               │  Password [______][👁] │
 │ ─────────────────────────────  │  [      Log in      ]  │
 │ by Infobytes Nepal Pvt. Ltd.  │                        │
@@ -321,8 +321,10 @@ Everything behind the login belongs to the clinic: their name on the bill, their
 - **Sage, never navy.** Navy means a patient is involved (§1) and nobody has signed in. The mark itself is the sanctioned exception and it arrives as artwork, not as a colour token.
 - **The form comes first on a phone.** `order-1 lg:order-2` on the form, `order-2 lg:order-1` on the brand panel. Somebody opening this on the shop's tablet wants the password box, not the sales pitch. The pitch is still there, below it.
 - **The clinic's own letterhead sits above the fields**, so somebody at a shared machine can see whose system this is before typing into it. Falls back to their name set in type, then to nothing — never to a placeholder. Only `company.name` and `company.logoUrl` cross to the browser; both are printed on every bill that leaves the shop, so neither is a secret, and nothing else from the company profile is sent to a page anybody can open.
-- **Four or five features, never more**, each with an icon, a title and one sentence. Built by `featuresFor(modules)` in `components/auth/brand-panel.tsx` and **filtered by the modules actually switched on** — a pharmacy-only install must not be told about patients and samples, because those pages 404 for it (D-030) and the first thing a new user would learn is that the software describes itself wrongly.
-- **Offline outranks Nepali dates for the last slot.** Five is the cap and a clinic with a pharmacy fills four; Bikram Sambat is table stakes for anything sold here, and billing through a power cut is not. Pinned by `tests/login-screen.test.ts`.
+- **Clinic first.** With the Clinic module on, the panel says "The whole clinic, on one screen." and lists **six** clinic features — doctor consultations, the doctor's own phone app, patient visits, samples, one bill (medicines folded in, with dues), offline — so the two columns come out even. Pharmacy stock is not given a place of its own (owner's call, 2083-06-21). A pharmacy-only install keeps "The whole counter…" and **four or five** features.
+- **Each feature has an icon on its own colour** — a 48px tile in a status tint (`info`, `magenta`, `clinic`, `warn`, `ok`, `cream`), so the list reads at a glance rather than as text. The tints are the one place colour appears on this panel besides the artwork.
+- **Every feature has an icon, a title and one sentence.** Built by `featuresFor(modules)` in `components/auth/brand-panel.tsx` and **filtered by the modules actually switched on** — a pharmacy-only install must not be told about patients and samples, because those pages 404 for it (D-030) and the first thing a new user would learn is that the software describes itself wrongly.
+- **Offline outranks Nepali dates for the last slot** of a pharmacy-only list. Five is the cap; Bikram Sambat is table stakes for anything sold here, and billing through a power cut is not. Pinned by `tests/login-screen.test.ts`.
 - **Everything is claimed in the present tense**, because everything listed is already built. A sign-in screen that advertises what is coming is the first thing a user learns not to trust.
 - **The support numbers live here** because this is the screen somebody is looking at when they cannot get in — which is exactly when they are needed and exactly when a number stored inside the software is no use. They and the vendor name come from `lib/vendor.ts`, which is the only place in the product that names the maker.
 - **One word for one action.** The heading, the button and its busy state all come from `strings.login` — "Log in", never a mix of "Sign in" and "Log in" on the same screen.

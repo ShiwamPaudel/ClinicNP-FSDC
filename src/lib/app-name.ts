@@ -30,7 +30,7 @@ export function appNameFor(modules: ModuleFlags): string {
 /** One-line description for metadata, the manifest and the PWA install prompt. */
 export function appDescriptionFor(modules: ModuleFlags): string {
   if (modules.clinic && modules.pharmacy) {
-    return "Clinic and pharmacy billing, patients and stock";
+    return "Patients, doctors and billing for the clinic and its pharmacy";
   }
   if (modules.clinic) return "Clinic billing, patients and visits";
   return "Pharmacy billing & stock for Nepali retail pharmacies";

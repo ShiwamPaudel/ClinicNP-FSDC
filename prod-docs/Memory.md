@@ -23,7 +23,7 @@
 
 *Last rewritten 2083-05-26 (C-014); production figures re-read 2083-06-06 (C-016). Everything below is verified against production, not remembered.*
 
-> **This install's database is new and not yet bootstrapped.** Checked 2083-06-20 against `clinicnpforfsdc-fsdc.aws-ap-south-1.turso.io`: it held **0 tables** before this session; **23 migrations** applied (ends at `0023_payables.sql`), and **6,646 items and 14,187 units** imported from `import-templates/fsdc-items.csv`, every rate blank (C-032). **No company row, no fiscal year, no user yet** — nobody can sign in until `db:bootstrap` runs with the clinic's PAN, address, phone and admin credentials, with `--clinic` (Deploy.md). **No letterhead is set**: `public/logo-fsdc.png` is a logo, not a header band, and the bill prints only the image when one is set — so until the clinic supplies a full letterhead, bills print the name, address and phone as text. No prices, stock, services, doctors, patients or bills. **Still the owner's:** connect a private Blob store (Deploy.md, "The storage has to be a private store"); until a *Nightly* row with *Download* appears, nothing is backed up on its own.
+> **This install's database is new, bootstrapped and signs in.** Checked 2083-06-20 against `clinicnpforfsdc-fsdc.aws-ap-south-1.turso.io`: it held **0 tables** before this session; **23 migrations** applied (ends at `0023_payables.sql`), and **6,646 items and 14,187 units** imported from `import-templates/fsdc-items.csv`, every rate blank (C-032). **Bootstrapped 2083-06-21** (C-033): company row with PAN/VAT no. and phone (address blank, `vat_registered` off pending their accountant), **clinic + pharmacy on**, fiscal year **2083/84 open**, one Admin (`admin`). Sign-in verified end to end against a running server. 🔴 The admin password and PIN are deliberately simple placeholders the owner chose, to be changed by the clinic (Rule 7: the values are not written here). **No letterhead is set**: `public/logo-fsdc.png` is a logo, not a header band, and the bill prints only the image when one is set — so until the clinic supplies a full letterhead, bills print the name, address and phone as text. No prices, stock, services, doctors, patients or bills. **Still the owner's:** connect a private Blob store (Deploy.md, "The storage has to be a private store"); until a *Nightly* row with *Download* appears, nothing is backed up on its own.
 >
 > The figures in the paragraph above replaced the previous install's. **The code is unchanged and still at the same maturity**; what reset is the data.
 
@@ -35,7 +35,7 @@
 
 ### 🔴 The one blocking item
 
-**Nobody can sign in yet: `db:bootstrap` has not run on this database** (2083-06-20). It needs the clinic's PAN and the admin's password and PIN, which are theirs to give. When it runs, give it a real password — earlier installs were bootstrapped with throwaway ones (`admin123`, eight repeated digits) that then sat on the public URL for weeks.
+**The admin password and PIN are simple placeholders** (2083-06-21, owner's choice — "they will configure them later"). They must be changed before the site is reachable from outside; earlier installs kept throwaway ones on the public URL for weeks.
 
 ### What was in production on a PREVIOUS install (re-read 2083-06-06, C-016) — historical, not this database
 
@@ -1233,3 +1233,40 @@ admin) needs the clinic's PAN and the admin's password and PIN. **No letterhead
 was set:** `public/logo-fsdc.png` is a 4640x5328 logo, not a header band, and an
 image letterhead replaces the printed name, address and phone on every bill —
 so it waits for a full letterhead from the clinic (owner's call).
+
+### C-033  ·  2083-06-21  ·  Bootstrapped, a clinic-first sign-in screen, and why it said "Faarma"
+
+**"Faarma" on a ClinicNP install** was the missing company row, not a bug:
+`getModuleFlags()` answers "pharmacy on, clinic off" when there is no row, and
+the product name is derived from those flags. Bootstrapping with `--clinic`
+turned it into ClinicNP everywhere — the title, the sidebar, the sign-in
+artwork — with no code change.
+
+**Bootstrapped** with the PAN/VAT number and phone the owner gave, address
+blank, clinic + pharmacy, fiscal year 2083/84, one Admin. The password and PIN
+were checked back through `verifyPassword` / `verifyPin`, wrong ones refused.
+`vat_registered` was left off: a VAT number was supplied, but switching it on
+changes the tax on every bill and is the accountant's call (Go-live §1).
+
+**The sign-in screen leads with the clinic** (owner's request). With the Clinic
+module on: "The whole clinic, on one screen.", and six features — doctor
+consultations, every doctor's phone app, patient visits, samples, one bill
+(medicines and dues folded in), offline — each on a 48px tile in its own tint.
+Pharmacy stock no longer has a place of its own there. Every claim was checked
+against what is built (D-115, D-118, D-123, D-125, D-127). The clinic tagline is
+now "Patients, doctors and billing for the clinic and its pharmacy". A
+pharmacy-only install is unchanged. `tests/login-screen.test.ts` and Design.md §9
+were rewritten to the new rules.
+
+**Checked** against a dev server on the live database: `/login` 200 at 1440px and
+390px with no horizontal scroll; the right password lands on the dashboard
+showing ClinicNP, both module menus and "Admin (Owner)"; a wrong password stays
+on `/login`; `/dashboard` without a session goes to `/login`. 555 tests across
+45 files, typecheck clean, production build passes.
+
+**The logo is prepared but not stored.** `public/logo-fsdc.png` downscaled by the
+same routine as Settings → Company (1600x1837 JPEG, 219,475 chars against the
+220,000 cap). The sign-in screen and every bill read the same
+`company.logo_url`, and an image there replaces the printed name, address,
+phone and PAN on bills — so it waits on the owner's choice between keeping
+that text under the logo or not.
