@@ -4,6 +4,7 @@
 import "server-only";
 import { ulid } from "ulid";
 import { db } from "@/lib/db";
+import { payableMethodLabel } from "@/lib/payables";
 import type { Row } from "@/lib/db";
 
 export interface Supplier {
@@ -150,7 +151,7 @@ export async function supplierLedger(supplierId: string): Promise<{
   const rows: Omit<LedgerEntry, "balancePaisa">[] = [];
 
   const purchases = await db().execute({
-    sql: `SELECT date_ad, date_bs, total_paisa, supplier_invoice_no
+    sql: `SELECT date_ad, date_bs, total_paisa, supplier_invoice_no, purchase_no
           FROM purchases WHERE supplier_id = ?`,
     args: [supplierId],
   });
@@ -159,7 +160,14 @@ export async function supplierLedger(supplierId: string): Promise<{
       dateAd: p.date_ad as string,
       dateBs: p.date_bs as string,
       kind: "purchase",
-      description: `Purchase ${p.supplier_invoice_no ? "#" + p.supplier_invoice_no : ""}`.trim(),
+      // Our number, then theirs, so either side can find it on their own books.
+      description: [
+        "Purchase",
+        (p.purchase_no as string | null) ?? "",
+        p.supplier_invoice_no ? `· their bill #${p.supplier_invoice_no as string}` : "",
+      ]
+        .filter(Boolean)
+        .join(" "),
       deltaPaisa: Number(p.total_paisa),
     });
   }
@@ -190,7 +198,7 @@ export async function supplierLedger(supplierId: string): Promise<{
       dateAd: p.date_ad as string,
       dateBs: p.date_bs as string,
       kind: "payment",
-      description: `Payment (${p.method})`,
+      description: `Payment · ${payableMethodLabel(p.method as string)}`,
       deltaPaisa: -Number(p.amount_paisa),
     });
   }

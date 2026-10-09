@@ -52,10 +52,13 @@ describe("one visit, one bill", () => {
     expect(rows[0]!.title).toBe("Crown filling");
     expect(rows[0]!.notes).toEqual([
       "Complaint: Pain in lower left molar",
-      "Findings: Deep caries, 36",
+      // The treatment notes are what the row is about: no label (C-036).
+      "Deep caries, 36",
       "Advice: Crown",
       "Seen by Dr. Sharma",
     ]);
+    // ...and come along as typed, so they can be edited in place.
+    expect(rows[0]!.treatment).toBe("Deep caries, 36");
     expect(rows[0]!.feePaisa).toBe(1_000_000);
     expect(rows[0]!.paymentPaisa).toBe(1_000_000);
     expect(rows[0]!.balancePaisa).toBe(0);
@@ -181,5 +184,24 @@ describe("bills cleared with the old Mark paid button", () => {
       ["Marked as paid", 600_000, 0],
     ]);
     expect(rows[2]!.dateBs).toBe("2083-07-03");
+  });
+});
+
+describe("the treatment notes a row can edit (C-036)", () => {
+  it("a visit with no bill carries its own notes", () => {
+    const rows = buildLedger({ visits: [visit()], bills: [], payments: [], refunds: [] });
+    expect(rows[0]!.kind).toBe("visit");
+    expect(rows[0]!.treatment).toBe("Deep caries, 36");
+  });
+
+  it("only the first bill of a visit carries them, and payments never do", () => {
+    const rows = buildLedger({
+      visits: [visit()],
+      bills: [bill(), bill({ id: "b2", label: "SI-2083/84-000002", at: "2026-10-07T05:00:00.000Z" })],
+      payments: [],
+      refunds: [],
+    });
+    const withNotes = rows.filter((r) => r.treatment !== null);
+    expect(withNotes).toHaveLength(1);
   });
 });

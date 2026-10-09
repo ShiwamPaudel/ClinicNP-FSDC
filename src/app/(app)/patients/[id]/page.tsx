@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Pencil, Stethoscope, Receipt, GitMerge } from "lucide-react";
-import { requireUser } from "@/lib/session";
+import { requireUser, canBill } from "@/lib/session";
 import { requireModulePage } from "@/lib/modules";
 import { getPatient } from "@/lib/repos/patients";
 import { attachmentsForPatient } from "@/lib/repos/attachments";
@@ -9,13 +9,17 @@ import { owedByPatient } from "@/lib/repos/dues";
 import { patientLedger } from "@/lib/repos/patient-ledger";
 import { formatPaisa } from "@/lib/money";
 import { nepalDayIso } from "@/lib/clock";
-import { adToIso, toBS, adFromIso, formatBS, today, bsToDbText } from "@/lib/bs";
+import { adToIso, toBS, adFromIso, formatBS, bsToDbText } from "@/lib/bs";
+import { getCompany } from "@/lib/repos/company";
+import { listPosServices } from "@/lib/repos/services";
+import { listDoctors } from "@/lib/repos/doctors";
+import { listLabPartners } from "@/lib/repos/lab-partners";
+import type { RowFormOptions } from "@/components/clinic/history-row-form";
 import { PageShell } from "@/components/app/page-shell";
 import { Button } from "@/components/ui/button";
 import { PatientHeader } from "@/components/clinic/patient-card";
-import { PatientLedgerTable } from "@/components/clinic/patient-ledger-table";
+import { PatientHistory } from "@/components/clinic/patient-ledger-table";
 import { AttachmentGrid } from "@/components/clinic/attachment-grid";
-import { StartVisitButton } from "@/components/clinic/start-visit-button";
 
 export default async function PatientCardPage({
   params,
@@ -39,16 +43,35 @@ export default async function PatientCardPage({
   const sinceBs = formatBS(toBS(adFromIso(nepalDayIso(patient.createdAt))));
   const isAdmin = user.role === "admin";
 
+  // Whoever works the counter adds rows to the history: the doctor's notes,
+  // and the bill for what was done (C-036).
+  let rowOptions: RowFormOptions | undefined;
+  if (canBill(user.role)) {
+    const [company, services, doctors, partners] = await Promise.all([
+      getCompany(),
+      listPosServices(),
+      listDoctors(),
+      listLabPartners(),
+    ]);
+    rowOptions = {
+      services,
+      doctors: doctors.map((d) => ({ id: d.id, name: d.name })),
+      partners: partners.map((p) => ({ id: p.id, name: p.name })),
+      billConfig: {
+        vatRegistered: company.vatRegistered,
+        vatInclusive: company.vatInclusive,
+        roundingOn: company.roundingOn,
+      },
+      canEditRate: isAdmin || user.canEditRate,
+      todayBs: bsToDbText(toBS(adFromIso(nepalDayIso(new Date().toISOString())))),
+    };
+  }
+
   return (
     <PageShell
       title={patient.name}
       actions={
         <div className="flex flex-wrap items-center gap-2">
-          <StartVisitButton
-            patientId={patient.id}
-            todayAd={todayAd}
-            todayBs={bsToDbText(today())}
-          />
           <Link href={`/billing?patient=${patient.id}`}>
             <Button variant="secondary">
               <Receipt className="h-4 w-4" />
@@ -94,7 +117,7 @@ export default async function PatientCardPage({
             <Stethoscope className="h-4 w-4 text-clinic-500" />
             History
           </h2>
-          <PatientLedgerTable rows={ledger} />
+          <PatientHistory rows={ledger} patientId={patient.id} rowOptions={rowOptions} />
         </section>
 
         <section>

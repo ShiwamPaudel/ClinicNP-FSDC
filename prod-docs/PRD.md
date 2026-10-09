@@ -167,7 +167,7 @@ New screen: **Stock → Stock out** (Admin only; Staff can view the register, no
 
 - **Duplicate guard:** on save, if name + phone or name + age + address closely match an existing patient, the system offers the match first: *"Is this the same person?"* with the existing patient's last visit date. Merging two patients is Admin-only, audit-logged, and moves visits, bills and files to the kept record.
 - **Search** by name (partial), phone, or patient number — under 100 ms against the local cache, same as item search.
-- **The patient card** is the one screen the clinic will live in: identity strip, allergy strip, quick actions (New visit, New bill, Add file), a **history table** laid out like the clinic's paper card — *Date · Treatment notes · Service charge · Payment · Due / Advance*, oldest first, one line per bill, later payment, refund or visit, with the running balance (C-034) — and the patient's files.
+- **The patient card** is the one screen the clinic will live in: identity strip, allergy strip, quick actions (New bill — which opens the counter with the patient on the bill — Edit, Merge, Add file), a **history table** laid out like the clinic's paper card — *Date · Treatment notes · Service charge · Payment · Due / Advance*, oldest first, one line per bill, later payment, refund or visit, with the running balance (C-034) — and the patient's files. **Rows are added in the table** (C-036): date, doctor, the doctor's treatment notes, and optionally services with what was paid (in full, in part, or on credit, cash or QR). The notes become a visit; a charge becomes an ordinary numbered bill dated today, made by the same code as the counter's, so VAT, dues, doctor shares and laboratory costs are unchanged. A row with a charge cannot be back-dated. Notes on any row with a visit can be edited in place. Only people who can bill (Admin, Staff) add rows; rates are editable only by those allowed to change rates; follow-up rates are left to the counter.
 - Patient data is **never** used for marketing. No bulk export of patient contact lists exists in the product (Admin data export exists for backup and is audit-logged).
 
 ### 4B.2 Visits
@@ -364,6 +364,14 @@ With **VAT registered** on, Settings → Company asks **How rates are priced**:
 - The counter's preview and the saved bill use the same calculation, so they never differ.
 - **Each bill records the choice it was made under and its taxable amount.** Changing the setting later never changes how an old bill reads, reprints or is refunded. The VAT report adds up each bill's own taxable amount.
 - A refund on a VAT-included bill gives back the amount paid; the VAT inside it goes with it.
+
+## 4G — LEDGERS AS FILES *(added 2083-06-23, C-036)*
+
+**PDF** and **Excel** buttons on: a **supplier's ledger** (Suppliers → a supplier; every purchase, return and payment, with the running balance), a **laboratory's statement** (Reports → Laboratory statements → a laboratory, for the dates chosen, with what was owed at the start and the end), the **Dues** list (everyone who owes, each bill under its person) and **one person's dues** (from their row on Dues, every payment under its bill, with date, time, method and who took it).
+
+- The PDF is A4 with the clinic's name, address, phone and PAN/VAT number, the party's details, the period, the headline figures, the table with a total row, and *Page x of y*. Set in Mukta, so रू and Nepali names print correctly.
+- The Excel sheet has the same heading lines, then the table; money is in rupees as numbers, not text.
+- Whoever can open the screen can download it, and nobody else: suppliers and laboratories are Admin-only, Dues is everyone but a doctor.
 
 ## 4F — PURCHASES FOR THE CLINIC'S OWN USE *(added 2083-06-23, C-035)*
 

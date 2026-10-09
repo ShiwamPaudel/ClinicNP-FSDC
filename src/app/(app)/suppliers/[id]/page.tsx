@@ -7,6 +7,7 @@ import { PageShell } from "@/components/app/page-shell";
 import { Table, THead, TR, TH, TD } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { SupplierPaymentForm } from "@/components/app/supplier-payment-form";
+import { StatementDownload } from "@/components/app/statement-download";
 
 export default async function SupplierDetailPage({
   params,
@@ -21,7 +22,10 @@ export default async function SupplierDetailPage({
   const { entries, balancePaisa } = await supplierLedger(id);
 
   return (
-    <PageShell title={supplier.name}>
+    <PageShell
+      title={supplier.name}
+      actions={<StatementDownload href={`/api/statement/supplier?id=${id}`} />}
+    >
       <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
         <div className="flex flex-col gap-4">
           <div className="rounded-[10px] border border-line bg-cream-50 p-5">

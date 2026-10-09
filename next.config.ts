@@ -38,7 +38,12 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  serverExternalPackages: ["@libsql/client", "exceljs", "web-push"],
+  serverExternalPackages: ["@libsql/client", "exceljs", "web-push", "pdfkit"],
+  // The exported PDFs are set in Mukta, read from disk at request time, so the
+  // font files have to travel with the route that reads them.
+  outputFileTracingIncludes: {
+    "/api/statement/[kind]": ["./assets/fonts/**"],
+  },
   poweredByHeader: false,
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];

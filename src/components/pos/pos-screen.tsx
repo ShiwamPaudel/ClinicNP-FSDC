@@ -61,7 +61,14 @@ import { InvoiceA4 } from "@/components/print/invoice-a4";
 import { useToast } from "@/components/ui/toast";
 import { strings, npLabels } from "@/lib/strings";
 
-export function PosScreen({ config }: { config: PosConfig }) {
+export function PosScreen({
+  config,
+  startPatient,
+}: {
+  config: PosConfig;
+  /** The patient whose card "New bill" was pressed on, to put on the bill. */
+  startPatient?: AttachedPatient;
+}) {
   const toast = useToast();
   const [items, setItems] = useState<PosItem[]>([]);
   const [services, setServices] = useState<PosService[]>([]);
@@ -90,6 +97,29 @@ export function PosScreen({ config }: { config: PosConfig }) {
   const paymentRef = useRef<PaymentPaneHandle>(null);
 
   const store = useBillStore();
+
+  // Arriving from a patient's card: put them on the bill. A bill already
+  // under way for somebody else is never quietly re-addressed — it is said,
+  // and the counter is left as it was.
+  const startHandled = useRef(false);
+  useEffect(() => {
+    if (!startPatient || startHandled.current) return;
+    startHandled.current = true;
+    const s = useBillStore.getState();
+    if (s.patient?.id !== startPatient.id) {
+      const underWay = s.lines.length > 0 || s.serviceLines.length > 0;
+      if (underWay) {
+        toast.error(
+          `A bill is already open on the counter. Hold or clear it, then add ${startPatient.name}.`,
+        );
+      } else {
+        s.setPatient(startPatient);
+        s.setVisitId(null);
+      }
+    }
+    // Leave a plain /billing behind, so a reload doesn't do this again.
+    window.history.replaceState(null, "", "/billing");
+  }, [startPatient, toast]);
 
   const refreshItems = useCallback(async () => {
     setItems(await getCachedItems());

@@ -175,7 +175,7 @@ One screen the clinic staff will open a hundred times a day. It must feel like p
 ├────────────────────────────────────────────────────────────┤
 │ ⚠ Allergy: Penicillin                                      │  danger strip, only when filled
 ├────────────────────────────────────────────────────────────┤
-│ [Start visit]  [New bill]  [Edit]  [Merge]                 │
+│ [New bill]  [Edit]  [Merge]                                │
 │                                                            │
 │ HISTORY                                                    │
 │ ┌──────────┬──────────────────┬─────────┬────────┬───────┐ │
@@ -189,11 +189,14 @@ One screen the clinic staff will open a hundred times a day. It must feel like p
 │ ├──────────┴──────────────────┼─────────┼────────┼───────┤ │
 │ │                       Total │ 11,300  │ 7,000  │ 4,300 │ │
 │ └─────────────────────────────┴─────────┴────────┴───────┘ │
+│ [+ Add row]                                                │
 │ FILES                                                      │
 └────────────────────────────────────────────────────────────┘
 ```
 
 Rules for the history table (C-034, replacing the timeline): it is the clinic's paper card — *Date · Treatment notes · Service charge · Payment · Due / Advance* — so it reads oldest first, the way a card is filled in. One line per bill (its services and medicines as the title, the visit's complaint, findings, advice and doctor under it), per later payment, per refund, and per visit with no bill. BS date with the time in Nepal under it; money right-aligned tabular; the balance amber when owed, a dash when clear, green as an advance. The last balance must equal what Dues says the patient owes (`lib/patient-ledger.ts`, pinned by `tests/patient-ledger.test.ts`). It scrolls inside itself on a phone. Files keep their own grid below.
+
+**Adding to it (C-036).** *Add row* under the table opens a new line bordered like the table: date, doctor, **treatment notes**, and *Add a charge* for services with qty and rate (rate locked unless the person may change rates). With a charge the date reads *Today*, the taxable amount and VAT show as on a bill, and the payment is *Paid in full · Part paid · On credit* with *Cash · QR*. *Save row and bill* makes the visit and a numbered bill; a green line under the table then offers *Open or print it*. Any row that carries a visit's notes has *Edit notes* / *Add notes*, which turns the notes into a box in place. The treatment notes are the visit's `findings`, shown without a label; the visit screen calls the field *Treatment notes*. *Start visit* is gone from the card — *Add row* replaces it — and *New bill* opens the counter with the patient already on the bill.
 
 ---
 

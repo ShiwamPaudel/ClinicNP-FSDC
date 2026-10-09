@@ -36,6 +36,7 @@ import { formatPatientNo } from "@/lib/patient-no";
 import { nepalTime } from "@/lib/clock";
 import { strings } from "@/lib/strings";
 import { cn } from "@/lib/cn";
+import { StatementDownload } from "@/components/app/statement-download";
 
 function invoiceLabel(b: { invoiceNo: number | null; fiscalLabel: string }): string {
   return b.invoiceNo != null
@@ -296,14 +297,21 @@ export function DuesList({
 function PersonBills({ person }: { person: DuePerson }) {
   return (
     <div className="flex flex-col gap-2">
-      {person.patientId && (
-        <Link
-          href={`/patients/${person.patientId}`}
-          className="self-start text-[13px] font-medium text-clinic-700 hover:underline"
-        >
-          Open patient card
-        </Link>
-      )}
+      <div className="flex flex-wrap items-center gap-3">
+        {person.patientId && (
+          <Link
+            href={`/patients/${person.patientId}`}
+            className="text-[13px] font-medium text-clinic-700 hover:underline"
+          >
+            Open patient card
+          </Link>
+        )}
+        {/* This person's statement, every payment under its bill (C-036). */}
+        <StatementDownload
+          size="sm"
+          href={`/api/statement/dues?person=${encodeURIComponent(person.key)}`}
+        />
+      </div>
       {/* A phone gets the bills one under another; a table this wide would
           push the whole list off the side of the screen. */}
       <ul className="flex flex-col gap-2 sm:hidden">

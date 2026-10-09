@@ -85,6 +85,11 @@ export interface LedgerRow {
   balancePaisa: number;
   billId: string | null;
   visitId: string | null;
+  /**
+   * The visit's treatment notes as typed, for editing them in place; null on
+   * a row that carries no visit's notes (C-036).
+   */
+  treatment: string | null;
 }
 
 /** "Paid in cash", "Paid by QR" — kept short for the table. */
@@ -98,7 +103,8 @@ function visitNotes(v: LedgerVisitInput | undefined): string[] {
   if (!v) return [];
   const out: string[] = [];
   if (v.complaint.trim()) out.push(`Complaint: ${v.complaint.trim()}`);
-  if (v.findings.trim()) out.push(`Findings: ${v.findings.trim()}`);
+  // The treatment notes are what the row is about, so they need no label.
+  if (v.findings.trim()) out.push(v.findings.trim());
   if (v.advice.trim()) out.push(`Advice: ${v.advice.trim()}`);
   if (v.doctorName.trim()) out.push(`Seen by ${v.doctorName.trim()}`);
   return out;
@@ -144,6 +150,7 @@ export function buildLedger(input: {
       paymentPaisa: null,
       billId: null,
       visitId: v.id,
+      treatment: v.findings,
       delta: 0,
       order: 0,
     });
@@ -152,8 +159,11 @@ export function buildLedger(input: {
   for (const b of bills) {
     const paidAtSale = Math.max(0, b.totalPaisa - b.owedAtSalePaisa);
     let notes: string[] = [];
+    let treatment: string | null = null;
     if (b.visitId && !notesShown.has(b.visitId)) {
-      notes = visitNotes(visitById.get(b.visitId));
+      const v = visitById.get(b.visitId);
+      notes = visitNotes(v);
+      treatment = v && !v.cancelled ? v.findings : null;
       notesShown.add(b.visitId);
     }
     rows.push({
@@ -167,6 +177,7 @@ export function buildLedger(input: {
       paymentPaisa: paidAtSale,
       billId: b.id,
       visitId: b.visitId,
+      treatment,
       delta: b.totalPaisa - paidAtSale,
       order: 1,
     });
@@ -186,6 +197,7 @@ export function buildLedger(input: {
       paymentPaisa: p.amountPaisa,
       billId: bill.id,
       visitId: null,
+      treatment: null,
       delta: -p.amountPaisa,
       order: 2,
     });
@@ -211,6 +223,7 @@ export function buildLedger(input: {
       paymentPaisa: paidBack > 0 ? -paidBack : null,
       billId: bill.id,
       visitId: null,
+      treatment: null,
       delta: -r.againstDuePaisa,
       order: 3,
     });
@@ -250,6 +263,7 @@ export function buildLedger(input: {
           balancePaisa: balance,
           billId: b.id,
           visitId: null,
+          treatment: null,
         });
       }
     }

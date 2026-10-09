@@ -198,7 +198,7 @@ export function VisitDetail({
         {(
           [
             ["complaint", "What brings them in"],
-            ["findings", "Findings"],
+            ["findings", "Treatment notes"],
             ["advice", "Advice"],
           ] as const
         ).map(([key, label]) => (

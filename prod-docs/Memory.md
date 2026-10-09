@@ -288,6 +288,8 @@
 | D-158 | **A new purchase row's expiry starts at today + 4 years, marked as a default until changed** | The owner's instruction. The risk is a default that is never corrected and quietly becomes a real batch's expiry, so the row says "4 years from today — change to the pack's" in warn amber until the date is edited, and the date box selects its whole value on focus so typing replaces it. Rows filled from a photo keep what the bill printed (or empty, D-145) — never the default, which would pass for a date read off the paper |
 | D-159 | **The margin under the sell price is on the selling price — (sell − cost) ÷ sell — and, where free goods or a line discount lower the real unit cost, the margin they give is shown beside it** | Nepal pharmacy margins are quoted on the selling price/MRP ("16% margin"). A blank sell price leaves the item's price as it is, so the margin is worked on that price. "Margin 13.8% · 28.2% with free" for 10 + 2 free at 112.07 against 130 |
 | D-160 | **With the pharmacy off, what is bought is used, not sold: an item is a name and a unit, a purchase line is item · unit · qty · cost, and no stock is counted** | Owner, 2083-06-23: "they use it… no need batch number, expiry date, manufacture date, selling price… tied to payables and accounting, not sales." Owner chose *purchases only, no stock count* over a simple count with *mark as used*. Each line still writes a batch row underneath — `purchase_lines.batch_id` and `batches.expiry_date_ad` are NOT NULL — with batch `""` and expiry `9999-12-31` (`NO_EXPIRY_AD`, never shown), so edits, returns and payables run on the same code as a pharmacy's. The server decides the mode from the module flags and ignores batch, expiry, bonus and price from the browser. Turning the pharmacy on later would make these items sellable stock with no expiry — decide how to separate them first |
+| D-161 | **A row added to a patient's history is a visit plus, if anything was charged, an ordinary bill made by `ingestBill`; a row with a charge is dated today** | Owner chose "notes + charge + payment" over notes only. Going through `ingestBill` keeps one place for VAT, invoice numbers, dues, doctor shares and lab costs. A back-dated invoice would sit out of order in the year's numbering, so only a notes-only row may carry an earlier date. The treatment notes are the visit's existing `findings` (no migration); a row's own visit is created first and passed to `ingestBill`, so it never writes over a visit the counter opened that day |
+| D-162 | **Ledger PDFs are made on the server with pdfkit and the Mukta font, not by printing the page** | Owner chose a downloaded file over a print view: one click, same on a phone, easy to send to a supplier. Mukta is the face the app already uses for Devanagari and covers Latin too; fontkit shapes the conjuncts (checked: श्री, क्ष, त्र, ज्ञ). The font files live in `assets/fonts` with their OFL licence and are traced into the route by `outputFileTracingIncludes` |
 
 *(Add D-036+ as they happen. Assumptions use the `ASSUMPTION:` prefix.)*
 
@@ -1383,3 +1385,39 @@ in a browser against a scratch clinic-only copy — item added as *Nitrile glove
 returned as damaged: Payables shows रू 850 owed (1,800 − 500 − 450), the stored
 batch has no number, no expiry shown and no price, and `/stock`, `/stock/out`,
 `/reports/expiry`, `/reports/valuation` answer 404.
+
+### C-036  ·  2083-06-23  ·  Rows added in the history table, ledgers as PDF and Excel, New bill that knows the patient
+
+**"New bill" from a patient's card now puts them on the bill.** The card linked
+to `/billing?patient=…` and the counter never read it. The billing page reads
+the id, and the counter attaches the patient on arrival — unless a bill for
+someone is already under way, which it says instead of re-addressing — then
+leaves a plain `/billing` in the address bar. *Start visit* is gone from the
+card, as asked.
+
+**Rows are added in the history table** (D-161). *Add row*: date, doctor,
+treatment notes, and *Add a charge* for services (qty, rate if allowed), with
+*Paid in full · Part paid · On credit* and *Cash · QR*. `addHistoryRowAction`
+(`patients/history-actions.ts`) checks everything first, creates the visit
+with the notes (status *Seen*), then the bill through `ingestBill` with that
+visit. `rowCharge` in `lib/visit-row.ts` is the preview and the server's check
+alike. A notes-only row may be back-dated; a charged one is today's. Each row
+with a visit has *Edit notes* in place (`updateVisitAction`). The notes are
+`visits.findings`, labelled *Treatment notes* on the visit screen and shown
+without a label in the table — no migration.
+
+**Ledgers as files** (D-162). PDF and Excel on a supplier's ledger, a
+laboratory's statement (for the report's dates), the Dues list, and one
+person's dues statement. `repos/statements.ts` builds each from the reads the
+screens use; `lib/export/statement-pdf.ts` / `statement-xlsx.ts` draw it;
+`/api/statement/[kind]` serves it to whoever may open the screen. Supplier
+ledger lines now name our purchase number and their bill number, and the
+payment method in words.
+
+**Checked:** 604 tests across 53 files (new: `visit-row`, `statement-export`;
+ledger tests extended); typecheck; production build with the fonts traced into
+the route; and in a browser against a scratch copy with a doctor and an
+outsourced Crown Filling: a notes row, a charged row (Rs 10,000, Rs 4,000 paid,
+Rs 6,000 on dues, lab cost Rs 3,500 to Unique Lab), notes edited in place, New
+bill landing on the counter with the patient attached, and all four PDFs read
+back — Devanagari, totals and balances matching the screens.

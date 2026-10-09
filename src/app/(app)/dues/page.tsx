@@ -5,6 +5,7 @@ import { personKey } from "@/lib/dues";
 import { PageShell } from "@/components/app/page-shell";
 import { DuesList } from "@/components/app/dues-list";
 import { strings } from "@/lib/strings";
+import { StatementDownload } from "@/components/app/statement-download";
 
 /**
  * Dues — who owes money for medicine or services, and what has come back.
@@ -32,7 +33,10 @@ export default async function DuesPage({
       : undefined;
 
   return (
-    <PageShell title={strings.dues}>
+    <PageShell
+      title={strings.dues}
+      actions={<StatementDownload href="/api/statement/dues" />}
+    >
       <DuesList
         people={people}
         receipts={receipts}

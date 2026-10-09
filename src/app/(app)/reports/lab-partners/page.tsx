@@ -13,6 +13,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { PartnerPaymentForm } from "@/components/clinic/partner-payment-form";
 import { resolveFiscalYear } from "@/components/app/fiscal-year-bar";
 import { cn } from "@/lib/cn";
+import { StatementDownload } from "@/components/app/statement-download";
 
 export default async function LabPartnersReportPage({
   searchParams,
@@ -113,9 +114,15 @@ export default async function LabPartnersReportPage({
       {statement && (
         <section className="mt-8">
           <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
-            <h2 className="text-[17px] font-semibold text-sage-900">
-              {statement.partnerName}
-            </h2>
+            <div className="flex flex-wrap items-center gap-3">
+              <h2 className="text-[17px] font-semibold text-sage-900">
+                {statement.partnerName}
+              </h2>
+              <StatementDownload
+                size="sm"
+                href={`/api/statement/lab${qs(statement.partnerId)}`}
+              />
+            </div>
             {/* A closed year is read and print only. Recording a payment
                 against it would change figures the owner has signed off. */}
             {year.isClosed ? (
