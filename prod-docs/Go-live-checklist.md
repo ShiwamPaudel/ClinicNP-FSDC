@@ -69,6 +69,7 @@ company details as text.
 | 🟠 | The live site needs its own `AUTH_SECRET`, `CRON_SECRET` and VAPID pair in the hosting settings — the ones generated here are for local work. **A VAPID pair must never change once phones have alerts on** (D-122) | Vercel |
 | 🟠 | Services, doctors and follow-up rules — none are loaded | Settings → Services / Doctors |
 | 🟠 | Suppliers, and the items the clinic buys (name and unit) | Supplies → Suppliers · Items |
+| 🟠 | Staff and their salaries (from which month, on SSF or not); each doctor's share | Salaries → Staff · Settings → Doctors |
 | 🟠 | Laboratory partners, if they send samples out | Settings → Lab partners |
 | 🟡 | Shop floor plan and racks, once the shelving is decided | Settings → Floor plan |
 

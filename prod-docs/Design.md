@@ -107,8 +107,8 @@ scrolling at 232 px:
     Purchases   │ Suppliers
   ─────────────────────────    ← divider: what follows is neither module's
     Bills       │ Dues           (dues cover medicine and services, 0019)
-    Payables    │ Reports       (what is owed to suppliers and labs)
-    Settings                    (Settings is admin-only)
+    Payables    │ Salaries      (owed to suppliers, labs, doctors; staff pay)
+    Reports     │ Settings      (Salaries and Settings are admin-only)
 ```
 
 The stock group shows with **either** module (C-034): a clinic with no pharmacy
@@ -197,6 +197,8 @@ One screen the clinic staff will open a hundred times a day. It must feel like p
 Rules for the history table (C-034, replacing the timeline): it is the clinic's paper card — *Date · Treatment notes · Service charge · Payment · Due / Advance* — so it reads oldest first, the way a card is filled in. One line per bill (its services and medicines as the title, the visit's complaint, findings, advice and doctor under it), per later payment, per refund, and per visit with no bill. BS date with the time in Nepal under it; money right-aligned tabular; the balance amber when owed, a dash when clear, green as an advance. The last balance must equal what Dues says the patient owes (`lib/patient-ledger.ts`, pinned by `tests/patient-ledger.test.ts`). It scrolls inside itself on a phone. Files keep their own grid below.
 
 **Adding to it (C-036).** *Add row* under the table opens a new line bordered like the table: date, doctor, **treatment notes**, and *Add a charge* for services with qty and rate (rate locked unless the person may change rates). With a charge the date reads *Today*, the taxable amount and VAT show as on a bill, and the payment is *Paid in full · Part paid · On credit* with *Cash · QR*. *Save row and bill* makes the visit and a numbered bill; a green line under the table then offers *Open or print it*. Any row that carries a visit's notes has *Edit notes* / *Add notes*, which turns the notes into a box in place. The treatment notes are the visit's `findings`, shown without a label; the visit screen calls the field *Treatment notes*. *Start visit* is gone from the card — *Add row* replaces it — and *New bill* opens the counter with the patient already on the bill.
+
+**Tooth chart (C-037).** Under the history, closed by default: "Tooth chart · 3 teeth marked". Opened, it is the FDI chart as the dentist faces the patient — upper 18→11 | 21→28, lower 48→41 | 31→38, a gap at the midline — with *Adult · Milk teeth · Both*. Each tooth is a small tile coloured by its latest mark (caries red, filled blue, root canal magenta, crown/bridge amber, implant navy, missing dashed grey…), surfaces under the number. Tap one or several, pick the condition and surfaces (M O D B L), a note and the date, *Save mark*. One tooth picked shows its dated history with *Undo*. A legend and a "Marked teeth" list sit below. On a phone the chart scrolls inside itself.
 
 ---
 

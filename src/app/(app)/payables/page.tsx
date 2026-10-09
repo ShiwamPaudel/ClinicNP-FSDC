@@ -4,6 +4,7 @@ import {
   supplierPayables,
   labPayables,
   recentPayments,
+  doctorPayables,
 } from "@/lib/repos/payables";
 import { PageShell } from "@/components/app/page-shell";
 import { PayablesView } from "@/components/app/payables-view";
@@ -24,10 +25,12 @@ export default async function PayablesPage() {
   // Suppliers are paid by a clinic as much as by a pharmacy: they show with
   // either module. Laboratories are the clinic's alone.
   const suppliersOn = modules.pharmacy || modules.clinic;
-  const [suppliers, labs, payments] = await Promise.all([
+  const [suppliers, labs, doctors, payments] = await Promise.all([
     suppliersOn ? supplierPayables() : Promise.resolve([]),
     modules.clinic ? labPayables() : Promise.resolve([]),
-    recentPayments({ suppliers: suppliersOn, labs: modules.clinic }),
+    // A doctor's share is the clinic's to pay, like a laboratory's (C-037).
+    modules.clinic ? doctorPayables() : Promise.resolve([]),
+    recentPayments({ suppliers: suppliersOn, labs: modules.clinic, doctors: modules.clinic }),
   ]);
 
   return (
@@ -37,6 +40,7 @@ export default async function PayablesPage() {
         showLabs={modules.clinic}
         suppliers={suppliers}
         labs={labs}
+        doctors={doctors}
         payments={payments}
       />
     </PageShell>

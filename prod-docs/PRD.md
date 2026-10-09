@@ -365,6 +365,23 @@ With **VAT registered** on, Settings → Company asks **How rates are priced**:
 - **Each bill records the choice it was made under and its taxable amount.** Changing the setting later never changes how an old bill reads, reprints or is refunded. The VAT report adds up each bill's own taxable amount.
 - A refund on a VAT-included bill gives back the amount paid; the VAT inside it goes with it.
 
+## 4H — DOCTOR PAYOUTS, SALARIES, INCOME AND EXPENSES, TOOTH CHART *(added 2083-06-23, C-037)*
+
+**Doctors' share.** A doctor's terms (Settings → Doctors: none, % of consultations, fixed per consultation, % of all services) already fix their share on every bill line they do. Now it is paid and tallied:
+- **Payables** lists doctors beside suppliers and laboratories with *Owed now* (shares earned less payouts) and **Pay** (cash, bank, cheque, QR; any amount, any day). An undone payout is owed again.
+- A payout is matched to the **oldest unpaid shares first**. Reports → **Doctor payouts** shows per doctor *Earned* and *Paid* in the dates chosen and *Owed now*, and each doctor's **statement**: every share with *Paid / Part paid / Unpaid*, every payout with the bills it covered, PDF and Excel.
+- The **Sales register** shows each bill's *Doctor share* once any doctor has one, and its total.
+
+**Salaries** (Admin only, menu *Salaries*). *Staff* is everyone paid a salary, with or without a login: name, job, phone, PAN, SSF number, bank account, joined and left dates.
+- A salary has a starting month; changing it later never changes earlier months.
+- The month sheet (one BS month at a time) shows per person: salary, bonus, deductions, net, paid, left — with **Pay** (part or full), **Bonus or deduction** (e.g. Dashain bonus, absence), and **Give an advance**. When a salary is paid, the advance still to recover is offered as a deduction for that month.
+- **SSF**: 11% of the salary from the staff member, 20% from the clinic. **1% social security tax** for staff not on the fund (fund members are exempt). Income tax above the first slab is entered as a deduction. The sheet shows what is to be deposited.
+- Anything typed wrong is undone with a reason; an advance already recovered cannot be undone before its recoveries. Month sheet as PDF and Excel.
+
+**Income and expenses** (Reports, Admin). For the dates chosen: billed, less refunds and VAT = income; less doctors' share earned, laboratory costs, supplies bought (without VAT, less returns), salaries and the clinic's SSF for the BS months that start in the dates = left over. Beside it, what was actually paid out to doctors, staff, suppliers and laboratories. PDF and Excel.
+
+**Tooth chart** on the patient card, always there, closed until opened. FDI numbering, adult and milk teeth, a dated history per tooth (condition, surfaces, note, who). Marked by anyone but the Accountant; undone, never deleted; moves with the patient on a merge.
+
 ## 4G — LEDGERS AS FILES *(added 2083-06-23, C-036)*
 
 **PDF** and **Excel** buttons on: a **supplier's ledger** (Suppliers → a supplier; every purchase, return and payment, with the running balance), a **laboratory's statement** (Reports → Laboratory statements → a laboratory, for the dates chosen, with what was owed at the start and the end), the **Dues** list (everyone who owes, each bill under its person) and **one person's dues** (from their row on Dues, every payment under its bill, with date, time, method and who took it).

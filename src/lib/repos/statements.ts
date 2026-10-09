@@ -17,6 +17,102 @@ import { nepalTime } from "@/lib/clock";
 import { MONEY_METHOD_LABEL, isMoneyMethod } from "@/lib/dues";
 import { fileSlug, type Statement, type StatementRow } from "@/lib/statement";
 import type { DateRange } from "@/lib/date-range";
+import { doctorPayStatement } from "@/lib/repos/doctor-pay";
+import { payableMethodLabel } from "@/lib/payables";
+import { monthSheet } from "@/lib/repos/payroll";
+import { monthLabel } from "@/lib/payroll";
+import { financialSummary } from "@/lib/repos/financials";
+
+const SHARE_STATUS: Record<string, string> = { paid: "Paid", part: "Part paid", unpaid: "Unpaid" };
+
+/**
+ * A doctor's account (C-037): every share earned, with whether it is paid,
+ * and every payout with the bills it covered. Shares and payouts are listed
+ * in date order with a running balance, so it reads like any other ledger.
+ */
+export async function doctorStatement(doctorId: string, asOf: string): Promise<Statement | null> {
+  const st = await doctorPayStatement(doctorId);
+  if (!st) return null;
+
+  type Entry = { dateAd: string; order: number; row: StatementRow; delta: number };
+  const entries: Entry[] = [
+    ...st.shares.map((l) => ({
+      dateAd: l.dateAd,
+      order: 0,
+      delta: l.earnedPaisa,
+      row: {
+        cells: {
+          date: l.dateBs,
+          what: `${l.service}${l.qty > 1 ? ` × ${l.qty}` : ""} · ${l.billLabel}${l.patientName ? ` · ${l.patientName}` : ""}`,
+          earned: l.earnedPaisa,
+          paid: null,
+          status: SHARE_STATUS[l.status] ?? l.status,
+          balance: 0,
+        },
+      } as StatementRow,
+    })),
+    ...st.payouts
+      .filter((p) => !p.voided)
+      .map((p) => ({
+        dateAd: p.dateAd,
+        order: 1,
+        delta: -p.amountPaisa,
+        row: {
+          cells: {
+            date: p.dateBs,
+            what: [
+              `Paid · ${payableMethodLabel(p.method)}`,
+              p.covers.length ? `for ${p.covers.map((c) => c.billLabel).join(", ")}` : "",
+              p.aheadPaisa > 0 ? "(part paid ahead)" : "",
+              p.note,
+            ]
+              .filter(Boolean)
+              .join(" "),
+            earned: null,
+            paid: p.amountPaisa,
+            status: "",
+            balance: 0,
+          },
+        } as StatementRow,
+      })),
+  ].sort((a, b) => a.dateAd.localeCompare(b.dateAd) || a.order - b.order);
+
+  let balance = 0;
+  for (const e of entries) {
+    balance += e.delta;
+    e.row.cells.balance = balance;
+  }
+
+  return {
+    fileName: fileSlug("doctor-statement", st.name),
+    title: "Doctor statement",
+    party: { name: st.name, lines: [] },
+    period: `All entries up to ${asOf}`,
+    summary: [
+      { label: "Earned", paisa: st.earnedPaisa },
+      { label: "Paid", paisa: st.paidPaisa },
+      { label: st.owedPaisa < 0 ? "Paid ahead" : "Owed now", paisa: Math.abs(st.owedPaisa) },
+    ],
+    columns: [
+      { key: "date", label: "Date", width: 12 },
+      { key: "what", label: "Particulars", width: 40 },
+      { key: "earned", label: "Share", width: 13, money: true },
+      { key: "paid", label: "Paid", width: 13, money: true },
+      { key: "status", label: "Status", width: 10 },
+      { key: "balance", label: "Balance", width: 14, money: true },
+    ],
+    rows: entries.map((e) => e.row),
+    totals: {
+      date: "",
+      what: "Total",
+      earned: st.earnedPaisa,
+      paid: st.paidPaisa,
+      status: "",
+      balance: st.owedPaisa,
+    },
+    emptyText: "No share earned or paid yet.",
+  };
+}
 
 const sum = (xs: number[]) => xs.reduce((s, x) => s + x, 0);
 
@@ -256,5 +352,100 @@ export async function duesStatement(
       days: "",
     },
     emptyText: "Nobody owes anything.",
+  };
+}
+
+/** A month's salary sheet (C-037): each person's gross, deductions, net, paid and left. */
+export async function salaryStatement(monthBs: string): Promise<Statement> {
+  const sheet = await monthSheet(monthBs);
+  const t = sheet.totals;
+  const rows: StatementRow[] = sheet.rows.map((r) => {
+    const p = r.pay;
+    return {
+      cells: {
+        who: [r.staff.name, r.staff.designation, r.rate.ssfEnrolled ? "SSF" : ""].filter(Boolean).join(" · "),
+        gross: p.grossPaisa,
+        ssf: p.ssfStaffPaisa || null,
+        tax: p.sstPaisa || null,
+        other: p.deductionPaisa + p.advanceRecoveredPaisa || null,
+        net: p.netPaisa,
+        paid: p.paidPaisa,
+        left: p.leftPaisa,
+      },
+    };
+  });
+  return {
+    fileName: fileSlug("salaries", monthBs),
+    title: "Salary sheet",
+    period: monthLabel(monthBs),
+    summary: [
+      { label: "Net salaries", paisa: t.netPaisa },
+      { label: "Paid", paisa: t.paidPaisa },
+      { label: "SSF to deposit (31%)", paisa: t.ssfStaffPaisa + t.ssfEmployerPaisa },
+      { label: "Tax to deposit (1%)", paisa: t.sstPaisa },
+    ],
+    columns: [
+      { key: "who", label: "Staff", width: 30 },
+      { key: "gross", label: "Gross", width: 12, money: true },
+      { key: "ssf", label: "SSF 11%", width: 10, money: true },
+      { key: "tax", label: "Tax 1%", width: 9, money: true },
+      { key: "other", label: "Other deductions", width: 12, money: true },
+      { key: "net", label: "Net", width: 12, money: true },
+      { key: "paid", label: "Paid", width: 12, money: true },
+      { key: "left", label: "Left", width: 12, money: true },
+    ],
+    rows,
+    totals: {
+      who: "Total",
+      gross: t.grossPaisa,
+      ssf: t.ssfStaffPaisa,
+      tax: t.sstPaisa,
+      other: sheet.rows.reduce((x, r) => x + r.pay.deductionPaisa + r.pay.advanceRecoveredPaisa, 0),
+      net: t.netPaisa,
+      paid: t.paidPaisa,
+      left: t.leftPaisa,
+    },
+    emptyText: "Nobody is on the payroll for this month.",
+  };
+}
+
+/** Income and expenses for a period (C-037), as the report shows it. */
+export async function financialStatement(range: DateRange): Promise<Statement> {
+  const f = await financialSummary(range);
+  const line = (what: string, amount: number, style?: StatementRow["style"]): StatementRow => ({
+    style,
+    cells: { what, amount },
+  });
+  return {
+    fileName: fileSlug("income-and-expenses", range.label),
+    title: "Income and expenses",
+    period: range.label,
+    summary: [
+      { label: "Income", paisa: f.incomePaisa },
+      { label: "Costs", paisa: f.costsPaisa },
+      { label: f.leftOverPaisa >= 0 ? "Left over" : "Short by", paisa: Math.abs(f.leftOverPaisa) },
+    ],
+    columns: [
+      { key: "what", label: "", width: 70 },
+      { key: "amount", label: "Rs", width: 30, money: true },
+    ],
+    rows: [
+      line("Billed (with VAT)", f.billedPaisa),
+      line("Less refunds", -f.refundsPaisa),
+      line("Less VAT collected", -f.vatPaisa),
+      line("Income", f.incomePaisa, "total"),
+      line("Doctors' share earned", -f.doctorSharePaisa),
+      line("Laboratory costs", -f.labCostPaisa),
+      line("Supplies bought (without VAT, less returns)", -f.suppliesPaisa),
+      line(`Salaries${f.salaryMonths.length ? ` (${f.salaryMonths.map(monthLabel).join(", ")})` : ""}`, -f.salariesPaisa),
+      line("Clinic's SSF 20%", -f.ssfEmployerPaisa),
+      line("Costs", -f.costsPaisa, "total"),
+      line("Paid out in these dates: to doctors", f.paidOut.doctorsPaisa, "sub"),
+      line("Paid out: salaries", f.paidOut.salariesPaisa, "sub"),
+      line("Paid out: to suppliers", f.paidOut.suppliersPaisa, "sub"),
+      line("Paid out: to laboratories", f.paidOut.laboratoriesPaisa, "sub"),
+    ],
+    totals: { what: f.leftOverPaisa >= 0 ? "Left over" : "Short by", amount: f.leftOverPaisa },
+    emptyText: "",
   };
 }

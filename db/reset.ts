@@ -83,7 +83,13 @@ const TABLES_CHILD_FIRST = [
   "batches",
   "purchases",
 
+  // salaries and doctor payouts (0025): money, children before staff
+  "salary_payments",
+  "salary_adjustments",
+  "doctor_payouts",
+
   // clinic records
+  "tooth_records",
   "alerts_sent",
   "appointments",
   "attachments",
@@ -95,6 +101,8 @@ const TABLES_CHILD_FIRST = [
   "service_groups",
   "doctors",
   "lab_partners",
+  "staff_pay_rates",
+  "staff",
   "item_units",
   "item_locations",
   "items",
@@ -130,6 +138,9 @@ async function main() {
   // room those shelves stand in, the test list and the outside laboratory are
   // all work somebody did with a keyboard, and none of it is a transaction.
   const SETUP_TABLES = [
+    // the staff list and their salaries are typed in once, like the doctors
+    "staff",
+    "staff_pay_rates",
     "services",
     "service_groups",
     "doctors",

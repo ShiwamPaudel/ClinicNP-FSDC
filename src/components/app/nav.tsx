@@ -19,6 +19,7 @@ import {
   FlaskConical,
   HandCoins,
   Banknote,
+  WalletCards,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { Role } from "@/lib/repos/users";
@@ -101,6 +102,8 @@ const GROUPS: NavGroup[] = [
       // What the clinic owes suppliers and laboratories — the other side of
       // Dues, so it sits beside it. Owner only, like Suppliers.
       { href: "/payables", label: "Payables", icon: Banknote, adminOnly: true },
+      // Staff and what they are paid each month (C-037). Owner only.
+      { href: "/salaries", label: "Salaries", icon: WalletCards, adminOnly: true },
       { href: "/reports", label: "Reports", icon: BarChart3 },
       { href: "/settings/company", label: "Settings", icon: Settings, adminOnly: true },
     ],

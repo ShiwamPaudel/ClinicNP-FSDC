@@ -380,6 +380,11 @@ export async function mergePatients(
       sql: "UPDATE attachments SET patient_id = ? WHERE patient_id = ?",
       args: [keepId, mergeId],
     });
+    // The tooth chart follows the person, like their visits (0025).
+    await tx.execute({
+      sql: "UPDATE tooth_records SET patient_id = ? WHERE patient_id = ?",
+      args: [keepId, mergeId],
+    });
 
     await tx.execute({
       sql: `UPDATE patients

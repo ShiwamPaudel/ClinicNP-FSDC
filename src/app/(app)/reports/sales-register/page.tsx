@@ -17,9 +17,11 @@ export default async function SalesRegisterPage({
   const sp = await searchParams;
   const range = resolveRange(sp);
   const rows = await salesRegister(range.fromIso, range.toIso);
-  const total = rows
-    .filter((r) => r.status !== "cancelled")
-    .reduce((s, r) => s + r.totalPaisa, 0);
+  const standing = rows.filter((r) => r.status !== "cancelled");
+  const total = standing.reduce((s, r) => s + r.totalPaisa, 0);
+  // Shown only once a doctor's share has been set and earned (C-037).
+  const shares = standing.reduce((s, r) => s + r.doctorSharePaisa, 0);
+  const showShare = rows.some((r) => r.doctorSharePaisa > 0);
 
   return (
     <ReportFrame
@@ -43,6 +45,7 @@ export default async function SalesRegisterPage({
                 <TH numeric>Discount</TH>
                 <TH numeric>VAT</TH>
                 <TH numeric>Total</TH>
+                {showShare && <TH numeric>Doctor share</TH>}
                 <TH>Status</TH>
               </TR>
             </THead>
@@ -58,6 +61,11 @@ export default async function SalesRegisterPage({
                   <TD numeric>{formatPaisa(r.discountPaisa, false)}</TD>
                   <TD numeric>{formatPaisa(r.vatPaisa, false)}</TD>
                   <TD numeric>{formatPaisa(r.totalPaisa, false)}</TD>
+                  {showShare && (
+                    <TD numeric className="text-sage-600">
+                      {r.doctorSharePaisa > 0 ? formatPaisa(r.doctorSharePaisa, false) : "—"}
+                    </TD>
+                  )}
                   <TD>
                     {r.status === "cancelled" ? (
                       <Badge tone="danger">Cancelled</Badge>
@@ -69,8 +77,16 @@ export default async function SalesRegisterPage({
               ))}
             </tbody>
           </Table>
-          <div className="mt-3 text-right text-[15px] font-semibold text-sage-900">
-            Net total: {formatPaisa(total)}
+          <div className="mt-3 flex flex-col items-end gap-1 text-[15px] font-semibold text-sage-900">
+            <span>Net total: {formatPaisa(total)}</span>
+            {showShare && (
+              <span className="text-[13px] font-medium text-sage-600">
+                Doctors&apos; share of it: {formatPaisa(shares)} · see{" "}
+                <a href="/reports/doctors" className="text-clinic-700 hover:underline">
+                  Doctor payouts
+                </a>
+              </span>
+            )}
           </div>
         </>
       )}

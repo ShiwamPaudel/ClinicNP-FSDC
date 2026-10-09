@@ -15,6 +15,8 @@ import { listPosServices } from "@/lib/repos/services";
 import { listDoctors } from "@/lib/repos/doctors";
 import { listLabPartners } from "@/lib/repos/lab-partners";
 import type { RowFormOptions } from "@/components/clinic/history-row-form";
+import { toothRecords } from "@/lib/repos/teeth";
+import { ToothChart } from "@/components/clinic/tooth-chart";
 import { PageShell } from "@/components/app/page-shell";
 import { Button } from "@/components/ui/button";
 import { PatientHeader } from "@/components/clinic/patient-card";
@@ -33,15 +35,17 @@ export default async function PatientCardPage({
   const patient = await getPatient(id);
   if (!patient) notFound();
 
-  const [ledger, attachments, owed] = await Promise.all([
+  const [ledger, attachments, owed, teeth] = await Promise.all([
     patientLedger(patient.id),
     attachmentsForPatient(patient.id),
     owedByPatient(patient.id),
+    toothRecords(patient.id),
   ]);
 
   const todayAd = adToIso(new Date());
   const sinceBs = formatBS(toBS(adFromIso(nepalDayIso(patient.createdAt))));
   const isAdmin = user.role === "admin";
+  const todayBs = bsToDbText(toBS(adFromIso(nepalDayIso(new Date().toISOString()))));
 
   // Whoever works the counter adds rows to the history: the doctor's notes,
   // and the bill for what was done (C-036).
@@ -63,7 +67,7 @@ export default async function PatientCardPage({
         roundingOn: company.roundingOn,
       },
       canEditRate: isAdmin || user.canEditRate,
-      todayBs: bsToDbText(toBS(adFromIso(nepalDayIso(new Date().toISOString())))),
+      todayBs,
     };
   }
 
@@ -119,6 +123,13 @@ export default async function PatientCardPage({
           </h2>
           <PatientHistory rows={ledger} patientId={patient.id} rowOptions={rowOptions} />
         </section>
+
+        <ToothChart
+          patientId={patient.id}
+          records={teeth}
+          canEdit={user.role !== "accountant"}
+          todayBs={todayBs}
+        />
 
         <section>
           <h2 className="mb-3 text-[15px] font-semibold text-sage-900">Files</h2>

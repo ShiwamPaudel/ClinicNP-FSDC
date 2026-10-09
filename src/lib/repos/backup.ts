@@ -52,11 +52,21 @@ const TABLES = [
   "doctors",
   "lab_partners",
   "services",
+  // what each doctor has been paid of their share (0025)
+  "doctor_payouts",
+
+  // staff and their salaries (0025)
+  "staff",
+  "staff_pay_rates",
+  "salary_adjustments",
+  "salary_payments",
 
   // clinic records
   "patients",
   "visits",
   "appointments",
+  // the tooth chart (0025)
+  "tooth_records",
 
   // money
   "bills",

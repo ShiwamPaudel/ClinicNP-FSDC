@@ -15,13 +15,30 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { useToast } from "@/components/ui/toast";
 import { recordPaymentAction } from "@/app/(app)/suppliers/actions";
 import { recordPartnerPaymentAction } from "@/app/(app)/settings/catalog-actions";
-import { voidPaymentAction } from "@/app/(app)/payables/actions";
+import { voidPaymentAction, recordDoctorPayoutAction } from "@/app/(app)/payables/actions";
 import { toPaisa, formatPaisa, paisaToRupees } from "@/lib/money";
 import { bsToDbText, today } from "@/lib/bs";
 import { PAYABLE_METHOD_LABEL, payableMethodLabel } from "@/lib/payables";
 import type { PayableParty, PaymentMade } from "@/lib/repos/payables";
 import { strings } from "@/lib/strings";
 import { cn } from "@/lib/cn";
+
+/**
+ * "Pay" for one party, for a screen other than Payables — a doctor's
+ * statement — so the same dialog records the payment wherever it is made.
+ */
+export function PayPartyButton({ party, label = "Record a payment" }: { party: PayableParty; label?: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>
+        <Wallet className="h-4 w-4" />
+        {label}
+      </Button>
+      <PayDialog party={open ? party : null} onClose={() => setOpen(false)} />
+    </>
+  );
+}
 
 /** A laboratory can also be settled by adjustment, as on its statement. */
 const SUPPLIER_METHODS = ["cash", "bank", "cheque", "qr"];
@@ -32,12 +49,15 @@ export function PayablesView({
   showLabs,
   suppliers,
   labs,
+  doctors = [],
   payments,
 }: {
   showSuppliers: boolean;
   showLabs: boolean;
   suppliers: PayableParty[];
   labs: PayableParty[];
+  /** doctors' shares not yet paid (C-037); shown with the clinic */
+  doctors?: PayableParty[];
   payments: PaymentMade[];
 }) {
   const [paying, setPaying] = useState<PayableParty | null>(null);
@@ -46,11 +66,12 @@ export function PayablesView({
 
   return (
     <div className="flex flex-col gap-8">
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {showSuppliers && (
           <Tile label="Owed to suppliers" value={owed(suppliers)} />
         )}
         {showLabs && <Tile label="Owed to laboratories" value={owed(labs)} />}
+        {showLabs && <Tile label="Owed to doctors" value={owed(doctors)} />}
       </div>
 
       {showSuppliers && (
@@ -71,6 +92,17 @@ export function PayablesView({
           rows={labs}
           onPay={setPaying}
           detailHref={(p) => `/reports/lab-partners?partner=${p.id}`}
+          detailLabel="Statement"
+        />
+      )}
+
+      {showLabs && (
+        <PartySection
+          title="Doctors"
+          empty="No doctor has a share yet. Set one under Settings → Doctors."
+          rows={doctors}
+          onPay={setPaying}
+          detailHref={(p) => `/reports/doctors?doctor=${p.id}`}
           detailLabel="Statement"
         />
       )}
@@ -205,7 +237,15 @@ function PayDialog({
     }
     setBusy(true);
     const res =
-      party.kind === "supplier"
+      party.kind === "doctor"
+        ? await recordDoctorPayoutAction({
+            doctorId: party.id,
+            dateBs,
+            amountPaisa: amt,
+            method,
+            note,
+          })
+        : party.kind === "supplier"
         ? await recordPaymentAction({
             supplierId: party.id,
             dateBs,
@@ -377,7 +417,7 @@ function PaymentsSection({ payments }: { payments: PaymentMade[] }) {
                     <span className="font-medium">
                       {p.partyName}{" "}
                       <span className="text-[12px] font-normal text-sage-500">
-                        {p.kind === "supplier" ? "Supplier" : "Laboratory"}
+                        {p.kind === "supplier" ? "Supplier" : p.kind === "doctor" ? "Doctor" : "Laboratory"}
                       </span>
                     </span>
                     {p.purchaseId && (

@@ -306,6 +306,25 @@ Nothing to migrate. Two things to know about the deploy:
   runtime and the OpenCV chunk — and then it is cached. Later reads are a few
   seconds. Worth knowing before somebody tries it on a phone on mobile data.
 
+## 0025 doctor payouts, salaries, tooth chart — already applied
+
+`0025_payouts_salaries_teeth.sql` adds six tables and changes none:
+`doctor_payouts`, `staff`, `staff_pay_rates`, `salary_adjustments`,
+`salary_payments` and `tooth_records`. The code deployed before it reads none
+of them, so it could go first.
+
+**Applied to production on 2083-06-23** (C-037), after a full copy of every
+table was written to `backups/prod-before-0025-*.json` (gitignored; 43 tables,
+75 rows): 10 statements, row counts identical (doctors 3, service lines 2,
+patients 1, users 2). Deploying the code that uses it is only:
+
+    pnpm db:check            # "schema is up to date (25 migrations)"
+    git push                 # Vercel builds; db:check lets it through
+
+The ledger PDFs (C-036) read `assets/fonts/Mukta-*.ttf` at request time;
+`next.config.ts` traces them into `/api/statement/[kind]`, and `pdfkit` is a
+server-external package. Nothing to set in Vercel.
+
 ## 0024 VAT included in the rate — already applied
 
 `0024_vat_inclusive.sql` adds `company.vat_inclusive` (rates already include

@@ -98,7 +98,7 @@ export const supplierPaymentSchema = z.object({
 
 /** Undoing a payment to a supplier or a laboratory entered by mistake (0023). */
 export const paymentVoidSchema = z.object({
-  kind: z.enum(["supplier", "lab"]),
+  kind: z.enum(["supplier", "lab", "doctor"]),
   paymentId: z.string().min(1),
   reason: z.string().trim().min(1, "Say why this payment is being undone"),
 });
@@ -475,6 +475,15 @@ export const labPartnerSchema = z.object({
   active: z.boolean(),
 });
 export type LabPartnerFormInput = z.infer<typeof labPartnerSchema>;
+
+/** Paying a doctor their share (C-037). */
+export const doctorPayoutSchema = z.object({
+  doctorId: z.string().min(1),
+  dateBs: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Pick a date"),
+  amountPaisa: z.number().int().min(1, "Enter an amount"),
+  method: z.enum(["cash", "bank", "cheque", "qr"]),
+  note: z.string().max(500),
+});
 
 export const labPartnerPaymentSchema = z.object({
   partnerId: z.string().min(1),

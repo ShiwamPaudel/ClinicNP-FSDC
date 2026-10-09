@@ -23,7 +23,7 @@
 
 *Last rewritten 2083-05-26 (C-014); production figures re-read 2083-06-06 (C-016). Everything below is verified against production, not remembered.*
 
-> **This install is set up and empty of trading.** Checked 2083-06-22 against `clinicnpforfsdc-fsdc.aws-ap-south-1.turso.io`: **24 migrations** (ends at `0024_vat_inclusive.sql`, C-034); **no items** — the 6,646-item medicine catalogue loaded in C-032 was removed 2083-06-23 at the owner's request, after a backup to `backups/prod-before-clear-items-*.json`; the clinic adds what it buys itself (C-035); bootstrapped 2083-06-21 (C-033) with PAN/VAT no. and phone, address blank. **Settings the owner has since changed in the app:** **clinic on, pharmacy off** — so suppliers, purchases and payables show under **Supplies** (C-034), and a purchase is for the clinic's own use: no batch, expiry, selling price or stock count (C-035) — and **VAT registered on**, rates priced *VAT on top* until they choose otherwise. Kept from their setup: 2 users, 1 doctor, 1 laboratory partner, 10 service groups and **Crown Filling** (Rs 10,000, VAT-able). **Trial patients, visits, bills and dues were cleared 2083-06-22** (C-034) with `db:reset --keep-setup`, after a full backup to `backups/prod-before-clear-patients-*.json`; patient, bill and visit numbering restart at 1. 🔴 The admin password and PIN are simple placeholders the owner chose (Rule 7: not written here). **No letterhead is set** (the logo alone would replace the printed name, address and phone). A private Blob store **is connected** (probed 2083-06-21: private writes accepted).
+> **This install is set up and empty of trading.** Checked 2083-06-22 against `clinicnpforfsdc-fsdc.aws-ap-south-1.turso.io`: **25 migrations** (ends at `0025_payouts_salaries_teeth.sql`, applied 2083-06-23 after a backup to `backups/prod-before-0025-*.json`, C-037); **no items** — the 6,646-item medicine catalogue loaded in C-032 was removed 2083-06-23 at the owner's request, after a backup to `backups/prod-before-clear-items-*.json`; the clinic adds what it buys itself (C-035); bootstrapped 2083-06-21 (C-033) with PAN/VAT no. and phone, address blank. **Settings the owner has since changed in the app:** **clinic on, pharmacy off** — so suppliers, purchases and payables show under **Supplies** (C-034), and a purchase is for the clinic's own use: no batch, expiry, selling price or stock count (C-035) — and **VAT registered on**, rates priced *VAT on top* until they choose otherwise. Kept from their setup: 2 users, 1 doctor, 1 laboratory partner, 10 service groups and **Crown Filling** (Rs 10,000, VAT-able). **Trial patients, visits, bills and dues were cleared 2083-06-22** (C-034) with `db:reset --keep-setup`, after a full backup to `backups/prod-before-clear-patients-*.json`; patient, bill and visit numbering restart at 1. 🔴 The admin password and PIN are simple placeholders the owner chose (Rule 7: not written here). **No letterhead is set** (the logo alone would replace the printed name, address and phone). A private Blob store **is connected** (probed 2083-06-21: private writes accepted).
 >
 > The figures in the paragraph above replaced the previous install's. **The code is unchanged and still at the same maturity**; what reset is the data.
 
@@ -290,6 +290,9 @@
 | D-160 | **With the pharmacy off, what is bought is used, not sold: an item is a name and a unit, a purchase line is item · unit · qty · cost, and no stock is counted** | Owner, 2083-06-23: "they use it… no need batch number, expiry date, manufacture date, selling price… tied to payables and accounting, not sales." Owner chose *purchases only, no stock count* over a simple count with *mark as used*. Each line still writes a batch row underneath — `purchase_lines.batch_id` and `batches.expiry_date_ad` are NOT NULL — with batch `""` and expiry `9999-12-31` (`NO_EXPIRY_AD`, never shown), so edits, returns and payables run on the same code as a pharmacy's. The server decides the mode from the module flags and ignores batch, expiry, bonus and price from the browser. Turning the pharmacy on later would make these items sellable stock with no expiry — decide how to separate them first |
 | D-161 | **A row added to a patient's history is a visit plus, if anything was charged, an ordinary bill made by `ingestBill`; a row with a charge is dated today** | Owner chose "notes + charge + payment" over notes only. Going through `ingestBill` keeps one place for VAT, invoice numbers, dues, doctor shares and lab costs. A back-dated invoice would sit out of order in the year's numbering, so only a notes-only row may carry an earlier date. The treatment notes are the visit's existing `findings` (no migration); a row's own visit is created first and passed to `ingestBill`, so it never writes over a visit the counter opened that day |
 | D-162 | **Ledger PDFs are made on the server with pdfkit and the Mukta font, not by printing the page** | Owner chose a downloaded file over a print view: one click, same on a phone, easy to send to a supplier. Mukta is the face the app already uses for Devanagari and covers Latin too; fontkit shapes the conjuncts (checked: श्री, क्ष, त्र, ज्ञ). The font files live in `assets/fonts` with their OFL licence and are traced into the route by `outputFileTracingIncludes` |
+| D-163 | **A doctor payout is matched to the oldest unpaid shares when read, never stored as tags** | Owner chose a running balance tallied against bills. Storing which payout covered which line would go stale the moment a refund shrinks a share or a payout is undone; `tallyDoctorPay` works it out each time from the shares and the payouts that stand, so Paid / Part paid / Unpaid is always true. The share itself is the one frozen on the bill line since 0009, scaled by refunds exactly as the Doctor payouts report already did |
+| D-164 | **A month's salary is worked out, never stored: rate for that month + its lines + its payments** | Raising a salary in Magh must not rewrite Shrawan, so rates carry a starting month (`staff_pay_rates`). SSF 11%/20% is on the salary, not on a bonus; the 1% social security tax applies only to staff not on the fund (contributors are exempt) and is on the gross. Income tax above the first slab depends on the whole year and is a deduction line. An advance is recovered by a line on the month it is taken from, offered when the salary is paid; an advance already recovered cannot be undone first |
+| D-165 | **The tooth chart is always on the patient card, closed until opened, FDI numbering** | Owner's choice over a Settings toggle. FDI is what Nepali dentists use. A tooth's state is its latest mark not undone, so the history is never lost |
 
 *(Add D-036+ as they happen. Assumptions use the `ASSUMPTION:` prefix.)*
 
@@ -1421,3 +1424,40 @@ outsourced Crown Filling: a notes row, a charged row (Rs 10,000, Rs 4,000 paid,
 Rs 6,000 on dues, lab cost Rs 3,500 to Unique Lab), notes edited in place, New
 bill landing on the counter with the patient attached, and all four PDFs read
 back — Devanagari, totals and balances matching the screens.
+
+### C-037  ·  2083-06-23  ·  Doctor payouts tallied, salaries, income and expenses, a tooth chart
+
+**Doctors' share, paid and tallied** (D-163). The share fixed on each bill line
+(0009) is now paid from **Payables** (a Doctors section beside suppliers and
+laboratories) and undone there. Reports → Doctor payouts adds *Paid* and
+*Owed now*, and a per-doctor **statement**: each share Paid / Part paid /
+Unpaid, each payout with the bills it covered, PDF and Excel. The Sales
+register shows a *Doctor share* column once any doctor has one.
+`lib/doctor-pay.ts`, `repos/doctor-pay.ts`.
+
+**Salaries** (D-164), menu *Salaries*, Admin only: staff list, salary rates by
+starting month, a month sheet with Pay / Bonus or deduction / Give an advance,
+SSF 11% + 20%, 1% social security tax, advance recovery, undo with a reason,
+each person's months and payments, PDF and Excel. `lib/payroll.ts`,
+`repos/payroll.ts`, `components/app/salaries.tsx`.
+
+**Income and expenses** (Reports): income (billed less refunds and VAT) less
+doctors' share, laboratory costs, supplies and salaries with the clinic's SSF;
+beside it, what was actually paid out. `repos/financials.ts`.
+
+**Tooth chart** (D-165) on every patient card, closed until opened: FDI adult
+and milk teeth, tap one or several, condition + surfaces + note + date, dated
+history per tooth with undo. Moves with the patient on a merge.
+
+**0025** adds six tables and changes none; backup and reset cover them (the
+staff list is kept by `--keep-setup`). Applied to production after a full
+backup; row counts identical.
+
+**Checked:** 630 tests across 57 files (new: `doctor-pay`, `payroll`, `teeth`,
+`payouts-salaries.integration` — a real `ingestBill` bill, a part payout and
+its undo, an SSF month with an advance recovered, the tooth chart); typecheck;
+production build against 25 migrations; and in a browser on a scratch copy:
+Dr. Shakya's Rs 3,500 share paid Rs 2,000 (Part paid, Rs 1,500 owed, on
+Payables and the statement PDF), Sita Tamang on SSF at Rs 20,000 with a
+Rs 5,000 advance recovered (net Rs 12,800, Rs 6,200 to the fund), income and
+expenses for the month, tooth 36 marked Caries (MO).

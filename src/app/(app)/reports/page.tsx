@@ -18,6 +18,8 @@ import {
   PieChart,
   MapPin,
   Banknote,
+  Scale,
+  WalletCards,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { requireUser } from "@/lib/session";
@@ -46,6 +48,7 @@ const REPORTS: ReportCard[] = [
   { href: "/reports/visits", label: "Patient visit register", desc: "Every visit in a date range", icon: Users, adminOnly: true, clinicOnly: true },
   { href: "/reports/new-patients", label: "New and returning patients", desc: "Who is coming back", icon: UserPlus, adminOnly: true, clinicOnly: true },
   { href: "/reports/utilisation", label: "Diagnostics utilisation", desc: "Which departments are busy", icon: PieChart, adminOnly: true, clinicOnly: true },
+  { href: "/reports/financials", label: "Income and expenses", desc: "What came in, what it cost, what is left", icon: Scale, adminOnly: true },
   { href: "/reports/sales-register", label: "Sales register", desc: "Every invoice in a date range", icon: ReceiptText, adminOnly: true },
   { href: "/reports/purchase-register", label: "Purchase register", desc: "Every purchase entry", icon: ShoppingCart, adminOnly: true },
   { href: "/reports/profit", label: "Profit margin", desc: "Revenue, cost, margin by item", icon: TrendingUp, adminOnly: true, pharmacyOnly: true },
@@ -56,6 +59,7 @@ const REPORTS: ReportCard[] = [
   { href: "/reports/vat", label: "VAT report", desc: "Sales and purchase VAT summary", icon: Percent, adminOnly: true, vatOnly: true },
   { href: "/suppliers", label: "Supplier statements", desc: "Bought, paid and owed, per supplier", icon: Users, adminOnly: true },
   { href: "/dues", label: "Dues", desc: "Who owes what, and for how long", icon: HandCoins },
+  { href: "/salaries", label: "Salaries", desc: "Each month's salary sheet, SSF and tax", icon: WalletCards, adminOnly: true },
   { href: "/payables", label: "Payables", desc: "What is owed to suppliers and laboratories", icon: Banknote, adminOnly: true },
 ];
 

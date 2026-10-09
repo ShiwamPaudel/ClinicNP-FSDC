@@ -16,9 +16,10 @@ import { ulid } from "ulid";
 import { db } from "@/lib/db";
 import type { Row } from "@/lib/db";
 import { partnerSummary } from "@/lib/repos/clinic-reports";
+import { doctorBalances } from "@/lib/repos/doctor-pay";
 import { bsFromDbText, fiscalYearOf } from "@/lib/bs";
 
-export type PayableKind = "supplier" | "lab";
+export type PayableKind = "supplier" | "lab" | "doctor";
 
 export interface PayableParty {
   kind: PayableKind;
@@ -82,6 +83,26 @@ export async function labPayables(): Promise<PayableParty[]> {
 }
 
 /**
+ * Every doctor with a share earned or a payout made, with what they are owed
+ * now: their shares less their payouts (C-037). A doctor on no share who was
+ * never paid is left off — there is nothing to settle.
+ */
+export async function doctorPayables(): Promise<PayableParty[]> {
+  const rows = await doctorBalances();
+  return sortParties(
+    rows
+      .filter((r) => r.earnedPaisa > 0 || r.paidPaisa > 0)
+      .map((r) => ({
+        kind: "doctor" as const,
+        id: r.id,
+        name: r.name,
+        active: r.active,
+        owedPaisa: r.owedPaisa,
+      })),
+  );
+}
+
+/**
  * Owed first, largest at the top; then those paid ahead; then the settled
  * ones by name. A switched-off party with nothing owed is left off — there is
  * nothing to pay and nobody to pay it to.
@@ -121,7 +142,7 @@ export interface PaymentMade {
 
 /** The most recent payments to suppliers and/or laboratories, newest first. */
 export async function recentPayments(
-  include: { suppliers: boolean; labs: boolean },
+  include: { suppliers: boolean; labs: boolean; doctors?: boolean },
   limit = 60,
 ): Promise<PaymentMade[]> {
   const parts: string[] = [];
@@ -147,6 +168,17 @@ export async function recentPayments(
         JOIN lab_partners l ON l.id = lp.lab_partner_id
         LEFT JOIN users u ON u.id = lp.user_id
         LEFT JOIN users vu ON vu.id = lp.voided_by`);
+  }
+  if (include.doctors) {
+    parts.push(`
+      SELECT 'doctor' AS kind, dp.id, dp.doctor_id AS party_id, d.name AS party_name,
+             dp.date_bs, dp.date_ad, dp.amount_paisa, dp.method, dp.note,
+             NULL AS purchase_id, NULL AS purchase_no, dp.created_at, u.name AS user_name,
+             dp.voided_at, vu.name AS voided_by_name, dp.void_reason
+        FROM doctor_payouts dp
+        JOIN doctors d ON d.id = dp.doctor_id
+        LEFT JOIN users u ON u.id = dp.user_id
+        LEFT JOIN users vu ON vu.id = dp.voided_by`);
   }
   if (parts.length === 0) return [];
 
@@ -201,8 +233,18 @@ export async function voidPayment(input: {
   const reason = input.reason.trim();
   if (!reason) throw new PaymentError("Say why this payment is being undone.");
 
-  const table = input.kind === "supplier" ? "supplier_payments" : "lab_partner_payments";
-  const partyCol = input.kind === "supplier" ? "supplier_id" : "lab_partner_id";
+  const table =
+    input.kind === "supplier"
+      ? "supplier_payments"
+      : input.kind === "doctor"
+        ? "doctor_payouts"
+        : "lab_partner_payments";
+  const partyCol =
+    input.kind === "supplier"
+      ? "supplier_id"
+      : input.kind === "doctor"
+        ? "doctor_id"
+        : "lab_partner_id";
   const purchaseCol = input.kind === "supplier" ? "purchase_id" : "NULL";
 
   const tx = await db().transaction("write");
@@ -249,9 +291,14 @@ export async function voidPayment(input: {
       args: [
         ulid(),
         input.userId,
-        input.kind === "supplier" ? "supplier.payment_voided" : "lab_partner.payment_voided",
+        input.kind === "supplier"
+          ? "supplier.payment_voided"
+          : input.kind === "doctor"
+            ? "doctor.payout_voided"
+            : "lab_partner.payment_voided",
         JSON.stringify({
-          entity: input.kind === "supplier" ? "supplier" : "lab_partner",
+          entity:
+            input.kind === "supplier" ? "supplier" : input.kind === "doctor" ? "doctor" : "lab_partner",
           entityId: partyId,
           paymentId: input.paymentId,
           amountPaisa,

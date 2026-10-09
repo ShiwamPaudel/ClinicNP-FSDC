@@ -4,6 +4,8 @@
  *   supplier  ?id=<supplier>                     Admin, with Supplies on
  *   lab       ?partner=<lab> + the report range  Admin, with the Clinic on
  *   dues      [?person=<key from the Dues list>] anyone who can see Dues
+ *   doctor    ?id=<doctor>                       Admin, with the Clinic on
+ *   salary    ?month=YYYY-MM                     Admin
  *
  * The same people who can open the screen can download it, and nobody else:
  * a module that is off answers 404, as its pages do.
@@ -12,7 +14,15 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { getModules, isModuleOn } from "@/lib/modules";
 import { getCompany } from "@/lib/repos/company";
-import { supplierStatement, labStatement, duesStatement } from "@/lib/repos/statements";
+import {
+  supplierStatement,
+  labStatement,
+  duesStatement,
+  doctorStatement,
+  salaryStatement,
+  financialStatement,
+} from "@/lib/repos/statements";
+import { isMonth } from "@/lib/payroll";
 import { statementPdf } from "@/lib/export/statement-pdf";
 import { statementXlsx } from "@/lib/export/statement-xlsx";
 import { resolveRange } from "@/lib/date-range";
@@ -68,6 +78,27 @@ export async function GET(
       fy: url.searchParams.get("fy") ?? undefined,
     });
     st = await labStatement(partner, range);
+  } else if (kind === "doctor") {
+    if (!modules.clinic) return notFound();
+    if (role !== "admin") return forbidden();
+    const id = url.searchParams.get("id");
+    if (!id) return notFound();
+    st = await doctorStatement(id, todayLong);
+  } else if (kind === "financials") {
+    if (role !== "admin") return forbidden();
+    st = await financialStatement(
+      resolveRange({
+        preset: url.searchParams.get("preset") ?? undefined,
+        from: url.searchParams.get("from") ?? undefined,
+        to: url.searchParams.get("to") ?? undefined,
+        fy: url.searchParams.get("fy") ?? undefined,
+      }),
+    );
+  } else if (kind === "salary") {
+    if (role !== "admin") return forbidden();
+    const month = url.searchParams.get("month") ?? "";
+    if (!isMonth(month)) return notFound();
+    st = await salaryStatement(month);
   } else if (kind === "dues") {
     // The Dues screen is open to everyone but a doctor.
     if (role === "doctor") return forbidden();

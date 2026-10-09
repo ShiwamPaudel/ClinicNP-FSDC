@@ -96,6 +96,7 @@ export async function GET(
       { header: "Discount", key: "disc", width: 12 },
       { header: "VAT", key: "vat", width: 12 },
       { header: "Total", key: "total", width: 12 },
+      { header: "Doctor share", key: "share", width: 13 },
       { header: "Status", key: "status", width: 12 },
     ];
     for (const r of rows) {
@@ -107,6 +108,7 @@ export async function GET(
         disc: rupees(r.discountPaisa),
         vat: rupees(r.vatPaisa),
         total: rupees(r.totalPaisa),
+        share: rupees(r.doctorSharePaisa),
         status: r.status,
       });
     }

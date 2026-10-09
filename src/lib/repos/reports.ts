@@ -266,6 +266,12 @@ export interface SalesRegisterRow {
   totalPaisa: number;
   paymentMethod: string;
   status: string;
+  /**
+   * The doctors' share of this bill as it was made — the frozen
+   * `doctor_share_paisa` of its service lines (C-037). 0 where no doctor
+   * on it has a share set.
+   */
+  doctorSharePaisa: number;
 }
 
 export async function salesRegister(
@@ -273,7 +279,10 @@ export async function salesRegister(
   toIso: string,
 ): Promise<SalesRegisterRow[]> {
   const res = await db().execute({
-    sql: `SELECT b.*, f.bs_label FROM bills b
+    sql: `SELECT b.*, f.bs_label,
+                 COALESCE((SELECT SUM(sl.doctor_share_paisa) FROM bill_service_lines sl
+                            WHERE sl.bill_id = b.id), 0) AS doctor_share
+          FROM bills b
           LEFT JOIN fiscal_years f ON f.id = b.fiscal_year_id
           WHERE b.date_ad >= ? AND b.date_ad <= ?
           ORDER BY b.invoice_no ASC`,
@@ -292,6 +301,7 @@ export async function salesRegister(
     totalPaisa: Number(r.total_paisa),
     paymentMethod: r.payment_method as string,
     status: r.status as string,
+    doctorSharePaisa: Number(r.doctor_share ?? 0),
   }));
 }
 
