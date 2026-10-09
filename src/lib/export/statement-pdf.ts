@@ -185,6 +185,31 @@ export function statementPdf(
     if (st.totals) drawRow(st.totals, { font: "B", ruleAbove: true });
   }
 
+  // --- notes, and lines to sign ---
+  const notes = (st.notes ?? []).filter(Boolean);
+  if (notes.length > 0) {
+    doc.y += 10;
+    doc.font("R").fontSize(9).fillColor(MUTED);
+    for (const n of notes) doc.text(n, left, doc.y, { width });
+  }
+  const signs = st.signatures ?? [];
+  if (signs.length > 0) {
+    if (doc.y + 70 > bottom()) {
+      doc.addPage();
+      doc.y = doc.page.margins.top;
+    }
+    const gap = 40;
+    const w = Math.min(170, (width - gap * (signs.length - 1)) / signs.length);
+    const y = doc.y + 50;
+    signs.forEach((label, i) => {
+      // first on the left, last on the right, the rest spread between
+      const x = signs.length === 1 ? left + width - w : left + (i * (width - w)) / (signs.length - 1);
+      doc.moveTo(x, y).lineTo(x + w, y).lineWidth(0.6).strokeColor(INK).stroke();
+      doc.font("R").fontSize(9).fillColor(MUTED).text(label, x, y + 4, { width: w, align: "center" });
+    });
+    doc.y = y + 20;
+  }
+
   // --- page numbers ---
   const range = doc.bufferedPageRange();
   for (let i = range.start; i < range.start + range.count; i++) {

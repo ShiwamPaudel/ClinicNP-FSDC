@@ -345,7 +345,7 @@ export async function cancelVisit(
   ]);
 }
 
-/** Counts for the Today screen header. */
+/** Counts for the header of Visits when it shows today. */
 export async function visitCountsOn(dateAd: string): Promise<{
   total: number;
   waiting: number;

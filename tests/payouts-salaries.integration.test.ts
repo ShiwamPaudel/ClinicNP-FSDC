@@ -187,6 +187,22 @@ describe("a salary month", () => {
     ).rejects.toThrow(/already been recovered/);
   });
 
+  it("prints a slip that agrees with the sheet", async () => {
+    const { salarySlip } = await import("@/lib/repos/statements");
+    const slip = (await salarySlip(staffId, month()))!;
+    expect(slip.title).toBe("Salary slip");
+    expect(slip.party!.name).toBe("Sita");
+    const cells = slip.rows.map((r) => r.cells);
+    expect(cells[0]).toMatchObject({ earning: "Basic salary", earned: 2_000_000, deduction: "Social Security Fund 11%", deducted: 220_000 });
+    expect(cells[1]).toMatchObject({ deduction: "Advance recovered", deducted: 300_000 });
+    expect(cells.at(-1)).toMatchObject({ earning: "Gross pay", earned: 2_000_000, deducted: 520_000 });
+    expect(slip.totals).toMatchObject({ earning: "Net pay", earned: 1_480_000 });
+    expect(slip.notes!.some((n) => n.startsWith("Paid रू\u00a014,800.00"))).toBe(true);
+    expect(slip.notes!.some((n) => n.includes("Advance still to recover: रू\u00a02,000.00"))).toBe(true);
+    expect(slip.signatures).toEqual(["Received by", "Authorised by"]);
+    expect(await salarySlip(staffId, "2070-01")).toBeNull();
+  });
+
   it("refuses to recover more than is outstanding", async () => {
     const { paySalary } = await import("@/lib/repos/payroll");
     await expect(

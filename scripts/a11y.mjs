@@ -28,7 +28,7 @@ const SCREENS = [
   ["/dashboard", "the dashboard"],
   ["/patients", "patient search"],
   ["/patients/new", "registering a patient"],
-  ["/visits/today", "today's visits"],
+  ["/visits", "today's visits"],
   ["/reports/day-close", "the day close"],
   ["/settings/services", "the service catalog"],
   ["/settings/racks", "the shop layout"],

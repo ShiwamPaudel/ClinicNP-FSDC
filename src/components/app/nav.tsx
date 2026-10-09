@@ -12,7 +12,6 @@ import {
   BarChart3,
   Settings,
   Receipt,
-  CalendarClock,
   CalendarCheck,
   Users,
   Stethoscope,
@@ -74,7 +73,6 @@ const GROUPS: NavGroup[] = [
     module: "clinic",
     label: "Clinic",
     items: [
-      { href: "/visits/today", label: "Today", icon: CalendarClock },
       { href: "/patients", label: "Patients", icon: Users },
       { href: "/visits", label: "Visits", icon: Stethoscope },
       { href: "/doctors", label: "Doctors", icon: CalendarCheck },

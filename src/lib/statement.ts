@@ -49,6 +49,10 @@ export interface Statement {
   totals?: Record<string, StatementCell>;
   /** Said instead of an empty table. */
   emptyText: string;
+  /** Plain sentences under the table: how it was paid, what is still owed. */
+  notes?: string[];
+  /** Lines to sign at the foot, each with its caption ("Received by"). */
+  signatures?: string[];
 }
 
 /** The clinic, as the top of every exported page names it. */

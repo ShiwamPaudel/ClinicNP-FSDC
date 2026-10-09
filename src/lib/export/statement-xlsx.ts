@@ -87,5 +87,16 @@ export async function statementXlsx(
     }
   }
 
+  const notes = (st.notes ?? []).filter(Boolean);
+  if (notes.length > 0) {
+    ws.addRow([]);
+    for (const n of notes) line(n);
+  }
+  if (st.signatures?.length) {
+    ws.addRow([]);
+    ws.addRow([]);
+    line(st.signatures.map((s) => `${s}: ____________________`).join("      "));
+  }
+
   return Buffer.from(await wb.xlsx.writeBuffer());
 }

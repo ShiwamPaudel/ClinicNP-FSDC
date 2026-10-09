@@ -17,6 +17,7 @@ import { PageShell } from "@/components/app/page-shell";
 import { Table, THead, TR, TH, TD } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty-state";
+import { StatementDownload } from "@/components/app/statement-download";
 import {
   PayRateButton,
   StaffFormButton,
@@ -132,6 +133,7 @@ export default async function StaffMemberPage({
                   <TH numeric>Net</TH>
                   <TH numeric>Paid</TH>
                   <TH numeric>Left</TH>
+                  <TH className="text-right">Salary slip</TH>
                 </TR>
               </THead>
               <tbody>
@@ -162,6 +164,12 @@ export default async function StaffMemberPage({
                       )}
                     >
                       {pay.leftPaisa === 0 ? "Paid" : formatPaisa(pay.leftPaisa, false)}
+                    </TD>
+                    <TD className="text-right">
+                      <StatementDownload
+                        size="sm"
+                        href={`/api/statement/salary-slip?staff=${s.id}&month=${monthBs}`}
+                      />
                     </TD>
                   </TR>
                 ))}

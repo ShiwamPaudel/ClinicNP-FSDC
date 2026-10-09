@@ -19,7 +19,8 @@ import { fileSlug, type Statement, type StatementRow } from "@/lib/statement";
 import type { DateRange } from "@/lib/date-range";
 import { doctorPayStatement } from "@/lib/repos/doctor-pay";
 import { payableMethodLabel } from "@/lib/payables";
-import { monthSheet } from "@/lib/repos/payroll";
+import { getStaff, monthSheet } from "@/lib/repos/payroll";
+import { formatPaisa } from "@/lib/money";
 import { monthLabel } from "@/lib/payroll";
 import { financialSummary } from "@/lib/repos/financials";
 
@@ -406,6 +407,102 @@ export async function salaryStatement(monthBs: string): Promise<Statement> {
       left: t.leftPaisa,
     },
     emptyText: "Nobody is on the payroll for this month.",
+  };
+}
+
+/**
+ * One person's salary slip for one month (C-038): earnings beside deductions,
+ * the net, how it was paid, and lines to sign. Built from the same month
+ * sheet row the Salaries screen shows, so the slip can't disagree with it.
+ * Null when the person was not on the payroll that month.
+ */
+export async function salarySlip(staffId: string, monthBs: string): Promise<Statement | null> {
+  const [staff, sheet] = await Promise.all([getStaff(staffId), monthSheet(monthBs)]);
+  const row = sheet.rows.find((r) => r.staff.id === staffId);
+  if (!staff || !row) return null;
+  const p = row.pay;
+  const lines = row.lines.filter((l) => !l.voided);
+  const payments = row.payments.filter((pm) => !pm.voided);
+
+  const earnings: [string, number][] = [
+    ["Basic salary", p.salaryPaisa],
+    ...lines.filter((l) => l.kind === "bonus").map((l): [string, number] => [l.label || "Bonus", l.amountPaisa]),
+  ];
+  const deductions: [string, number][] = [
+    ...(p.ssfStaffPaisa ? [["Social Security Fund 11%", p.ssfStaffPaisa] as [string, number]] : []),
+    ...(p.sstPaisa ? [["Social security tax 1%", p.sstPaisa] as [string, number]] : []),
+    ...lines
+      .filter((l) => l.kind === "deduction")
+      .map((l): [string, number] => [l.label || "Deduction", l.amountPaisa]),
+    ...(p.advanceRecoveredPaisa ? [["Advance recovered", p.advanceRecoveredPaisa] as [string, number]] : []),
+  ];
+  const deductionTotal = p.ssfStaffPaisa + p.sstPaisa + p.deductionPaisa + p.advanceRecoveredPaisa;
+
+  const rows: StatementRow[] = Array.from(
+    { length: Math.max(earnings.length, deductions.length) },
+    (_, i) => ({
+      cells: {
+        earning: earnings[i]?.[0] ?? "",
+        earned: earnings[i]?.[1] ?? null,
+        deduction: deductions[i]?.[0] ?? "",
+        deducted: deductions[i]?.[1] ?? null,
+      },
+    }),
+  );
+  rows.push({
+    style: "total",
+    cells: { earning: "Gross pay", earned: p.grossPaisa, deduction: "Total deductions", deducted: deductionTotal },
+  });
+
+  // A non-breaking space keeps रू on the same line as its amount.
+  const rs = (paisa: number) => formatPaisa(paisa).replace(" ", "\u00a0");
+  const notes = payments.map(
+    (pm) =>
+      `Paid ${rs(pm.amountPaisa)} on ${pm.dateBs} · ${payableMethodLabel(pm.method)}${pm.note ? ` · ${pm.note}` : ""}`,
+  );
+  if (p.leftPaisa > 0) notes.push(`Still to pay: ${rs(p.leftPaisa)}.`);
+  if (p.leftPaisa < 0) notes.push(`Paid ${rs(-p.leftPaisa)} more than the net pay.`);
+  if (p.ssfEmployerPaisa > 0) {
+    notes.push(
+      `The clinic adds its own 20% to the Social Security Fund, ${rs(p.ssfEmployerPaisa)}, not taken from this salary. ` +
+        `Deposited to the fund for the month: ${rs(p.ssfStaffPaisa + p.ssfEmployerPaisa)}.`,
+    );
+  }
+  if (row.advanceOutstandingPaisa > 0) {
+    notes.push(`Advance still to recover: ${rs(row.advanceOutstandingPaisa)}.`);
+  }
+
+  return {
+    fileName: fileSlug("salary-slip", staff.name, monthBs),
+    title: "Salary slip",
+    party: {
+      name: staff.name,
+      lines: [
+        staff.designation,
+        [staff.panNo ? `PAN: ${staff.panNo}` : "", staff.ssfNo ? `SSF No: ${staff.ssfNo}` : ""]
+          .filter(Boolean)
+          .join(" · "),
+        staff.bankAccount ? `Bank account: ${staff.bankAccount}` : "",
+      ],
+    },
+    period: `Salary for ${monthLabel(monthBs)}`,
+    summary: [
+      { label: "Gross pay", paisa: p.grossPaisa },
+      { label: "Deductions", paisa: deductionTotal },
+      { label: "Net pay", paisa: p.netPaisa },
+      { label: p.leftPaisa > 0 ? "Paid so far" : "Paid", paisa: p.paidPaisa },
+    ],
+    columns: [
+      { key: "earning", label: "Earnings", width: 30 },
+      { key: "earned", label: "Amount", width: 18, money: true },
+      { key: "deduction", label: "Deductions", width: 32 },
+      { key: "deducted", label: "Amount", width: 18, money: true },
+    ],
+    rows,
+    totals: { earning: "Net pay", earned: p.netPaisa, deduction: "", deducted: null },
+    emptyText: "",
+    notes,
+    signatures: ["Received by", "Authorised by"],
   };
 }
 

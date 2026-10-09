@@ -98,9 +98,8 @@ scrolling at 232 px:
   New bill                       the two most-used destinations
 
   CLINIC          (navy group label)
-    Today       │ Patients
-    Visits      │ Doctors
-    Laboratory                 ← odd one out takes the whole row
+    Patients    │ Visits         (Visits opens on today; the Today
+    Doctors     │ Laboratory      tile it repeated is gone, C-038)
 
   PHARMACY        (sage group label; reads SUPPLIES with Pharmacy off)
     Stock       │ Items          (Stock only with Pharmacy on, C-035)

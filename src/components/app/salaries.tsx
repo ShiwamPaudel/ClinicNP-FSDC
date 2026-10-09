@@ -16,6 +16,7 @@ import { DatePickerBS } from "@/components/ui/date-picker-bs";
 import { Table, THead, TR, TH, TD } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty-state";
+import { StatementDownload } from "@/components/app/statement-download";
 import { useToast } from "@/components/ui/toast";
 import {
   addSalaryLineAction,
@@ -169,6 +170,7 @@ export function SalarySheet({
                     <td colSpan={8} className="px-4 py-3">
                       <RowDetail
                         row={r}
+                        monthBs={monthBs}
                         onLine={() => setLining(r)}
                         onAdvance={() => setAdvancing(r)}
                         onUndo={setUndoing}
@@ -192,11 +194,13 @@ export function SalarySheet({
 
 function RowDetail({
   row,
+  monthBs,
   onLine,
   onAdvance,
   onUndo,
 }: {
   row: SheetRow;
+  monthBs: string;
   onLine: () => void;
   onAdvance: () => void;
   onUndo: (t: { kind: "payment" | "line"; id: string; what: string }) => void;
@@ -289,6 +293,13 @@ function RowDetail({
         >
           All months
         </a>
+        <span className="inline-flex items-center gap-2 text-[13px] text-sage-700 sm:ml-auto">
+          Salary slip
+          <StatementDownload
+            size="sm"
+            href={`/api/statement/salary-slip?staff=${row.staff.id}&month=${monthBs}`}
+          />
+        </span>
       </div>
     </div>
   );

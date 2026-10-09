@@ -513,7 +513,7 @@ const CHAPTERS = [
         img: "32-visits-today",
         title: "Who is here today",
         blurb:
-          "The front desk's screen. Everyone seen today, and who is still waiting.",
+          "Visits opens on today: the front desk's screen. Everyone seen today, and who is still waiting. Pick another range to look back.",
         points: [
           "Starting a visit prints the <b>OPD slip</b> the patient carries to the doctor's room.",
           "Billing a service for somebody opens their visit automatically if they do not have one yet — you never have to remember to.",

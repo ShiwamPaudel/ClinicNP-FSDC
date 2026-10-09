@@ -111,7 +111,7 @@ export async function registerPatientAction(
     });
 
     revalidatePath("/patients");
-    revalidatePath("/visits/today");
+    revalidatePath("/visits");
     return { ok: true, id: patient.id, patientNo: patient.patientNo };
   } catch (err) {
     return handle(err);
@@ -245,7 +245,7 @@ export async function startVisitAction(
   try {
     const user = await requireClinicWriter();
     const visit = await createVisit({ ...input, userId: user.id });
-    revalidatePath("/visits/today");
+    revalidatePath("/visits");
     revalidatePath(`/patients/${input.patientId}`);
     return { ok: true, id: visit.id };
   } catch (err) {
@@ -278,7 +278,7 @@ export async function updateVisitAction(
     await requireClinicWriter();
     await updateVisit(input);
     revalidatePath(`/visits/${input.id}`);
-    revalidatePath("/visits/today");
+    revalidatePath("/visits");
     revalidatePath(`/patients/${input.patientId}`);
     return OK;
   } catch (err) {
@@ -297,7 +297,7 @@ export async function cancelVisitAction(
     if (!reason.trim()) return fail("Say why this visit is being cancelled.");
     await cancelVisit(id, reason, user.id);
     revalidatePath(`/visits/${id}`);
-    revalidatePath("/visits/today");
+    revalidatePath("/visits");
     revalidatePath(`/patients/${patientId}`);
     return OK;
   } catch (err) {

@@ -217,7 +217,6 @@ export async function addHistoryRowAction(input: unknown): Promise<HistoryRowRes
     }
 
     revalidatePath(`/patients/${patient.id}`);
-    revalidatePath("/visits/today");
     revalidatePath("/visits");
     if (result.billId) {
       revalidatePath("/bills");

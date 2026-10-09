@@ -177,7 +177,7 @@ A **visit** is one encounter on one BS date.
 - Created from the patient card, from the counter while billing, or from Visits → New.
 - Fields: patient, BS date and time, **type** (New / Follow-up / Review of report), department or service group, **doctor** (from the Doctors list; optional for a pure-diagnostic visit like a walk-in ECG), complaint (free text), optional vitals row (BP, pulse, temperature, weight, SpO₂ — all optional, no charting, no graphs), findings/advice free text, and status (Waiting / Seen / Closed).
 - **Visit number**: `V-2083/84-000456`, per fiscal year.
-- **Today's list**: the front desk's home screen when the clinic module is on — everyone registered today, their doctor, their status, whether their bill is paid, one keystroke to their card.
+- **Today's list** *(since C-038: **Visits**, which opens on today, with the waiting / seen count and Register patient; the separate Today page now forwards there)*: the front desk's home screen when the clinic module is on — everyone registered today, their doctor, their status, whether their bill is paid, one keystroke to their card.
 - **Follow-up rule** (per service, configured by Admin): a consultation may include a free follow-up within *N* days, or a reduced follow-up rate. When the front desk bills a follow-up for a patient whose last consultation with the same doctor is inside the window, the system applies the rule automatically and says so on the line: *"Follow-up within 7 days — no charge."* It can be overridden per bill, and the override is stamped and logged like a rate override.
 - Visits are never deleted. A visit created by mistake is **cancelled** with a reason, stays visible to Admin, and is excluded from counts.
 
@@ -377,6 +377,7 @@ With **VAT registered** on, Settings → Company asks **How rates are priced**:
 - The month sheet (one BS month at a time) shows per person: salary, bonus, deductions, net, paid, left — with **Pay** (part or full), **Bonus or deduction** (e.g. Dashain bonus, absence), and **Give an advance**. When a salary is paid, the advance still to recover is offered as a deduction for that month.
 - **SSF**: 11% of the salary from the staff member, 20% from the clinic. **1% social security tax** for staff not on the fund (fund members are exempt). Income tax above the first slab is entered as a deduction. The sheet shows what is to be deposited.
 - Anything typed wrong is undone with a reason; an advance already recovered cannot be undone before its recoveries. Month sheet as PDF and Excel.
+- **Salary slip** for one person and one month *(C-038)*, PDF or Excel, from their row on the month sheet or from any month on their page: earnings beside deductions, gross, total deductions, net pay, each payment with date and method, what is still to pay, the clinic's own 20% SSF, the advance still to recover, and lines for *Received by* and *Authorised by*.
 
 **Income and expenses** (Reports, Admin). For the dates chosen: billed, less refunds and VAT = income; less doctors' share earned, laboratory costs, supplies bought (without VAT, less returns), salaries and the clinic's SSF for the BS months that start in the dates = left over. Beside it, what was actually paid out to doctors, staff, suppliers and laboratories. PDF and Excel.
 

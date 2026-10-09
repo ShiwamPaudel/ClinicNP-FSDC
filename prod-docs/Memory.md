@@ -1461,3 +1461,25 @@ Dr. Shakya's Rs 3,500 share paid Rs 2,000 (Part paid, Rs 1,500 owed, on
 Payables and the statement PDF), Sita Tamang on SSF at Rs 20,000 with a
 Rs 5,000 advance recovered (net Rs 12,800, Rs 6,200 to the fund), income and
 expenses for the month, tooth 36 marked Caries (MO).
+
+### C-038  ·  2083-06-23  ·  Salary slips; Visits replaces Today
+
+**Salary slip** per person per month, PDF and Excel
+(`/api/statement/salary-slip?staff=&month=`, Admin): from the row detail on the
+month sheet and from each month on the staff page. Earnings beside deductions,
+gross, total deductions, net pay; under the table each payment, anything still
+to pay, the clinic's 20% SSF and the advance still to recover; *Received by*
+and *Authorised by* lines. Built by `salarySlip` in `repos/statements.ts` from
+the same month-sheet row as the screen. `Statement` gains optional `notes` and
+`signatures`, drawn by both renderers.
+
+**Today removed from the menu.** It was Visits with Today picked. Visits now
+opens on today (any other range is one click), shows *n people · waiting ·
+seen* when it is today, and carries *Register patient*. `/visits/today`
+forwards to `/visits` for old bookmarks.
+
+**Checked:** 633 tests (slip agrees with the sheet; notes and signatures in the
+PDF and Excel); typecheck; in a browser on a scratch copy: Sita Tamang's
+Ashwin slip (gross Rs 20,000, SSF Rs 2,200, advance Rs 5,000, net Rs 12,800,
+paid in cash) as PDF and Excel; an unknown person answers 404; the menu has no
+Today and `/visits/today` lands on Visits showing today.

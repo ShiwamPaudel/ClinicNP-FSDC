@@ -50,7 +50,7 @@ const SHOTS = [
   // --- the clinic (v2) ---
   { slug: "30-patients", path: "/patients", wait: 500 },
   { slug: "31-patients-new", path: "/patients/new", wait: 500 },
-  { slug: "32-visits-today", path: "/visits/today", wait: 500 },
+  { slug: "32-visits-today", path: "/visits", wait: 500 },
   { slug: "33-visits", path: "/visits", wait: 500 },
   { slug: "34-files-pending", path: "/files/pending", wait: 500 },
   { slug: "35-patients-duplicates", path: "/patients/duplicates", wait: 500 },

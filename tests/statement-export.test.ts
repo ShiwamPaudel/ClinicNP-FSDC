@@ -60,6 +60,18 @@ describe("the PDF", () => {
     expect(pages(long)).toBeGreaterThan(3);
   });
 
+  it("draws notes and lines to sign under the table, as a salary slip has", async () => {
+    const plain = await statementPdf(statement(3), issuer, "now");
+    const slip = await statementPdf(
+      { ...statement(3), notes: ["Paid रू 12,800.00 on 2083-06-30 · Bank"], signatures: ["Received by", "Authorised by"] },
+      issuer,
+      "now",
+    );
+    const pages = (b: Buffer) => (b.toString("latin1").match(/\/Type \/Page\b/g) ?? []).length;
+    expect(pages(slip)).toBe(1);
+    expect(slip.length).toBeGreaterThan(plain.length);
+  });
+
   it("says so when there is nothing to list", async () => {
     const pdf = await statementPdf({ ...statement(0), rows: [] }, issuer, "now");
     expect(pdf.subarray(0, 5).toString()).toBe("%PDF-");
@@ -83,6 +95,23 @@ describe("the Excel sheet", () => {
     expect(values(header + 3)[1]).toBe("Total");
     expect(values(header + 3)[2]).toBe(3600);
     expect(String(ws.getRow(1).getCell(1).value)).toBe(issuer.name);
+  });
+});
+
+describe("notes and signatures in the Excel sheet", () => {
+  it("come after the table", async () => {
+    const buf = await statementXlsx(
+      { ...statement(1), notes: ["Still to pay: रू 500.00."], signatures: ["Received by"] },
+      issuer,
+      "now",
+    );
+    const wb = new ExcelJS.Workbook();
+    await wb.xlsx.load(buf as unknown as ArrayBuffer);
+    const texts: string[] = [];
+    wb.worksheets[0]!.eachRow((row) => texts.push(String(row.getCell(1).value ?? "")));
+    const total = texts.indexOf("Total");
+    expect(texts.indexOf("Still to pay: रू 500.00.")).toBeGreaterThan(total);
+    expect(texts.at(-1)).toMatch(/^Received by: _+$/);
   });
 });
 
