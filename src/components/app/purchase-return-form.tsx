@@ -15,6 +15,7 @@ import { bsToDbText, today, adFromIso, toBS, formatBS } from "@/lib/bs";
 import { toMixedDisplay, type UnitDef } from "@/lib/units";
 import type { Supplier } from "@/lib/repos/suppliers";
 import { strings } from "@/lib/strings";
+import { hasExpiry } from "@/lib/supplies";
 import { RotateCcw } from "lucide-react";
 
 export interface ReturnBatch {
@@ -23,6 +24,8 @@ export interface ReturnBatch {
   brandName: string;
   batchNo: string;
   expiryDateAd: string;
+  /** Which purchase it came in on, e.g. "PI-2083/84-000004 · 2083-06-21". */
+  purchaseLabel: string;
   supplierId: string | null;
   remainingBaseQty: number;
   costPaisaPerBase: number;
@@ -33,15 +36,18 @@ export interface ReturnBatch {
 export function PurchaseReturnForm({
   suppliers,
   batches,
+  forUse = false,
 }: {
   suppliers: Supplier[];
   batches: ReturnBatch[];
+  /** Bought for use: rows are purchase lines, with no batch or expiry (C-035). */
+  forUse?: boolean;
 }) {
   const router = useRouter();
   const toast = useToast();
   const [supplierId, setSupplierId] = useState("");
   const [dateBs, setDateBs] = useState(bsToDbText(today()));
-  const [reason, setReason] = useState("near expiry");
+  const [reason, setReason] = useState(forUse ? "damaged" : "near expiry");
   const [qtys, setQtys] = useState<Record<string, string>>({});
   const [busy, setBusy] = useState(false);
 
@@ -65,7 +71,11 @@ export function PurchaseReturnForm({
       }));
 
     if (lines.length === 0) {
-      toast.error("Enter a quantity to return for at least one batch.");
+      toast.error(
+        forUse
+          ? "Enter a quantity to return for at least one item."
+          : "Enter a quantity to return for at least one batch.",
+      );
       return;
     }
     if (!supplierId) {
@@ -108,26 +118,56 @@ export function PurchaseReturnForm({
           </Field>
           <Field label="Reason">
             <Select value={reason} onChange={(e) => setReason(e.target.value)}>
-              <option value="near expiry">Near expiry</option>
-              <option value="damaged">Damaged</option>
-              <option value="recall">Recall</option>
+              {forUse ? (
+                <>
+                  <option value="damaged">Damaged</option>
+                  <option value="wrong item">Wrong item</option>
+                  <option value="other">Other</option>
+                </>
+              ) : (
+                <>
+                  <option value="near expiry">Near expiry</option>
+                  <option value="damaged">Damaged</option>
+                  <option value="recall">Recall</option>
+                </>
+              )}
             </Select>
           </Field>
         </div>
       </section>
 
       {!supplierId ? (
-        <EmptyState icon={RotateCcw} message="Choose a supplier to see returnable batches." />
+        <EmptyState
+          icon={RotateCcw}
+          message={
+            forUse
+              ? "Choose a supplier to see what can be returned."
+              : "Choose a supplier to see returnable batches."
+          }
+        />
       ) : visible.length === 0 ? (
-        <EmptyState icon={RotateCcw} message="No stock from this supplier to return." />
+        <EmptyState
+          icon={RotateCcw}
+          message={
+            forUse
+              ? "Nothing bought from this supplier to return."
+              : "No stock from this supplier to return."
+          }
+        />
       ) : (
         <Table>
           <THead>
             <TR>
               <TH>Item</TH>
-              <TH>Batch</TH>
-              <TH>Expiry</TH>
-              <TH>In stock</TH>
+              {forUse ? (
+                <TH>Purchase</TH>
+              ) : (
+                <>
+                  <TH>Batch</TH>
+                  <TH>Expiry</TH>
+                </>
+              )}
+              <TH>{forUse ? "Can return" : "In stock"}</TH>
               <TH numeric>Return ({visible[0]?.baseUnitName})</TH>
             </TR>
           </THead>
@@ -135,13 +175,21 @@ export function PurchaseReturnForm({
             {visible.map((b) => (
               <TR key={b.id}>
                 <TD className="font-medium text-sage-900">{b.brandName}</TD>
-                <TD className="font-mono">{b.batchNo}</TD>
-                <TD>
-                  {formatBS(toBS(adFromIso(b.expiryDateAd)), {
-                    form: "long",
-                    monthScript: "en",
-                  })}
-                </TD>
+                {forUse ? (
+                  <TD>{b.purchaseLabel || "—"}</TD>
+                ) : (
+                  <>
+                    <TD className="font-mono">{b.batchNo}</TD>
+                    <TD>
+                      {hasExpiry(b.expiryDateAd)
+                        ? formatBS(toBS(adFromIso(b.expiryDateAd)), {
+                            form: "long",
+                            monthScript: "en",
+                          })
+                        : "—"}
+                    </TD>
+                  </>
+                )}
                 <TD>{toMixedDisplay(b.remainingBaseQty, b.units)}</TD>
                 <TD numeric>
                   <Input

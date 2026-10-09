@@ -23,7 +23,7 @@
 
 *Last rewritten 2083-05-26 (C-014); production figures re-read 2083-06-06 (C-016). Everything below is verified against production, not remembered.*
 
-> **This install is set up and empty of trading.** Checked 2083-06-22 against `clinicnpforfsdc-fsdc.aws-ap-south-1.turso.io`: **24 migrations** (ends at `0024_vat_inclusive.sql`, C-034); **6,646 items and 14,187 units** from `import-templates/fsdc-items.csv`, every rate blank (C-032); bootstrapped 2083-06-21 (C-033) with PAN/VAT no. and phone, address blank. **Settings the owner has since changed in the app:** **clinic on, pharmacy off** — so suppliers, purchases, stock and payables show under **Supplies** (C-034) — and **VAT registered on**, rates priced *VAT on top* until they choose otherwise. Kept from their setup: 2 users, 1 doctor, 1 laboratory partner, 10 service groups and **Crown Filling** (Rs 10,000, VAT-able). **Trial patients, visits, bills and dues were cleared 2083-06-22** (C-034) with `db:reset --keep-setup`, after a full backup to `backups/prod-before-clear-patients-*.json`; patient, bill and visit numbering restart at 1. 🔴 The admin password and PIN are simple placeholders the owner chose (Rule 7: not written here). **No letterhead is set** (the logo alone would replace the printed name, address and phone). A private Blob store **is connected** (probed 2083-06-21: private writes accepted).
+> **This install is set up and empty of trading.** Checked 2083-06-22 against `clinicnpforfsdc-fsdc.aws-ap-south-1.turso.io`: **24 migrations** (ends at `0024_vat_inclusive.sql`, C-034); **no items** — the 6,646-item medicine catalogue loaded in C-032 was removed 2083-06-23 at the owner's request, after a backup to `backups/prod-before-clear-items-*.json`; the clinic adds what it buys itself (C-035); bootstrapped 2083-06-21 (C-033) with PAN/VAT no. and phone, address blank. **Settings the owner has since changed in the app:** **clinic on, pharmacy off** — so suppliers, purchases and payables show under **Supplies** (C-034), and a purchase is for the clinic's own use: no batch, expiry, selling price or stock count (C-035) — and **VAT registered on**, rates priced *VAT on top* until they choose otherwise. Kept from their setup: 2 users, 1 doctor, 1 laboratory partner, 10 service groups and **Crown Filling** (Rs 10,000, VAT-able). **Trial patients, visits, bills and dues were cleared 2083-06-22** (C-034) with `db:reset --keep-setup`, after a full backup to `backups/prod-before-clear-patients-*.json`; patient, bill and visit numbering restart at 1. 🔴 The admin password and PIN are simple placeholders the owner chose (Rule 7: not written here). **No letterhead is set** (the logo alone would replace the printed name, address and phone). A private Blob store **is connected** (probed 2083-06-21: private writes accepted).
 >
 > The figures in the paragraph above replaced the previous install's. **The code is unchanged and still at the same maturity**; what reset is the data.
 
@@ -287,6 +287,7 @@
 | D-157 | **Resuming a held bill brings back all of it, and never writes over the bill on the counter — that one is held in its place** | Held bills always stored their services and patient (`HeldBill.serviceLines`, `patientId`), but resume only loaded medicines and then deleted the held copy: a held clinic bill lost its consultation and patient for good. The attached patient is now kept whole on the held bill (`attachedPatient`); bills held before that are matched by `patientId` against the counter's patient cache |
 | D-158 | **A new purchase row's expiry starts at today + 4 years, marked as a default until changed** | The owner's instruction. The risk is a default that is never corrected and quietly becomes a real batch's expiry, so the row says "4 years from today — change to the pack's" in warn amber until the date is edited, and the date box selects its whole value on focus so typing replaces it. Rows filled from a photo keep what the bill printed (or empty, D-145) — never the default, which would pass for a date read off the paper |
 | D-159 | **The margin under the sell price is on the selling price — (sell − cost) ÷ sell — and, where free goods or a line discount lower the real unit cost, the margin they give is shown beside it** | Nepal pharmacy margins are quoted on the selling price/MRP ("16% margin"). A blank sell price leaves the item's price as it is, so the margin is worked on that price. "Margin 13.8% · 28.2% with free" for 10 + 2 free at 112.07 against 130 |
+| D-160 | **With the pharmacy off, what is bought is used, not sold: an item is a name and a unit, a purchase line is item · unit · qty · cost, and no stock is counted** | Owner, 2083-06-23: "they use it… no need batch number, expiry date, manufacture date, selling price… tied to payables and accounting, not sales." Owner chose *purchases only, no stock count* over a simple count with *mark as used*. Each line still writes a batch row underneath — `purchase_lines.batch_id` and `batches.expiry_date_ad` are NOT NULL — with batch `""` and expiry `9999-12-31` (`NO_EXPIRY_AD`, never shown), so edits, returns and payables run on the same code as a pharmacy's. The server decides the mode from the module flags and ignores batch, expiry, bonus and price from the browser. Turning the pharmacy on later would make these items sellable stock with no expiry — decide how to separate them first |
 
 *(Add D-036+ as they happen. Assumptions use the `ASSUMPTION:` prefix.)*
 
@@ -1351,3 +1352,34 @@ in a browser against a scratch copy (clinic only, VAT on, Crown Filling billed
 Rs 11,300 with Rs 5,000 paid and Rs 2,000 later): the history table, dues
 times, the bill's VAT lines, the VAT setting saving and the counter switching
 to *VAT 13% (included)*, supplies pages, and the pharmacy-only 404s.
+
+### C-035  ·  2083-06-23  ·  The catalogue removed, and purchases for the clinic's own use
+
+**The medicine catalogue is gone from production.** The owner: the pharmacy
+items are not needed; the clinic will create its own. Only `items` (6,646) and
+`item_units` (14,187) held rows — no batch, stock move, purchase line or bill
+line pointed at any item — so both were emptied in one transaction after a copy
+to `backups/prod-before-clear-items-*.json`. Nothing else changed.
+
+**What the clinic buys, it uses** (D-160). With Pharmacy off:
+- **Items** are a name and the unit they are bought in. The list shows *Last
+  bought* and *Last cost*; an item's page lists every purchase it was on and
+  what has been spent on it (`itemPurchases` in `repos/purchases.ts`).
+- **A purchase line** is item · unit · qty · cost/unit, with its amount. No
+  batch, expiry, bonus or selling price on the form, the detail page or the
+  edit page. `missingOnLine` in `lib/supplies.ts` requires batch and expiry
+  only for stock for sale; the schema no longer does.
+- **Payables are unchanged**: paid, part paid or on credit when entered; the
+  supplier ledger, Payables and the purchase register include it. **Purchase
+  returns** list each purchase line by its purchase number, with reasons
+  *Damaged · Wrong item · Other*, and lower what is owed.
+- **No stock**: the Stock link is gone from the menu, and the Stock pages and
+  the expiry and stock-value reports are Pharmacy-only again (C-034 had opened
+  them to the clinic).
+
+**Checked:** 590 tests across 51 files; typecheck clean; production build; and
+in a browser against a scratch clinic-only copy — item added as *Nitrile gloves
+(M) · Box*, bought 3 × 450 with 500 paid, edited to 4 with the password, 1
+returned as damaged: Payables shows रू 850 owed (1,800 − 500 − 450), the stored
+batch has no number, no expiry shown and no price, and `/stock`, `/stock/out`,
+`/reports/expiry`, `/reports/valuation` answer 404.

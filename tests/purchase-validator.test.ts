@@ -1,9 +1,11 @@
 /**
  * A purchase line: the manufacture date is optional (owner request, C-016),
- * but a date that is given must make sense against the expiry.
+ * but a date that is given must make sense against the expiry. Batch and
+ * expiry are needed only on stock for sale (C-035).
  */
 import { describe, it, expect } from "vitest";
 import { purchaseSchema } from "@/lib/validators";
+import { missingOnLine } from "@/lib/supplies";
 
 function purchase(line: Partial<{ mfgDateBs: string; expiryDateBs: string }>) {
   return {
@@ -51,9 +53,38 @@ describe("the manufacture date on a purchase line", () => {
     ).toBe(false);
   });
 
-  it("does not make the expiry optional", () => {
+  it("is not checked against an expiry that was not given", () => {
+    expect(
+      purchaseSchema.safeParse(purchase({ mfgDateBs: "2082-06-01", expiryDateBs: "" })).success,
+    ).toBe(true);
+  });
+});
+
+// The expiry is no longer the schema's to require: whether a line needs one
+// depends on what the purchase is for (C-035), which the action decides from
+// the module flags with `missingOnLine`.
+describe("what a purchase line needs", () => {
+  it("for sale: the batch number and the expiry", () => {
+    expect(missingOnLine({ batchNo: "", expiryDateBs: "2085-06-30" }, 2, false)).toBe(
+      "Line 2: enter the batch number.",
+    );
+    expect(missingOnLine({ batchNo: "B1", expiryDateBs: "" }, 1, false)).toBe(
+      "Line 1: enter the expiry date.",
+    );
+    expect(missingOnLine({ batchNo: " ", expiryDateBs: "" }, 1, false)).toMatch(/batch/);
+    expect(missingOnLine({ batchNo: "B1", expiryDateBs: "2085-06-30" }, 1, false)).toBeNull();
+  });
+
+  it("bought for use: neither", () => {
+    expect(missingOnLine({ batchNo: "", expiryDateBs: "" }, 1, true)).toBeNull();
+  });
+
+  it("a line with no batch or expiry passes the schema, for the action to judge", () => {
     expect(
       purchaseSchema.safeParse(purchase({ expiryDateBs: "" })).success,
-    ).toBe(false);
+    ).toBe(true);
+    const bare = purchase({});
+    const { batchNo: _b, expiryDateBs: _e, ...line } = bare.lines[0]!;
+    expect(purchaseSchema.safeParse({ ...bare, lines: [line] }).success).toBe(true);
   });
 });

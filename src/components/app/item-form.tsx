@@ -79,16 +79,33 @@ const BLANK: FormState = {
   levels: [{ name: "Tablet", ratioToPrev: 1, rateRupees: "0" }],
 };
 
+/** A new item the clinic buys for its own use: a consumable, unit not yet typed. */
+const BLANK_FOR_USE: FormState = {
+  ...BLANK,
+  category: "Consumable",
+  levels: [{ name: "", ratioToPrev: 1, rateRupees: "0" }],
+};
+
 export function ItemForm({
   item,
   suppliers,
+  forUse = false,
 }: {
   item?: Item;
   suppliers: Supplier[];
+  /**
+   * The clinic uses what it buys and sells none of it: an item is its name
+   * and the unit it is bought in. Everything a sale needs — generic name,
+   * shape, selling rates, smaller units, the controlled flag — is left out
+   * (C-035), and kept as it was on an item that already has it.
+   */
+  forUse?: boolean;
 }) {
   const router = useRouter();
   const toast = useToast();
-  const [f, setF] = useState<FormState>(item ? fromItem(item) : BLANK);
+  const [f, setF] = useState<FormState>(
+    item ? fromItem(item) : forUse ? BLANK_FOR_USE : BLANK,
+  );
   const [saving, setSaving] = useState(false);
   // Show the optional fields expanded when editing an item that already uses them.
   const [showMore, setShowMore] = useState(!!item?.preferredSupplierId);
@@ -125,6 +142,10 @@ export function ItemForm({
   }
 
   async function onSubmit() {
+    if (forUse && f.levels.length === 1 && !f.levels[0]!.name.trim()) {
+      toast.error("Enter the unit it's bought in, like Box or Piece.");
+      return;
+    }
     setSaving(true);
     const ratios = f.levels.slice(1).map((l) => Number(l.ratioToPrev) || 1);
     const factors = factorsFromRatios(ratios); // [1, r1, r1*r2]
@@ -160,6 +181,57 @@ export function ItemForm({
   }
 
   const baseName = f.levels[0]?.name || "base unit";
+
+  if (forUse) {
+    // An item set up with smaller units keeps them; only a one-unit item's
+    // unit is typed here.
+    const multiUnit = f.levels.length > 1;
+    return (
+      <div className="flex flex-col gap-6">
+        <section className="rounded-[10px] border border-line bg-cream-50 p-6">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field label="Name">
+              <Input
+                value={f.brandName}
+                placeholder="Nitrile gloves (M)"
+                onChange={(e) => set("brandName", e.target.value)}
+              />
+            </Field>
+            <Field label="Bought in">
+              {multiUnit ? (
+                <div className="flex h-10 items-center text-[14px] text-sage-700">
+                  {[...f.levels].reverse().map((l) => l.name).join(" / ")}
+                </div>
+              ) : (
+                <Input
+                  value={f.levels[0]?.name ?? ""}
+                  placeholder="Box"
+                  onChange={(e) => setLevel(0, { name: e.target.value })}
+                />
+              )}
+            </Field>
+          </div>
+          <label className="mt-4 flex items-center gap-2 text-[14px] text-sage-900">
+            <input
+              type="checkbox"
+              checked={f.active}
+              onChange={(e) => set("active", e.target.checked)}
+            />
+            Active
+          </label>
+        </section>
+
+        <div className="flex justify-end gap-2">
+          <Button variant="secondary" onClick={() => router.push("/items")}>
+            {strings.cancel}
+          </Button>
+          <Button onClick={onSubmit} disabled={saving}>
+            {saving ? "…" : item ? strings.save : "Add item"}
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-6">

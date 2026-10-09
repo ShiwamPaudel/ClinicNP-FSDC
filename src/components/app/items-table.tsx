@@ -35,6 +35,14 @@ export interface ItemStock {
   sellableBaseQty: number;
 }
 
+/** When an item bought for use was last bought, and at what cost (C-035). */
+export interface ItemLastBought {
+  itemId: string;
+  dateBs: string;
+  costPaisa: number;
+  unitName: string;
+}
+
 /** Fold a name the way somebody types it: no case, no spaces, no punctuation. */
 function fold(text: string): string {
   return text.toLowerCase().replace(/[^a-z0-9]/g, "");
@@ -42,10 +50,18 @@ function fold(text: string): string {
 
 export function ItemsTable({
   items,
-  stock,
+  stock = [],
+  lastBought = [],
+  forUse = false,
 }: {
   items: Item[];
-  stock: ItemStock[];
+  stock?: ItemStock[];
+  lastBought?: ItemLastBought[];
+  /**
+   * The clinic uses what it buys and sells none of it: no price, no stock,
+   * no shape — the unit it is bought in and when it was last bought.
+   */
+  forUse?: boolean;
 }) {
   const [query, setQuery] = useState("");
   // Typing stays smooth on a catalogue of thousands: the list catches up.
@@ -54,6 +70,10 @@ export function ItemsTable({
   const stockById = useMemo(
     () => new Map(stock.map((s) => [s.itemId, s.sellableBaseQty])),
     [stock],
+  );
+  const boughtById = useMemo(
+    () => new Map(lastBought.map((b) => [b.itemId, b])),
+    [lastBought],
   );
 
   // Searchable text per item, built once rather than on every keystroke.
@@ -77,7 +97,11 @@ export function ItemsTable({
     return (
       <EmptyState
         icon={Package}
-        message="No items yet. Add your first medicine to start tracking stock."
+        message={
+          forUse
+            ? "No items yet. Add what the clinic buys, like gloves or composite."
+            : "No items yet. Add your first medicine to start tracking stock."
+        }
         action={
           <Link href="/items/new">
             <Button>Add item</Button>
@@ -96,7 +120,7 @@ export function ItemsTable({
             id="items-search"
             aria-label="Search items by name"
             className="pl-9"
-            placeholder="Search by brand, generic or maker"
+            placeholder={forUse ? "Search by name" : "Search by brand, generic or maker"}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
@@ -115,11 +139,66 @@ export function ItemsTable({
             Nothing matches that.
           </p>
           <p className="mt-1 text-[13px] text-sage-500">
-            Try part of the brand name, or the generic name.
+            {forUse
+              ? "Try part of the name."
+              : "Try part of the brand name, or the generic name."}
           </p>
         </div>
       ) : (
         <>
+          {forUse ? (
+            <Table>
+              <THead>
+                <TR>
+                  <TH>Item</TH>
+                  <TH>Unit</TH>
+                  <TH>Last bought</TH>
+                  <TH numeric>Last cost</TH>
+                  <TH>{""}</TH>
+                </TR>
+              </THead>
+              <tbody>
+                {visible.map((item) => {
+                  const last = boughtById.get(item.id);
+                  const unit =
+                    [...item.units].sort((a, b) => b.level - a.level)[0]?.name ?? "—";
+                  return (
+                    <TR key={item.id}>
+                      <TD>
+                        <Link
+                          href={`/items/${item.id}`}
+                          className="font-medium text-sage-900 hover:text-sage-600"
+                        >
+                          {item.brandName}
+                        </Link>
+                        {!item.active && (
+                          <Badge tone="neutral" className="ml-2">
+                            Inactive
+                          </Badge>
+                        )}
+                      </TD>
+                      <TD>{unit}</TD>
+                      <TD>{last ? last.dateBs : <span className="text-sage-500">Not yet</span>}</TD>
+                      <TD numeric>
+                        {last
+                          ? `${formatPaisa(last.costPaisa)}${last.unitName ? ` / ${last.unitName}` : ""}`
+                          : "—"}
+                      </TD>
+                      <TD className="text-right">
+                        <Link
+                          href={`/items/${item.id}/edit`}
+                          className="inline-flex items-center gap-1.5 rounded-[8px] border border-line bg-cream-50 px-2.5 py-1.5 text-[13px] font-medium text-sage-900 hover:bg-cream-200"
+                        >
+                          <Pencil className="h-3.5 w-3.5" />
+                          Edit
+                        </Link>
+                      </TD>
+                    </TR>
+                  );
+                })}
+              </tbody>
+            </Table>
+          ) : (
           <Table>
             <THead>
               <TR>
@@ -202,6 +281,7 @@ export function ItemsTable({
               })}
             </tbody>
           </Table>
+          )}
           {found.length > visible.length && (
             <p className="text-center text-[13px] text-sage-500">
               Showing the first {MOST_ROWS} of {found.length}. Type more of the

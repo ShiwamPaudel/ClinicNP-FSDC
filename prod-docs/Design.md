@@ -103,7 +103,7 @@ scrolling at 232 px:
     Laboratory                 ← odd one out takes the whole row
 
   PHARMACY        (sage group label; reads SUPPLIES with Pharmacy off)
-    Stock       │ Items
+    Stock       │ Items          (Stock only with Pharmacy on, C-035)
     Purchases   │ Suppliers
   ─────────────────────────    ← divider: what follows is neither module's
     Bills       │ Dues           (dues cover medicine and services, 0019)
@@ -112,9 +112,14 @@ scrolling at 232 px:
 ```
 
 The stock group shows with **either** module (C-034): a clinic with no pharmacy
-still buys materials from suppliers, keeps stock of them and pays in parts. It
-is labelled **Supplies** there, because nothing is sold from it. Selling prices,
-shelves and the shop layout stay behind the Pharmacy switch.
+still buys materials from suppliers and pays in parts. It is labelled
+**Supplies** there, because nothing is sold from it, and it holds Items,
+Purchases and Suppliers only — no Stock (C-035). On those screens a clinic sees
+no batch, expiry, bonus, selling price or stock column: an item is a name and
+the unit it is bought in, a purchase line is item · unit · qty · cost · amount,
+and the Items list shows *Last bought* and *Last cost* where a pharmacy sees
+its stock. Selling prices, shelves and the shop layout stay behind the Pharmacy
+switch.
 Two columns rather than a scrolling menu: the list is short enough to fit if it
 is laid out, and a menu that has to be scrolled hides half of itself. The tile
 drops to 13 px with a tighter gap to earn the width, a name too long to fit is

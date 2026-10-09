@@ -19,7 +19,7 @@ function daysAheadIso(days: number): string {
 
 export default async function ExpiredStockPage() {
   const user = await requireUser();
-  await requireModulePage("supplies");
+  await requireModulePage("pharmacy");
   const isAdmin = user.role === "admin";
   const todayIso = adToIso(new Date());
   const company = await getCompany();

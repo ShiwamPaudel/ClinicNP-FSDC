@@ -2,7 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { assertAdmin, NotAuthorizedError } from "@/lib/session";
-import { requireModule, ModuleDisabledError } from "@/lib/modules";
+import { requireModule, getModules, ModuleDisabledError } from "@/lib/modules";
+import { buysForUse, missingOnLine, NO_EXPIRY_AD } from "@/lib/supplies";
 import { getItem } from "@/lib/repos/items";
 import {
   createPurchase,
@@ -60,17 +61,40 @@ function bsToAdIso(bsText: string): string {
 async function resolveLines(
   d: PurchaseFormInput,
 ): Promise<{ lines: PurchaseUpdateLineInput[]; vatPaisa: number } | { error: string }> {
+  // Decided here from the module flags, never by what the browser sent: with
+  // no pharmacy, nothing bought is sold, so a line has no batch, expiry,
+  // bonus or selling price, whatever the form carried (C-035).
+  const forUse = buysForUse(await getModules());
   const lines: PurchaseUpdateLineInput[] = [];
-  for (const l of d.lines) {
+  for (const [i, l] of d.lines.entries()) {
     // Resolve factorToBase server-side (don't trust the client).
     const item = await getItem(l.itemId);
     if (!item) return { error: "One of the items no longer exists." };
     const unit = item.units.find((u) => u.level === l.unitLevel);
     if (!unit) return { error: "Pick a valid unit for each line." };
+    const missing = missingOnLine(l, i + 1, forUse);
+    if (missing) return { error: missing };
+    if (forUse) {
+      lines.push({
+        lineId: l.lineId,
+        itemId: l.itemId,
+        batchNo: "",
+        mfgDateAd: null,
+        expiryDateAd: NO_EXPIRY_AD,
+        unitLevel: l.unitLevel,
+        factorToBase: unit.factorToBase,
+        qty: l.qty,
+        freeQty: 0,
+        unitCostPaisa: l.unitCostPaisa,
+        discountPaisa: l.discountPaisa,
+        sellingRatePaisa: 0,
+      });
+      continue;
+    }
     lines.push({
       lineId: l.lineId,
       itemId: l.itemId,
-      batchNo: l.batchNo,
+      batchNo: l.batchNo.trim(),
       mfgDateAd: l.mfgDateBs ? bsToAdIso(l.mfgDateBs) : null,
       expiryDateAd: bsToAdIso(l.expiryDateBs),
       unitLevel: l.unitLevel,

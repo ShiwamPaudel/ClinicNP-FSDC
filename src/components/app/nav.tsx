@@ -30,6 +30,11 @@ interface NavItem {
   label: string;
   icon: LucideIcon;
   adminOnly?: boolean;
+  /**
+   * Only with the pharmacy on. Stock is counted for what is sold; a clinic
+   * that only uses what it buys keeps no stock (C-035).
+   */
+  pharmacyOnly?: boolean;
 }
 
 /**
@@ -80,7 +85,7 @@ const GROUPS: NavGroup[] = [
     module: "supplies",
     label: "Pharmacy",
     items: [
-      { href: "/stock", label: "Stock", icon: Boxes },
+      { href: "/stock", label: "Stock", icon: Boxes, pharmacyOnly: true },
       { href: "/items", label: "Items", icon: Package, adminOnly: true },
       { href: "/purchases", label: "Purchases", icon: ShoppingCart, adminOnly: true },
       { href: "/suppliers", label: "Suppliers", icon: Truck, adminOnly: true },
@@ -122,7 +127,10 @@ export function Nav({
     label:
       g.module === "supplies" && !modules.pharmacy ? "Supplies" : g.label,
     items: g.items.filter(
-      (i) => (!i.adminOnly || role === "admin") && groupOn(g.module),
+      (i) =>
+        (!i.adminOnly || role === "admin") &&
+        (!i.pharmacyOnly || modules.pharmacy) &&
+        groupOn(g.module),
     ),
   })).filter((g) => g.items.length > 0);
 

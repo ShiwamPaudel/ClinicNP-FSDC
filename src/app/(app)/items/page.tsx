@@ -4,18 +4,30 @@ import { requireAdmin } from "@/lib/session";
 import { requireModulePage, getModules } from "@/lib/modules";
 import { listItems, isUnpriced } from "@/lib/repos/items";
 import { itemStockMap } from "@/lib/repos/batches";
+import { itemPurchases } from "@/lib/repos/purchases";
+import { buysForUse } from "@/lib/supplies";
 import { adToIso } from "@/lib/bs";
 import { PageShell } from "@/components/app/page-shell";
-import { ItemsTable, type ItemStock } from "@/components/app/items-table";
+import {
+  ItemsTable,
+  type ItemStock,
+  type ItemLastBought,
+} from "@/components/app/items-table";
 import { Button } from "@/components/ui/button";
 
 export default async function ItemsPage() {
   await requireAdmin();
   await requireModulePage("supplies");
-  const [items, stock, modules] = await Promise.all([
+  const modules = await getModules();
+  // Bought for use, nothing is counted: the list says when each item was last
+  // bought and for how much instead of what is in stock (C-035).
+  const forUse = buysForUse(modules);
+  const [items, stock, bought] = await Promise.all([
     listItems(true),
-    itemStockMap(adToIso(new Date())),
-    getModules(),
+    forUse
+      ? Promise.resolve(new Map<string, { sellableBaseQty: number }>())
+      : itemStockMap(adToIso(new Date())),
+    forUse ? itemPurchases() : Promise.resolve([]),
   ]);
 
   // Selling prices only matter where medicine is sold at the counter. A
@@ -27,6 +39,19 @@ export default async function ItemsPage() {
     itemId: i.id,
     sellableBaseQty: stock.get(i.id)?.sellableBaseQty ?? 0,
   }));
+  // Newest first, so the first row seen for an item is its last purchase.
+  const lastBought: ItemLastBought[] = [];
+  const seen = new Set<string>();
+  for (const b of bought) {
+    if (seen.has(b.itemId)) continue;
+    seen.add(b.itemId);
+    lastBought.push({
+      itemId: b.itemId,
+      dateBs: b.dateBs,
+      costPaisa: b.costPaisa,
+      unitName: b.unitName,
+    });
+  }
 
   return (
     <PageShell
@@ -67,7 +92,11 @@ export default async function ItemsPage() {
         </Link>
       )}
 
-      <ItemsTable items={items} stock={stockRows} />
+      {forUse ? (
+        <ItemsTable items={items} lastBought={lastBought} forUse />
+      ) : (
+        <ItemsTable items={items} stock={stockRows} />
+      )}
     </PageShell>
   );
 }

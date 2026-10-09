@@ -44,6 +44,12 @@ already include VAT*). Their doctor, laboratory, service groups and **Crown
 Filling** (VAT-able) are kept. **Trial patients, visits, bills and dues were
 cleared**, and patient, bill and visit numbering restart at 1. 24 migrations.
 
+**2083-06-23** (C-035): **the medicine catalogue was removed** at the owner's
+request — all 6,646 items and 14,187 units, after a backup to
+`backups/prod-before-clear-items-*.json`. The clinic sells no medicine; it
+adds the materials it buys itself, as a name and a unit. Purchases no longer
+ask for batch, expiry or selling price, and no stock is counted (PRD §4F).
+
 **No letterhead is set, on purpose.** `public/logo-fsdc.png` is the clinic's
 logo, not a letterhead band — and when an image is set, the bill prints the
 image *instead of* the name, address and phone. Until the clinic supplies a full
@@ -62,8 +68,7 @@ company details as text.
 | 🟠 | **A private Blob store.** `BLOB_READ_WRITE_TOKEN` cannot be generated locally; until Vercel issues it, patient files land on the machine's own disk and nothing is backed up | Deploy.md |
 | 🟠 | The live site needs its own `AUTH_SECRET`, `CRON_SECRET` and VAPID pair in the hosting settings — the ones generated here are for local work. **A VAPID pair must never change once phones have alerts on** (D-122) | Vercel |
 | 🟠 | Services, doctors and follow-up rules — none are loaded | Settings → Services / Doctors |
-| 🟠 | Prices for the 6,646 medicines, or let the counter set them as they sell | Items → Set prices |
-| 🟠 | Opening stock: batch numbers and expiry dates | Stock → Opening stock |
+| 🟠 | Suppliers, and the items the clinic buys (name and unit) | Supplies → Suppliers · Items |
 | 🟠 | Laboratory partners, if they send samples out | Settings → Lab partners |
 | 🟡 | Shop floor plan and racks, once the shelving is decided | Settings → Floor plan |
 

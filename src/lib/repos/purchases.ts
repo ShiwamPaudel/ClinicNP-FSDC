@@ -346,6 +346,57 @@ export async function listPurchases(): Promise<PurchaseListRow[]> {
   }));
 }
 
+/** One line of a purchase, as an item's buying history reads it. */
+export interface ItemPurchaseRow {
+  itemId: string;
+  purchaseId: string;
+  purchaseNo: string | null;
+  supplierName: string;
+  dateBs: string;
+  qty: number;
+  unitName: string;
+  costPaisa: number;
+  /** qty x cost, less the line's discount */
+  amountPaisa: number;
+}
+
+/**
+ * What was bought, newest first: every purchase line of one item, or of every
+ * item when no id is given. A clinic that uses what it buys keeps no stock, so
+ * this is what its Items screens show instead — when it was last bought, from
+ * whom, and for how much (C-035).
+ */
+export async function itemPurchases(itemId?: string): Promise<ItemPurchaseRow[]> {
+  const res = await db().execute({
+    sql: `SELECT pl.item_id, pl.qty, pl.cost_paisa, pl.discount_paisa,
+                 p.id AS purchase_id, p.purchase_no, p.date_bs,
+                 s.name AS supplier_name, iu.name AS unit_name
+            FROM purchase_lines pl
+            JOIN purchases p ON p.id = pl.purchase_id
+            JOIN suppliers s ON s.id = p.supplier_id
+            LEFT JOIN item_units iu
+                   ON iu.item_id = pl.item_id AND iu.level = pl.unit_level
+           ${itemId ? "WHERE pl.item_id = ?" : ""}
+           ORDER BY p.date_ad DESC, p.created_at DESC, pl.rowid ASC`,
+    args: itemId ? [itemId] : [],
+  });
+  return res.rows.map((r: Row) => {
+    const qty = Number(r.qty);
+    const cost = Number(r.cost_paisa);
+    return {
+      itemId: r.item_id as string,
+      purchaseId: r.purchase_id as string,
+      purchaseNo: (r.purchase_no as string | null) ?? null,
+      supplierName: r.supplier_name as string,
+      dateBs: r.date_bs as string,
+      qty,
+      unitName: (r.unit_name as string | null) ?? "",
+      costPaisa: cost,
+      amountPaisa: qty * cost - Number(r.discount_paisa),
+    };
+  });
+}
+
 export interface PurchaseReturnLineInput {
   batchId: string;
   itemId: string;

@@ -63,7 +63,7 @@ export const itemUnitSchema = z.object({
 
 export const itemSchema = z.object({
   id: z.string().optional(),
-  brandName: z.string().min(1, "Enter a brand name"),
+  brandName: z.string().trim().min(1, "Enter the name"),
   genericName: z.string(),
   category: categorySchema,
   manufacturer: z.string(),
@@ -106,13 +106,18 @@ export const paymentVoidSchema = z.object({
 export const purchaseLineSchema = z
   .object({
     itemId: z.string().min(1),
-    batchNo: z.string().min(1, "Batch number required"),
+    // Batch and expiry are required only on stock for sale; the action checks
+    // that. A clinic buying for its own use sends neither (C-035).
+    batchNo: z.string().default(""),
     // Optional: plenty of packs and supplier bills do not print one. Empty
     // string means "not known" and is stored as NULL.
     mfgDateBs: z
       .string()
       .regex(/^(\d{4}-\d{2}-\d{2})?$/, "Pick a manufacture date, or leave it empty"),
-    expiryDateBs: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Pick an expiry date"),
+    expiryDateBs: z
+      .string()
+      .regex(/^(\d{4}-\d{2}-\d{2})?$/, "Pick an expiry date")
+      .default(""),
     unitLevel: z.number().int().min(0).max(2),
     qty: z.number().int().min(1, "Quantity required"),
     freeQty: z.number().int().min(0),
@@ -126,7 +131,7 @@ export const purchaseLineSchema = z
     lineId: z.string().min(1).optional(),
   })
   // Both are zero-padded BS text, so comparing the strings compares the dates.
-  .refine((l) => !l.mfgDateBs || l.mfgDateBs <= l.expiryDateBs, {
+  .refine((l) => !l.mfgDateBs || !l.expiryDateBs || l.mfgDateBs <= l.expiryDateBs, {
     message: "A medicine cannot expire before it was manufactured. Check the dates.",
   });
 

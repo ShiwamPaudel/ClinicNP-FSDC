@@ -11,7 +11,7 @@ import { Table, THead, TR, TH, TD } from "@/components/ui/table";
 
 export default async function ValuationPage() {
   await requireAdmin();
-  await requireModulePage("supplies");
+  await requireModulePage("pharmacy");
   const todayIso = adToIso(new Date());
   const [items, stock, totals] = await Promise.all([
     listItems(true),

@@ -2,7 +2,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Pencil, History } from "lucide-react";
 import { requireAdmin } from "@/lib/session";
-import { requireModulePage } from "@/lib/modules";
+import { requireModulePage, getModules } from "@/lib/modules";
+import { buysForUse } from "@/lib/supplies";
 import { getPurchase } from "@/lib/repos/purchases";
 import { formatPaisa } from "@/lib/money";
 import { expiryForPrint } from "@/lib/print-batches";
@@ -34,8 +35,11 @@ export default async function PurchaseDetailPage({
   await requireModulePage("supplies");
 
   const { id } = await params;
-  const p = await getPurchase(id);
+  const [p, modules] = await Promise.all([getPurchase(id), getModules()]);
   if (!p) notFound();
+  // Bought for use, a line is only what was bought and what it cost: no
+  // batch, expiry, bonus, selling price or stock left (C-035).
+  const forUse = buysForUse(modules);
 
   const title = p.purchaseNo ? `Purchase ${p.purchaseNo}` : "Purchase";
   // What was handed over as it was entered (0023). An undone payment is
@@ -86,16 +90,16 @@ export default async function PurchaseDetailPage({
         <THead>
           <TR>
             <TH>Item</TH>
-            <TH>Batch no.</TH>
-            <TH>Expiry</TH>
+            {!forUse && <TH>Batch no.</TH>}
+            {!forUse && <TH>Expiry</TH>}
             <TH>Unit</TH>
             <TH numeric>Qty</TH>
-            <TH numeric>Free</TH>
+            {!forUse && <TH numeric>Free</TH>}
             <TH numeric>Cost/unit</TH>
             <TH numeric>Discount</TH>
             <TH numeric>Amount</TH>
-            <TH numeric>Sell price</TH>
-            <TH numeric>Left</TH>
+            {!forUse && <TH numeric>Sell price</TH>}
+            {!forUse && <TH numeric>Left</TH>}
           </TR>
         </THead>
         <tbody>
@@ -109,11 +113,13 @@ export default async function PurchaseDetailPage({
                   </div>
                 )}
               </TD>
-              <TD className="font-mono">{l.batchNo}</TD>
-              <TD className="font-mono">{expiryForPrint(l.expiryDateAd)}</TD>
+              {!forUse && <TD className="font-mono">{l.batchNo}</TD>}
+              {!forUse && (
+                <TD className="font-mono">{expiryForPrint(l.expiryDateAd)}</TD>
+              )}
               <TD>{l.unitName || "—"}</TD>
               <TD numeric>{l.qty}</TD>
-              <TD numeric>{l.freeQty > 0 ? l.freeQty : "—"}</TD>
+              {!forUse && <TD numeric>{l.freeQty > 0 ? l.freeQty : "—"}</TD>}
               <TD numeric>{formatPaisa(l.costPaisa, false)}</TD>
               <TD numeric>
                 {l.discountPaisa > 0
@@ -123,22 +129,26 @@ export default async function PurchaseDetailPage({
               <TD numeric>{formatPaisa(l.lineTotalPaisa, false)}</TD>
               {/* The price set on this purchase (0022). A dash is an older
                   purchase, from before the price was recorded here. */}
-              <TD numeric>
-                {l.sellingRatePaisa > 0
-                  ? formatPaisa(l.sellingRatePaisa, false)
-                  : "—"}
-              </TD>
+              {!forUse && (
+                <TD numeric>
+                  {l.sellingRatePaisa > 0
+                    ? formatPaisa(l.sellingRatePaisa, false)
+                    : "—"}
+                </TD>
+              )}
               {/* What this batch brought in and what is still on the shelf.
                   In base units, because that is what stock is counted in. */}
-              <TD numeric>
-                <span
-                  className={
-                    l.remainingBaseQty === 0 ? "text-sage-400" : undefined
-                  }
-                >
-                  {l.remainingBaseQty} / {l.receivedBaseQty}
-                </span>
-              </TD>
+              {!forUse && (
+                <TD numeric>
+                  <span
+                    className={
+                      l.remainingBaseQty === 0 ? "text-sage-400" : undefined
+                    }
+                  >
+                    {l.remainingBaseQty} / {l.receivedBaseQty}
+                  </span>
+                </TD>
+              )}
             </TR>
           ))}
         </tbody>

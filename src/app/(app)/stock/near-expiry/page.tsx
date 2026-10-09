@@ -33,7 +33,7 @@ function band(days: number): { tone: BadgeTone; label: string } {
 
 export default async function NearExpiryPage() {
   await requireUser();
-  await requireModulePage("supplies");
+  await requireModulePage("pharmacy");
   const todayIso = adToIso(new Date());
   const company = await getCompany();
   const windowIso = daysAheadIso(company.expiryAlertDays);

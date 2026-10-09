@@ -110,9 +110,16 @@ export function PurchaseForm({
   items,
   suppliers,
   initial,
+  forUse = false,
 }: {
   items: Item[];
   suppliers: Supplier[];
+  /**
+   * The clinic uses what it buys and sells none of it (no pharmacy). A line is
+   * then the item, unit, quantity and cost: no batch, expiry, bonus or selling
+   * price, and the server ignores them if sent (C-035).
+   */
+  forUse?: boolean;
   /**
    * A saved purchase to change. Absent = a new purchase, which behaves
    * exactly as it always has; present = the edit screen, which saves through
@@ -286,6 +293,7 @@ export function PurchaseForm({
         toast.error(`Line ${i + 1}: choose an item.`);
         return;
       }
+      if (forUse) continue;
       if (!l.batchNo.trim()) {
         toast.error(`Line ${i + 1}: enter the batch number.`);
         return;
@@ -380,18 +388,18 @@ export function PurchaseForm({
       lines: lines.map((l) => ({
         lineId: l.lineId,
         itemId: l.itemId,
-        batchNo: l.batchNo.trim(),
+        batchNo: forUse ? "" : l.batchNo.trim(),
         // Not collected on this screen any more. The server still
         // accepts it and stores empty as NULL, so nothing behind
         // the form had to change.
         mfgDateBs: "",
-        expiryDateBs: l.expiryDateBs,
+        expiryDateBs: forUse ? "" : l.expiryDateBs,
         unitLevel: Number(l.unitLevel),
         qty: Number(l.qty) || 0,
-        freeQty: Number(l.freeQty) || 0,
+        freeQty: forUse ? 0 : Number(l.freeQty) || 0,
         unitCostPaisa: toPaisa(Number(l.costRupees) || 0),
         discountPaisa: toPaisa(Number(l.discountRupees) || 0),
-        sellingRatePaisa: toPaisa(Number(l.sellRupees) || 0),
+        sellingRatePaisa: forUse ? 0 : toPaisa(Number(l.sellRupees) || 0),
       })),
     };
   }
@@ -433,14 +441,17 @@ export function PurchaseForm({
         <div className="mb-2 flex items-center justify-between">
           <h2 className="text-[15px] font-semibold text-sage-900">Items</h2>
           <div className="flex items-center gap-4">
-            <label className="flex items-center gap-1.5 text-[13px] text-sage-600">
-              <input
-                type="checkbox"
-                checked={showBonus}
-                onChange={(e) => setShowBonus(e.target.checked)}
-              />
-              Bonus (free) qty
-            </label>
+            {/* Free goods only change the cost of stock for sale. */}
+            {!forUse && (
+              <label className="flex items-center gap-1.5 text-[13px] text-sage-600">
+                <input
+                  type="checkbox"
+                  checked={showBonus}
+                  onChange={(e) => setShowBonus(e.target.checked)}
+                />
+                Bonus (free) qty
+              </label>
+            )}
             {unmatched > 0 && (
               <button
                 type="button"
@@ -476,10 +487,12 @@ export function PurchaseForm({
                     below lg, where a single row would be unreadable. */}
                 <div
                   className={
-                    "grid gap-3 sm:grid-cols-2 sm:items-end lg:pb-4 " +
-                    (showBonus
-                      ? "lg:grid-cols-[minmax(0,1.7fr)_0.8fr_0.95fr_1.15fr_0.6fr_0.6fr_0.85fr_0.85fr_auto]"
-                      : "lg:grid-cols-[minmax(0,1.9fr)_0.85fr_1fr_1.2fr_0.65fr_0.9fr_0.9fr_auto]")
+                    "grid gap-3 sm:grid-cols-2 sm:items-end " +
+                    (forUse
+                      ? "lg:grid-cols-[minmax(0,2.4fr)_1fr_0.7fr_1fr_1fr_auto]"
+                      : showBonus
+                        ? "lg:pb-4 lg:grid-cols-[minmax(0,1.7fr)_0.8fr_0.95fr_1.15fr_0.6fr_0.6fr_0.85fr_0.85fr_auto]"
+                        : "lg:pb-4 lg:grid-cols-[minmax(0,1.9fr)_0.85fr_1fr_1.2fr_0.65fr_0.9fr_0.9fr_auto]")
                   }
                 >
                   <Field label="Item">
@@ -489,11 +502,7 @@ export function PurchaseForm({
                       // Stock from this batch has moved, so it is this item
                       // for good; the server refuses the swap either way.
                       disabled={l.locked}
-                      title={
-                        l.locked
-                          ? "Stock from this line has been sold, returned or counted, so its item can't be changed."
-                          : undefined
-                      }
+                      title={l.locked ? lockedNote(forUse, "item") : undefined}
                     >
                       <option value="">— Choose —</option>
                       {items.map((it) => (
@@ -517,29 +526,33 @@ export function PurchaseForm({
                         ))}
                     </Select>
                   </Field>
-                  <Field label="Batch no. *">
-                    <Input
-                      value={l.batchNo}
-                      onChange={(e) => setLine(i, { batchNo: e.target.value })}
-                    />
-                  </Field>
-                  <Field label="Expiry date *">
-                    {/* Typed or picked: an expiry is read off the pack, and
-                        stepping a month grid out to 2027 is slower than
-                        typing it. */}
-                    <div className="relative">
-                      <DatePickerBS
-                        value={l.expiryDateBs}
-                        onChange={(v) => setLine(i, { expiryDateBs: v, expiryIsDefault: false })}
-                        typable
+                  {!forUse && (
+                    <Field label="Batch no. *">
+                      <Input
+                        value={l.batchNo}
+                        onChange={(e) => setLine(i, { batchNo: e.target.value })}
                       />
-                      {l.expiryIsDefault && (
-                        <span className={UNDER_BOX + " font-medium text-warn-600"}>
-                          4 years from today — change to the pack&apos;s
-                        </span>
-                      )}
-                    </div>
-                  </Field>
+                    </Field>
+                  )}
+                  {!forUse && (
+                    <Field label="Expiry date *">
+                      {/* Typed or picked: an expiry is read off the pack, and
+                          stepping a month grid out to 2027 is slower than
+                          typing it. */}
+                      <div className="relative">
+                        <DatePickerBS
+                          value={l.expiryDateBs}
+                          onChange={(v) => setLine(i, { expiryDateBs: v, expiryIsDefault: false })}
+                          typable
+                        />
+                        {l.expiryIsDefault && (
+                          <span className={UNDER_BOX + " font-medium text-warn-600"}>
+                            4 years from today — change to the pack&apos;s
+                          </span>
+                        )}
+                      </div>
+                    </Field>
+                  )}
                   <Field label="Qty">
                     <Input
                       numeric
@@ -550,7 +563,7 @@ export function PurchaseForm({
                       }
                     />
                   </Field>
-                  {showBonus && (
+                  {showBonus && !forUse && (
                     <Field label="Free">
                       <Input
                         numeric
@@ -570,25 +583,42 @@ export function PurchaseForm({
                       onChange={(e) => setLine(i, { costRupees: e.target.value })}
                     />
                   </Field>
-                  <Field label="Sell price (रू)">
-                    <div className="relative">
-                      <Input
-                        numeric
-                        inputMode="decimal"
-                        value={l.sellRupees}
-                        // Blank on an old line means "not recorded"; the hint is
-                        // the item's price today, which a blank leaves alone.
-                        placeholder={rateFor(item, l.unitLevel) || "—"}
-                        onChange={(e) => setLine(i, { sellRupees: e.target.value })}
-                      />
-                      <MarginNote line={l} sellIfBlank={rateFor(item, l.unitLevel)} />
-                    </div>
-                  </Field>
+                  {forUse ? (
+                    <Field label="Amount (रू)">
+                      {/* What the line adds to the bill, to check against the
+                          paper's amount column. */}
+                      <div className="tnum flex h-10 items-center justify-end rounded-[8px] border border-line bg-cream-50 px-3 text-[14px] text-sage-900">
+                        {formatPaisa(
+                          Math.max(
+                            0,
+                            (Number(l.qty) || 0) * toPaisa(Number(l.costRupees) || 0) -
+                              toPaisa(Number(l.discountRupees) || 0),
+                          ),
+                          false,
+                        )}
+                      </div>
+                    </Field>
+                  ) : (
+                    <Field label="Sell price (रू)">
+                      <div className="relative">
+                        <Input
+                          numeric
+                          inputMode="decimal"
+                          value={l.sellRupees}
+                          // Blank on an old line means "not recorded"; the hint is
+                          // the item's price today, which a blank leaves alone.
+                          placeholder={rateFor(item, l.unitLevel) || "—"}
+                          onChange={(e) => setLine(i, { sellRupees: e.target.value })}
+                        />
+                        <MarginNote line={l} sellIfBlank={rateFor(item, l.unitLevel)} />
+                      </div>
+                    </Field>
+                  )}
                   <div className="flex h-10 items-center">
                     {l.locked ? (
                       <span
                         className="p-2 text-sage-400"
-                        title="Stock from this line has been sold, returned or counted, so it can't be removed."
+                        title={lockedNote(forUse, "line")}
                         aria-label="This line can't be removed"
                       >
                         <Lock className="h-4 w-4" />
@@ -609,7 +639,8 @@ export function PurchaseForm({
                 </div>
                 {/* Selling below cost is almost always a slip of one digit.
                     It is said, not refused: a loss-leader is the shop's call. */}
-                {Number(l.sellRupees) > 0 &&
+                {!forUse &&
+                  Number(l.sellRupees) > 0 &&
                   Number(l.costRupees) > 0 &&
                   Number(l.sellRupees) < Number(l.costRupees) && (
                     <p className="mt-2 flex items-center gap-1.5 text-[12px] text-danger-600">
@@ -911,8 +942,9 @@ export function PurchaseForm({
             className="flex flex-col gap-3"
           >
             <p className="text-[13.5px] text-sage-700">
-              This changes a saved purchase and its stock. Enter your password
-              to confirm.
+              {forUse
+                ? "This changes a saved purchase. Enter your password to confirm."
+                : "This changes a saved purchase and its stock. Enter your password to confirm."}
             </p>
             <Field label="Your password" htmlFor="confirm-password">
               <Input
@@ -938,6 +970,19 @@ export function PurchaseForm({
       )}
     </div>
   );
+}
+
+/**
+ * Why a saved line is locked. Bought for use, the only thing that touches a
+ * line after it is saved is a return to the supplier.
+ */
+function lockedNote(forUse: boolean, what: "item" | "line"): string {
+  const why = forUse
+    ? "Some of this line has been returned to the supplier"
+    : "Stock from this line has been sold, returned or counted";
+  return what === "item"
+    ? `${why}, so its item can't be changed.`
+    : `${why}, so it can't be removed.`;
 }
 
 /**

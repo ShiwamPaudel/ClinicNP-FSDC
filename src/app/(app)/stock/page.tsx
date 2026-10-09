@@ -21,7 +21,7 @@ function daysAheadIso(days: number): string {
 
 export default async function CurrentStockPage() {
   await requireUser();
-  await requireModulePage("supplies");
+  await requireModulePage("pharmacy");
   const todayIso = adToIso(new Date());
 
   const [items, stock, company] = await Promise.all([

@@ -55,7 +55,7 @@ export async function recordOpeningStockAction(
   input: unknown,
 ): Promise<ActionResult> {
   try {
-    await requireModule("supplies");
+    await requireModule("pharmacy");
     const user = await assertAdmin();
 
     const parsed = openingSchema.safeParse(input);

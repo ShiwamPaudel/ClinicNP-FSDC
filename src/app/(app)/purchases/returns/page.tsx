@@ -1,5 +1,7 @@
 import { requireAdmin } from "@/lib/session";
-import { requireModulePage } from "@/lib/modules";
+import { requireModulePage, getModules } from "@/lib/modules";
+import { buysForUse } from "@/lib/supplies";
+import { listPurchases } from "@/lib/repos/purchases";
 import { listSuppliers } from "@/lib/repos/suppliers";
 import { listItems } from "@/lib/repos/items";
 import { returnableBatches } from "@/lib/repos/batches";
@@ -12,11 +14,14 @@ import {
 export default async function PurchaseReturnPage() {
   await requireAdmin();
   await requireModulePage("supplies");
-  const [suppliers, items, batches] = await Promise.all([
+  const [suppliers, items, batches, purchases, modules] = await Promise.all([
     listSuppliers(),
     listItems(true),
     returnableBatches(),
+    listPurchases(),
+    getModules(),
   ]);
+  const purchaseById = new Map(purchases.map((p) => [p.id, p]));
 
   const unitsByItem = new Map(items.map((i) => [i.id, i.units]));
 
@@ -29,6 +34,12 @@ export default async function PurchaseReturnPage() {
       brandName: b.brandName,
       batchNo: b.batchNo,
       expiryDateAd: b.expiryDateAd,
+      purchaseLabel: b.purchaseId
+        ? (() => {
+            const p = purchaseById.get(b.purchaseId);
+            return p ? `${p.purchaseNo ?? "Purchase"} · ${p.dateBs}` : "";
+          })()
+        : "",
       supplierId: b.supplierId,
       remainingBaseQty: b.remainingBaseQty,
       costPaisaPerBase: b.costPaisaPerBase,
@@ -43,7 +54,11 @@ export default async function PurchaseReturnPage() {
 
   return (
     <PageShell title="Purchase return">
-      <PurchaseReturnForm suppliers={suppliers} batches={rows} />
+      <PurchaseReturnForm
+        suppliers={suppliers}
+        batches={rows}
+        forUse={buysForUse(modules)}
+      />
     </PageShell>
   );
 }

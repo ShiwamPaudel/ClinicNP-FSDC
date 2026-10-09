@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { requireAdmin } from "@/lib/session";
-import { requireModulePage } from "@/lib/modules";
+import { requireModulePage, getModules } from "@/lib/modules";
+import { buysForUse } from "@/lib/supplies";
 import { listItems } from "@/lib/repos/items";
 import { listSuppliers } from "@/lib/repos/suppliers";
 import { PageShell } from "@/components/app/page-shell";
@@ -12,9 +13,10 @@ import { PackagePlus } from "lucide-react";
 export default async function NewPurchasePage() {
   await requireAdmin();
   await requireModulePage("supplies");
-  const [items, suppliers] = await Promise.all([
+  const [items, suppliers, modules] = await Promise.all([
     listItems(),
     listSuppliers(),
+    getModules(),
   ]);
 
   if (items.length === 0 || suppliers.length === 0) {
@@ -39,7 +41,7 @@ export default async function NewPurchasePage() {
 
   return (
     <PageShell title="New purchase">
-      <PurchaseForm items={items} suppliers={suppliers} />
+      <PurchaseForm items={items} suppliers={suppliers} forUse={buysForUse(modules)} />
     </PageShell>
   );
 }

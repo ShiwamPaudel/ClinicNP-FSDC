@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { Plus, ShoppingCart, RotateCcw } from "lucide-react";
 import { requireAdmin } from "@/lib/session";
-import { requireModulePage } from "@/lib/modules";
+import { requireModulePage, getModules } from "@/lib/modules";
+import { buysForUse } from "@/lib/supplies";
 import { listPurchases } from "@/lib/repos/purchases";
 import { formatPaisa } from "@/lib/money";
 import { PageShell } from "@/components/app/page-shell";
@@ -12,7 +13,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 export default async function PurchasesPage() {
   await requireAdmin();
   await requireModulePage("supplies");
-  const purchases = await listPurchases();
+  const [purchases, modules] = await Promise.all([listPurchases(), getModules()]);
 
   return (
     <PageShell
@@ -37,7 +38,11 @@ export default async function PurchasesPage() {
       {purchases.length === 0 ? (
         <EmptyState
           icon={ShoppingCart}
-          message="No purchases yet. Record stock coming in from a supplier."
+          message={
+            buysForUse(modules)
+              ? "No purchases yet. Record what you buy from a supplier."
+              : "No purchases yet. Record stock coming in from a supplier."
+          }
           action={
             <Link href="/purchases/new">
               <Button>New purchase</Button>

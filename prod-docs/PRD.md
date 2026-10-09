@@ -74,7 +74,7 @@ Sales register, purchase register, VAT summaries, party ledgers, doctor payouts,
 |---|---|---|
 | **Pharmacy** | On | Medicine lines at the counter, selling prices, shelves and shop layout, profit and fast/slow-moving reports |
 | **Clinic** | Off (On for Family Smile Dental Care Center) | Patients, visits, services, doctors, lab partners, attachments, service lines at the counter, clinic reports |
-| *Supplies* — not a toggle | On with **either** module | Items, purchases, suppliers, stock (opening, stock out, expiry, value), supplier payables, purchase register. A clinic buys its materials on credit and pays in parts exactly as a pharmacy does (C-034). With Pharmacy off the menu calls it **Supplies**. |
+| *Supplies* — not a toggle | On with **either** module | Items, purchases, purchase returns, suppliers, supplier payables, purchase register. A clinic buys its materials on credit and pays in parts exactly as a pharmacy does (C-034). With Pharmacy off the menu calls it **Supplies**, and what is bought is for the clinic's own use — see §4F. **Stock** (opening, stock out, expiry, low stock, value) stays with the Pharmacy (C-035). |
 
 - At least one module must stay on. Turning the last one off is refused with: *"At least one part of the system has to stay switched on."*
 - Turning a module **off never deletes data.** It hides the module and blocks its routes. Turning it back on restores everything exactly as it was.
@@ -365,6 +365,17 @@ With **VAT registered** on, Settings → Company asks **How rates are priced**:
 - **Each bill records the choice it was made under and its taxable amount.** Changing the setting later never changes how an old bill reads, reprints or is refunded. The VAT report adds up each bill's own taxable amount.
 - A refund on a VAT-included bill gives back the amount paid; the VAT inside it goes with it.
 
+## 4F — PURCHASES FOR THE CLINIC'S OWN USE *(added 2083-06-23, C-035)*
+
+With **Pharmacy off**, nothing the clinic buys is sold — gloves, composite, burs are used in treatment. So a purchase is only **what was bought, from whom, for how much, and what is still owed**.
+
+- **An item is its name and the unit it is bought in** (e.g. *Nitrile gloves (M)*, *Box*). No generic name, shape, selling rate, smaller units or controlled flag.
+- **A purchase line is item · unit · qty · cost/unit**, with its amount shown. No batch number, expiry, manufacture date, bonus quantity or selling price. The supplier's invoice number, date, discount on the bill, VAT and rounding are kept as they were.
+- **Payables work exactly as before**: paid in full, part paid or on credit when entered; later payments from Payables; the supplier's ledger and the purchase register include every purchase. A **purchase return** (damaged, wrong item, other) lowers what is owed.
+- **No stock is counted.** The Stock pages, low-stock, expiry and stock-value reports are Pharmacy-only. The Items list shows **when each item was last bought and at what cost**; an item's page lists every purchase it was on and what has been spent on it.
+- Nothing bought can reach the counter: with Pharmacy off the counter sells services only (§3.1).
+- Turning Pharmacy on later would make these items sellable stock with no expiry. Do not turn it on for this install without first deciding how to separate the clinic's supplies from medicine for sale.
+
 ---
 
 ## 5. Non-Functional Requirements
@@ -416,4 +427,4 @@ With **VAT registered** on, Settings → Company asks **How rates are priced**:
 4. Whether the pharmacy counter at Family Smile Dental Care Center is the same physical device as the clinic front desk (affects default counter mode and the PIN switch list).
 5. Nepali-numeral display default: off. Grand-total rounding: default off. (Carried from v1.)
 6. CBMS activation timing — depends on the clinic's IRD registration.
-7. **Invoice photo → purchase entry** — **built** (C-020, §4D.6). Open: whether blank batch and expiry should be allowed on a purchase line for Consumable and Other items, which is what suppliers who print no batch column would need; today every line still requires both, so those are typed off the pack. Also open: remembering a supplier's own wording for a medicine, so the same name matches by itself next month.
+7. **Invoice photo → purchase entry** — **built** (C-020, §4D.6). Open: whether blank batch and expiry should be allowed on a purchase line for Consumable and Other items *with the pharmacy on*, which is what suppliers who print no batch column would need; today every such line still requires both, so those are typed off the pack. (With the pharmacy off neither is asked for at all — §4F.) Also open: remembering a supplier's own wording for a medicine, so the same name matches by itself next month.

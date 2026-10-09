@@ -27,7 +27,7 @@ export default async function StockOutDetailPage({
   params: Promise<{ id: string }>;
 }) {
   await requireUser();
-  await requireModulePage("supplies");
+  await requireModulePage("pharmacy");
 
   const { id } = await params;
   const entry = await getStockOut(id);

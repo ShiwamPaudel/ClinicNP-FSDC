@@ -2,7 +2,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Lock, Wallet } from "lucide-react";
 import { requireAdmin } from "@/lib/session";
-import { requireModulePage } from "@/lib/modules";
+import { requireModulePage, getModules } from "@/lib/modules";
+import { buysForUse, hasExpiry } from "@/lib/supplies";
 import { getPurchase } from "@/lib/repos/purchases";
 import { getFiscalYearByLabel } from "@/lib/repos/fiscal";
 import { listItems } from "@/lib/repos/items";
@@ -42,12 +43,14 @@ export default async function EditPurchasePage({
   await requireModulePage("supplies");
 
   const { id } = await params;
-  const [p, items, suppliers] = await Promise.all([
+  const [p, items, suppliers, modules] = await Promise.all([
     getPurchase(id),
     listItems(),
     listSuppliers(),
+    getModules(),
   ]);
   if (!p) notFound();
+  const forUse = buysForUse(modules);
 
   const title = p.purchaseNo ? `Edit ${p.purchaseNo}` : "Edit purchase";
   const back = (
@@ -88,7 +91,10 @@ export default async function EditPurchasePage({
       itemId: l.itemId,
       unitLevel: l.unitLevel,
       batchNo: l.batchNo,
-      expiryDateBs: bsToDbText(toBS(adFromIso(l.expiryDateAd))),
+      // Bought for use, a line has no expiry to show (C-035).
+      expiryDateBs: hasExpiry(l.expiryDateAd)
+        ? bsToDbText(toBS(adFromIso(l.expiryDateAd)))
+        : "",
       qty: String(l.qty),
       freeQty: String(l.freeQty),
       costRupees: rupees(l.costPaisa),
@@ -112,10 +118,21 @@ export default async function EditPurchasePage({
         <p className="mb-4 flex items-start gap-2 rounded-[10px] border border-line bg-cream-50 px-4 py-3 text-[13px] text-sage-700">
           <Lock className="mt-0.5 h-4 w-4 shrink-0 text-sage-500" />
           <span>
-            {lockedCount === 1 ? "One line has" : `${lockedCount} lines have`}{" "}
-            stock that has already been sold, returned or counted. Those lines
-            keep their item and cannot be removed, and their quantity cannot go
-            below what has already left the shelf. Everything else can change.
+            {forUse ? (
+              <>
+                {lockedCount === 1 ? "One line has" : `${lockedCount} lines have`}{" "}
+                been partly returned to the supplier. Those lines keep their
+                item and cannot be removed, and their quantity cannot go below
+                what was returned. Everything else can change.
+              </>
+            ) : (
+              <>
+                {lockedCount === 1 ? "One line has" : `${lockedCount} lines have`}{" "}
+                stock that has already been sold, returned or counted. Those lines
+                keep their item and cannot be removed, and their quantity cannot go
+                below what has already left the shelf. Everything else can change.
+              </>
+            )}
           </span>
         </p>
       )}
@@ -132,7 +149,7 @@ export default async function EditPurchasePage({
           </span>
         </p>
       )}
-      <PurchaseForm items={items} suppliers={suppliers} initial={initial} />
+      <PurchaseForm items={items} suppliers={suppliers} initial={initial} forUse={forUse} />
     </PageShell>
   );
 }

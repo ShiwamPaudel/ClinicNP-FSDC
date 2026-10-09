@@ -2,7 +2,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Pencil } from "lucide-react";
 import { requireAdmin } from "@/lib/session";
-import { requireModulePage } from "@/lib/modules";
+import { requireModulePage, getModules } from "@/lib/modules";
+import { buysForUse } from "@/lib/supplies";
+import { itemPurchases } from "@/lib/repos/purchases";
 import { getItem } from "@/lib/repos/items";
 import { getRack, getItemLocation, cellLabel } from "@/lib/repos/racks";
 import { batchesForItem, itemHistory } from "@/lib/repos/batches";
@@ -41,6 +43,87 @@ export default async function ItemDetailPage({
   const item = await getItem(id);
   if (!item) notFound();
 
+  const edit = (
+    <Link href={`/items/${id}/edit`}>
+      <Button variant="secondary">
+        <Pencil className="h-4 w-4" />
+        Edit
+      </Button>
+    </Link>
+  );
+
+  // Bought for use, an item has no batches, price or shelf — only the
+  // purchases it was on (C-035).
+  if (buysForUse(await getModules())) {
+    const bought = await itemPurchases(id);
+    const unit = [...item.units].sort((a, b) => b.level - a.level)[0]?.name ?? "—";
+    return (
+      <PageShell title={item.brandName} actions={edit}>
+        <div className="flex flex-col gap-6">
+          <section className="rounded-[10px] border border-line bg-cream-50 p-6">
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Detail label="Bought in" value={unit} />
+              <Detail
+                label="Spent so far"
+                value={formatPaisa(bought.reduce((s, b) => s + b.amountPaisa, 0))}
+              />
+            </div>
+            {!item.active && (
+              <div className="mt-4">
+                <Badge tone="neutral">Inactive</Badge>
+              </div>
+            )}
+          </section>
+
+          <section>
+            <h2 className="mb-2 text-[15px] font-semibold text-sage-900">
+              Purchases
+            </h2>
+            {bought.length === 0 ? (
+              <p className="rounded-[10px] border border-dashed border-line bg-cream-50 p-6 text-center text-[14px] text-sage-500">
+                Not bought yet.
+              </p>
+            ) : (
+              <Table>
+                <THead>
+                  <TR>
+                    <TH>Date</TH>
+                    <TH>Purchase</TH>
+                    <TH>Supplier</TH>
+                    <TH numeric>Qty</TH>
+                    <TH numeric>Cost/unit</TH>
+                    <TH numeric>Amount</TH>
+                  </TR>
+                </THead>
+                <tbody>
+                  {bought.map((b, i) => (
+                    <TR key={i}>
+                      <TD>{b.dateBs}</TD>
+                      <TD className="font-mono">
+                        <Link
+                          href={`/purchases/${b.purchaseId}`}
+                          className="text-sage-900 underline-offset-2 hover:underline"
+                        >
+                          {b.purchaseNo ?? "View"}
+                        </Link>
+                      </TD>
+                      <TD>{b.supplierName}</TD>
+                      <TD numeric>
+                        {b.qty} {b.unitName}
+                      </TD>
+                      <TD numeric>{formatPaisa(b.costPaisa, false)}</TD>
+                      <TD numeric>{formatPaisa(b.amountPaisa, false)}</TD>
+                    </TR>
+                  ))}
+                </tbody>
+              </Table>
+            )}
+          </section>
+        </div>
+      </PageShell>
+    );
+  }
+
   const todayIso = adToIso(new Date());
   const batches = await batchesForItem(id);
   const history = await itemHistory(id);
@@ -55,17 +138,7 @@ export default async function ItemDetailPage({
       : location.note || "—";
 
   return (
-    <PageShell
-      title={item.brandName}
-      actions={
-        <Link href={`/items/${id}/edit`}>
-          <Button variant="secondary">
-            <Pencil className="h-4 w-4" />
-            Edit
-          </Button>
-        </Link>
-      }
-    >
+    <PageShell title={item.brandName} actions={edit}>
       <div className="flex flex-col gap-6">
         <section className="rounded-[10px] border border-line bg-cream-50 p-6">
           <div className="grid gap-3 sm:grid-cols-2">

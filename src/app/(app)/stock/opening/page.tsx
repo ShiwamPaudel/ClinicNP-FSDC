@@ -8,7 +8,7 @@ export const metadata = { title: "Opening stock" };
 
 export default async function OpeningStockPage() {
   await requireAdmin();
-  await requireModulePage("supplies");
+  await requireModulePage("pharmacy");
   const items = await listItems();
 
   return (
