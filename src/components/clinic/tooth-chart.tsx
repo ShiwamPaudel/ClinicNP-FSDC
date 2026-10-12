@@ -4,7 +4,8 @@
  * The tooth chart on a patient's card (C-037). Closed until it is wanted.
  * Tap one tooth or several, say what they are (caries, filled, crown…), on
  * which surfaces, and save; each tooth keeps a dated history, and its colour
- * is its latest mark. FDI numbering, drawn as the dentist faces the patient.
+ * is its latest mark. FDI numbering, drawn as the dentist faces the patient:
+ * the arches themselves since C-039 (`tooth-arch.tsx`).
  */
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -14,12 +15,9 @@ import { Input, Field } from "@/components/ui/input";
 import { DatePickerBS } from "@/components/ui/date-picker-bs";
 import { useToast } from "@/components/ui/toast";
 import { addToothRecordAction, undoToothRecordAction } from "@/app/(app)/patients/teeth-actions";
+import { ToothArch } from "@/components/clinic/tooth-arch";
 import {
   CONDITIONS,
-  PERMANENT_LOWER,
-  PERMANENT_UPPER,
-  PRIMARY_LOWER,
-  PRIMARY_UPPER,
   SURFACES,
   conditionLabel,
   currentTeeth,
@@ -114,37 +112,6 @@ export function ToothChart({
   const single = picked.length === 1 ? picked[0]! : null;
   const history = single !== null ? records.filter((r) => r.tooth === single) : [];
 
-  const Row = ({ teeth }: { teeth: number[] }) => {
-    const half = teeth.length / 2;
-    return (
-      <div className="flex justify-center gap-1">
-        {teeth.map((t, i) => {
-          const cur = now.get(t);
-          const sel = picked.includes(t);
-          return (
-            <button
-              key={t}
-              type="button"
-              disabled={!canEdit && !cur}
-              onClick={() => toggleTooth(t)}
-              title={`${toothName(t)}${cur ? ` — ${conditionLabel(cur.condition)}${cur.surfaces ? ` (${cur.surfaces})` : ""}` : ""}`}
-              aria-pressed={sel}
-              className={cn(
-                "flex h-12 w-9 shrink-0 flex-col items-center justify-between rounded-[7px] border-2 py-1 text-[11px] font-semibold tnum transition",
-                toneOf(cur?.condition),
-                sel && "ring-2 ring-sage-900 ring-offset-1",
-                i === half - 1 && "mr-2",
-              )}
-            >
-              <span>{t}</span>
-              <span className="text-[9px] font-medium leading-none">{cur?.surfaces ?? ""}</span>
-            </button>
-          );
-        })}
-      </div>
-    );
-  };
-
   return (
     <section>
       <button
@@ -162,7 +129,7 @@ export function ToothChart({
       </button>
 
       {open && (
-        <div className="mt-3 flex flex-col gap-4 rounded-[10px] border-2 border-clinic-700/70 bg-cream-50 p-4">
+        <div className="mt-3 flex flex-col gap-4 rounded-[10px] border-2 border-clinic-700/70 bg-cream-50 p-2.5 sm:p-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div role="group" aria-label="Which teeth" className="inline-flex rounded-[8px] border border-line bg-cream-100 p-0.5">
               {(
@@ -186,19 +153,10 @@ export function ToothChart({
                 </button>
               ))}
             </div>
-            <span className="text-[12px] text-sage-500">Patient&apos;s right ← → patient&apos;s left</span>
+            <span className="text-[12px] text-sage-500">As you face the patient · tap teeth to mark them</span>
           </div>
 
-          {/* The chart scrolls inside itself on a phone; 16 teeth need ~640px. */}
-          <div className="overflow-x-auto pb-1">
-            <div className="flex min-w-max flex-col gap-2">
-              {which !== "primary" && <Row teeth={PERMANENT_UPPER} />}
-              {which !== "permanent" && <Row teeth={PRIMARY_UPPER} />}
-              <div className="mx-auto h-px w-full max-w-[640px] bg-sage-300" />
-              {which !== "permanent" && <Row teeth={PRIMARY_LOWER} />}
-              {which !== "primary" && <Row teeth={PERMANENT_LOWER} />}
-            </div>
-          </div>
+          <ToothArch which={which} current={now} picked={picked} canEdit={canEdit} onPick={toggleTooth} />
 
           <div className="flex flex-wrap gap-x-3 gap-y-1.5">
             {CONDITIONS.map((c) => (

@@ -381,7 +381,7 @@ With **VAT registered** on, Settings → Company asks **How rates are priced**:
 
 **Income and expenses** (Reports, Admin). For the dates chosen: billed, less refunds and VAT = income; less doctors' share earned, laboratory costs, supplies bought (without VAT, less returns), salaries and the clinic's SSF for the BS months that start in the dates = left over. Beside it, what was actually paid out to doctors, staff, suppliers and laboratories. PDF and Excel.
 
-**Tooth chart** on the patient card, always there, closed until opened. FDI numbering, adult and milk teeth, a dated history per tooth (condition, surfaces, note, who). Marked by anyone but the Accountant; undone, never deleted; moves with the patient on a merge.
+**Tooth chart** on the patient card, always there, closed until opened. FDI numbering, adult and milk teeth, a dated history per tooth (condition, surfaces, note, who). Marked by anyone but the Accountant; undone, never deleted; moves with the patient on a merge. *(C-039)* Drawn as the two arches seen from above, each tooth shaped by its kind; a mark on some surfaces colours those parts of the tooth, a missing tooth is a dashed outline.
 
 ## 4G — LEDGERS AS FILES *(added 2083-06-23, C-036)*
 

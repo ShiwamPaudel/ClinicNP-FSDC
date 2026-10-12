@@ -23,7 +23,7 @@
 
 *Last rewritten 2083-05-26 (C-014); production figures re-read 2083-06-06 (C-016). Everything below is verified against production, not remembered.*
 
-> **This install is set up and empty of trading.** Checked 2083-06-22 against `clinicnpforfsdc-fsdc.aws-ap-south-1.turso.io`: **25 migrations** (ends at `0025_payouts_salaries_teeth.sql`, applied 2083-06-23 after a backup to `backups/prod-before-0025-*.json`, C-037); **no items** — the 6,646-item medicine catalogue loaded in C-032 was removed 2083-06-23 at the owner's request, after a backup to `backups/prod-before-clear-items-*.json`; the clinic adds what it buys itself (C-035); bootstrapped 2083-06-21 (C-033) with PAN/VAT no. and phone, address blank. **Settings the owner has since changed in the app:** **clinic on, pharmacy off** — so suppliers, purchases and payables show under **Supplies** (C-034), and a purchase is for the clinic's own use: no batch, expiry, selling price or stock count (C-035) — and **VAT registered on**, rates priced *VAT on top* until they choose otherwise. Kept from their setup: 2 users, 1 doctor, 1 laboratory partner, 10 service groups and **Crown Filling** (Rs 10,000, VAT-able). **Trial patients, visits, bills and dues were cleared 2083-06-22** (C-034) with `db:reset --keep-setup`, after a full backup to `backups/prod-before-clear-patients-*.json`; patient, bill and visit numbering restart at 1. 🔴 The admin password and PIN are simple placeholders the owner chose (Rule 7: not written here). **No letterhead is set** (the logo alone would replace the printed name, address and phone). A private Blob store **is connected** (probed 2083-06-21: private writes accepted).
+> **This install is set up and empty of trading.** Checked 2083-06-22 against `clinicnpforfsdc-fsdc.aws-ap-south-1.turso.io`: **25 migrations** (ends at `0025_payouts_salaries_teeth.sql`, applied 2083-06-23 after a backup to `backups/prod-before-0025-*.json`, C-037); **no items** — the 6,646-item medicine catalogue loaded in C-032 was removed 2083-06-23 at the owner's request, after a backup to `backups/prod-before-clear-items-*.json`; the clinic adds what it buys itself (C-035); bootstrapped 2083-06-21 (C-033) with PAN/VAT no. and phone, address blank. **Settings the owner has since changed in the app:** **clinic on, pharmacy off** — so suppliers, purchases and payables show under **Supplies** (C-034), and a purchase is for the clinic's own use: no batch, expiry, selling price or stock count (C-035) — and **VAT registered on**, rates priced *VAT on top* until they choose otherwise. Kept from their setup: 2 users, 1 doctor, 1 laboratory partner, 10 service groups and **Crown Filling** (Rs 10,000, VAT-able). **The board price list is the catalogue since 2083-06-26** (C-039): 12 dental groups, 26 services at the top of each range, not VAT-able; the clinic groups that don't fit a dental clinic are hidden, not deleted; Crown Filling sits in Crown & Veneer unchanged. **Trial patients, visits, bills and dues were cleared 2083-06-22** (C-034) with `db:reset --keep-setup`, after a full backup to `backups/prod-before-clear-patients-*.json`; patient, bill and visit numbering restart at 1. 🔴 The admin password and PIN are simple placeholders the owner chose (Rule 7: not written here). **No letterhead is set** (the logo alone would replace the printed name, address and phone). A private Blob store **is connected** (probed 2083-06-21: private writes accepted).
 >
 > The figures in the paragraph above replaced the previous install's. **The code is unchanged and still at the same maturity**; what reset is the data.
 
@@ -1483,3 +1483,31 @@ PDF and Excel); typecheck; in a browser on a scratch copy: Sita Tamang's
 Ashwin slip (gross Rs 20,000, SSF Rs 2,200, advance Rs 5,000, net Rs 12,800,
 paid in cash) as PDF and Excel; an unknown person answers 404; the menu has no
 Today and `/visits/today` lands on Visits showing today.
+
+### C-039  ·  2083-06-26  ·  A drawn tooth chart; the board price list as the catalogue
+
+**Tooth chart drawn** (owner: "just boxes with numbers"). Both arches from
+above, each tooth by its kind; marked surfaces coloured on the tooth itself;
+milk teeth on their own arch or inside the adult one. `lib/teeth-layout.ts`
+(pure; `tests/teeth-layout.test.ts`), `components/clinic/tooth-arch.tsx`.
+
+**Catalogue from the clinic's board** (photo of the price board, 2083-06-26),
+applied to production with a one-off script after a full backup
+(`backups/prod-before-dental-catalog-*.json`, 49 tables): groups Consultation
+(was OPD Consultation, still the consultation group), X-Ray, Scaling & Gum
+Treatment, Root Canal Treatment (RCT), Filling, Extraction, Denture, Crown &
+Veneer, Orthodontics, Implant, Bleaching, Post & Core; 26 services. Owner's
+choices: **rate = the top of the board's range**, lowered at the counter (Admin
+or a user allowed to change rates; logged); **not VAT-able**; RCT read as
+Permanent 7,500–9,500, Child anterior 5,000–6,000, Child posterior
+9,500–10,000; Follow-up, Laboratory, Ultrasound, ECG, ECHO, Skin Analysis,
+Procedure / Dressing and Other **hidden, not deleted**; Crown Filling moved to
+Crown & Veneer with its rate, Unique Lab, cost and VAT unchanged. A doctor is
+required on every service but X-ray, so the doctor's share is never missed.
+Rehearsed on a local copy first; bills, patients, visits and tooth marks
+unchanged after (4 / 2 / 2 / 3).
+
+**Checked:** 640 tests; typecheck; in a browser: the chart in Adult, Milk and
+Both, surfaces marked, keyboard selection, phone width with no sideways
+scroll; *rct* at the counter adds RCT at Rs 6,000 with no VAT and asks for the
+doctor.
