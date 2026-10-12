@@ -83,6 +83,14 @@ if (want("history-row")) {
   await go(`/patients/${anita}`);
   await p.getByRole("button", { name: "Add row" }).click();
   await p.waitForTimeout(500);
+  const form = p.locator("main");
+  await form.locator("select").first().selectOption({ label: "Dr. Sample Gurung" });
+  await form.getByPlaceholder(/RCT 36/).fill("Crown 36 cemented, occlusion checked. Review in 6 months.");
+  await p.getByRole("button", { name: "Add a charge" }).click();
+  await p.waitForTimeout(500);
+  await form.locator("select", { has: p.locator("option", { hasText: "— Choose —" }) }).last()
+    .selectOption({ label: "Consultation / Checkup" });
+  await p.waitForTimeout(700);
   await shot("history-row");
 }
 

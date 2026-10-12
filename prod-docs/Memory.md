@@ -1511,3 +1511,16 @@ unchanged after (4 / 2 / 2 / 3).
 Both, surfaces marked, keyboard selection, phone width with no sideways
 scroll; *rct* at the counter adds RCT at Rs 6,000 with no VAT and asks for the
 doctor.
+
+### C-040  ·  2083-06-26  ·  "ClinicNP Dental.pdf"; the counter without a pharmacy
+
+**Product document for dental clinics**, 8 A4 pages, in the project root,
+named *ClinicNP Dental* (owner's choice), English, with the ClinicNP and
+Infobytes Nepal marks, infobytesnepal.com and the two support numbers. Every
+screen is the real software on a demo database ("Demo Dental Clinic", all
+names *Sample …*); the live clinic's name appears nowhere. Rebuilt with
+`.pitch-build/dental/` (README there).
+
+**Counter fix**: the medicine units panel ("Add or tap a medicine to see its
+units here") no longer shows when the pharmacy is off — a dental counter sells
+services only. `PosConfig.pharmacyOn`.

@@ -142,6 +142,10 @@ describe("dental demo clinic", () => {
       ["Sample Hari Bhandari", "m", 43, "9800000006", "Chabahil"],
       ["Sample Pooja Rai", "f", 22, "9800000007", "Koteshwor"],
       ["Sample Aarav Poudel", "m", 8, "9800000008", "Thimi", "Nervous patient — go slow"],
+      ["Sample Nabin Karki", "m", 48, "9800000009", "Sanepa, Lalitpur"],
+      ["Sample Rekha Joshi", "f", 19, "9800000010", "Maharajgunj"],
+      ["Sample Suman Lama", "m", 37, "9800000011", "Boudha"],
+      ["Sample Kabita Magar", "f", 29, "9800000012", "Kalanki"],
     ];
     const pid: string[] = [];
     for (const [name, sex, age, phone, address, note] of people) {
@@ -157,15 +161,16 @@ describe("dental demo clinic", () => {
     const rate = Object.fromEntries(services.map((s) => [s[0], rs(s[4])]));
     const labOf = Object.fromEntries(services.map((s) => [s[0], s[5] ?? null]));
     type Line = [service: string, doctor: string | null, qty?: number, discount?: number];
-    const bills: { id: string; patient: number }[] = [];
-    const bill = async (
-      back: number,
-      patient: number,
-      lines: Line[],
-      pay: { method: "cash" | "qr" | "credit"; paidNow?: number } = { method: "cash" },
-    ) => {
-      const d = day(back);
+    type Pay = { method: "cash" | "qr" | "credit"; paidNow?: number };
+    // Queued, then saved oldest first, so invoice numbers run in date order.
+    const bills: { id: string; back: number; patient: number; lines: Line[]; pay: Pay }[] = [];
+    const bill = (back: number, patient: number, lines: Line[], pay: Pay = { method: "cash" }) => {
       const id = ulid();
+      bills.push({ id, back, patient, lines, pay });
+      return id;
+    };
+    const save = async ({ id, back, patient, lines, pay }: (typeof bills)[number]) => {
+      const d = day(back);
       await ingestBill({
         id, dateBs: d.bs, dateAd: d.ad, patientName: people[patient]![0], patientId: pid[patient],
         paymentMethod: pay.method, tenderedPaisa: 0,
@@ -177,35 +182,44 @@ describe("dental demo clinic", () => {
           discountPaisa: rs(disc ?? 0), doctorId: doctor, labPartnerId: labOf[s] ?? null, followupApplied: false,
         })),
       });
-      bills.push({ id, patient });
-      return id;
     };
 
     // Anita: the featured patient — RCT, post & core, ceramic crown sent to the lab
-    await bill(22, 0, [["s_consult", dGurung], ["s_opg", null]]);
-    await bill(21, 0, [["s_rct_post", dGurung]], { method: "credit", paidNow: 5000 });
-    await bill(14, 0, [["s_postcore", dGurung], ["s_crown_ceramic", dGurung]], { method: "qr" });
-    await bill(2, 0, [["s_scaling", dKarki]]);
+    bill(22, 0, [["s_consult", dGurung], ["s_opg", null]]);
+    bill(21, 0, [["s_rct_post", dGurung]], { method: "credit", paidNow: 5000 });
+    bill(14, 0, [["s_postcore", dGurung], ["s_crown_ceramic", dGurung]], { method: "qr" });
+    bill(2, 0, [["s_scaling", dKarki]]);
     // Ramesh: complete denture, part paid
-    await bill(20, 1, [["s_consult", dKarki], ["s_ext", dKarki, 2]]);
-    await bill(12, 1, [["s_cd", dKarki]], { method: "credit", paidNow: 10000 });
+    bill(20, 1, [["s_consult", dKarki], ["s_ext", dKarki, 2]]);
+    bill(12, 1, [["s_cd", dKarki]], { method: "credit", paidNow: 10000 });
     // Sita: braces
-    await bill(18, 2, [["s_consult", dShrestha], ["s_opg", null]]);
-    await bill(16, 2, [["s_braces", dShrestha]], { method: "credit", paidNow: 30000 });
+    bill(18, 2, [["s_consult", dShrestha], ["s_opg", null]]);
+    bill(16, 2, [["s_braces", dShrestha]], { method: "credit", paidNow: 30000 });
     // Bikash: fillings
-    await bill(10, 3, [["s_consult", dKarki], ["s_fill_post", dKarki, 2]], { method: "qr" });
+    bill(10, 3, [["s_consult", dKarki], ["s_fill_post", dKarki, 2]], { method: "qr" });
     // Maya: partial denture and a metal crown
-    await bill(9, 4, [["s_rpd", dKarki], ["s_crown_metal", dKarki]], { method: "credit", paidNow: 8000 });
+    bill(9, 4, [["s_rpd", dKarki], ["s_crown_metal", dKarki]], { method: "credit", paidNow: 8000 });
     // Hari: implant
-    await bill(8, 5, [["s_consult", dGurung], ["s_opg", null], ["s_implant", dGurung]], { method: "credit", paidNow: 50000 });
+    bill(8, 5, [["s_consult", dGurung], ["s_opg", null], ["s_implant", dGurung]], { method: "credit", paidNow: 50000 });
     // Pooja: whitening and zirconia crown
-    await bill(5, 6, [["s_bleach", dKarki], ["s_crown_zr", dGurung]], { method: "qr" });
+    bill(5, 6, [["s_bleach", dKarki], ["s_crown_zr", dGurung]], { method: "qr" });
     // Aarav: a milk tooth out
-    await bill(3, 7, [["s_consult", dKarki], ["s_ext", dKarki]]);
+    bill(3, 7, [["s_consult", dKarki], ["s_ext", dKarki]]);
+    // the rest of the month's work
+    bill(19, 8, [["s_consult", dKarki], ["s_opg", null], ["s_implant", dKarki]], { method: "qr" });
+    bill(17, 9, [["s_consult", dShrestha], ["s_braces", dShrestha]], { method: "credit", paidNow: 40000 });
+    bill(15, 10, [["s_rct_post", dKarki], ["s_crown_metal", dKarki]]);
+    bill(13, 11, [["s_bleach", dKarki], ["s_scaling", dKarki]], { method: "qr" });
+    bill(11, 3, [["s_scaling", dKarki]]);
+    bill(7, 4, [["s_consult", dKarki], ["s_fill_ant", dKarki]]);
+    bill(6, 10, [["s_consult", dKarki], ["s_postcore", dKarki]]);
+    bill(4, 11, [["s_fill_post", dKarki, 2]], { method: "qr" });
+    bill(1, 9, [["s_consult", dShrestha]]);
     // today
-    await bill(0, 2, [["s_consult", dShrestha]]);
-    await bill(0, 5, [["s_scaling", dKarki], ["s_fill_ant", dKarki]]);
-    await bill(0, 6, [["s_consult", dKarki]], { method: "qr" });
+    bill(0, 2, [["s_consult", dShrestha]]);
+    bill(0, 5, [["s_scaling", dKarki], ["s_fill_ant", dKarki]]);
+    bill(0, 6, [["s_consult", dKarki]], { method: "qr" });
+    for (const b of [...bills].sort((x, y) => y.back - x.back)) await save(b);
 
     // --- the dentist's notes on each visit (the patient history table) ---
     const { updateVisit } = await import("@/lib/repos/visits");
@@ -218,11 +232,15 @@ describe("dental demo clinic", () => {
       ],
       1: ["Loose lower teeth 31, 41 — extracted under LA.", "Final impressions for complete denture; shade A3."],
       2: ["Crowding upper and lower, Class I. Records and OPG taken.", "Metal braces bonded, upper and lower arch. Review monthly.", "Monthly adjustment, wire changed."],
-      3: ["Caries 36, 46 — composite fillings done."],
-      4: ["Missing 35, 36 — acrylic RPD. Crown 46 prepared, impression to lab."],
+      3: ["Scaling and polishing; brushing advice.", "Caries 36, 46 — composite fillings done."],
+      4: ["Missing 35, 36 — acrylic RPD. Crown 46 prepared, impression to lab.", "Small composite on 21."],
       5: ["Missing 46, bone adequate on IOPA. Implant placed; healing cap.", "Scaling; small composite on 11."],
       6: ["Whitening done, two sessions. Crown 21 zirconia prepared.", "Sensitivity after whitening — advised desensitising paste."],
       7: ["Over-retained milk tooth 75 extracted; first permanent molar erupting."],
+      8: ["Missing 36, bone adequate on IOPA. Implant placed; healing cap."],
+      9: ["Crowding, Class II. Metal braces bonded, upper and lower.", "Review; wire changed."],
+      10: ["RCT 46 completed; metal crown prepared, impression to lab.", "Post & core 11 after an old fracture."],
+      11: ["Whitening, two sessions; scaling.", "Composite fillings 36, 37."],
     };
     for (const [p, list] of Object.entries(notes)) {
       const visits = await q(
@@ -242,7 +260,7 @@ describe("dental demo clinic", () => {
     );
     const stages = ["to_collect", "to_dispatch", "awaiting_report", "report_in"] as const;
     // oldest furthest along: handed over, back from the lab, two at the lab, two to send
-    const target = [4, 3, 2, 2, 1, 1];
+    const target = [4, 4, 4, 3, 2, 2, 1, 1];
     for (let i = 0; i < labLines.length; i++) {
       const steps = target[i] ?? 0;
       for (let s = 0; s < steps; s++) await advanceLabLine(labLines[i]!.id as string, stages[s]!);
@@ -376,7 +394,7 @@ describe("dental demo clinic", () => {
               (SELECT COUNT(*) FROM tooth_records) t, (SELECT COUNT(*) FROM appointments) a`,
     );
     console.log("demo:", JSON.stringify(counts[0]));
-    expect(Number(counts[0]!.b)).toBe(16);
+    expect(Number(counts[0]!.b)).toBe(25);
     raw.close();
   });
 });
