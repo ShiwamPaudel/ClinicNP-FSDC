@@ -28,6 +28,7 @@ export default async function BillingPage({
     rackDisplay: company.rackDisplay,
     minRateIsCost: company.minRateIsCost,
     clinicOn: modules.clinic,
+    pharmacyOn: modules.pharmacy,
     canEditRate: user.role === "admin" || user.canEditRate,
     isAdmin: user.role === "admin",
     userName: user.name,

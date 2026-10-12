@@ -28,6 +28,8 @@ export interface PosConfig {
   minRateIsCost: boolean;
   /** patients exist: a bill on dues is attached to one, like a service */
   clinicOn: boolean;
+  /** medicines are sold here: their unit panel has something to say */
+  pharmacyOn: boolean;
   canEditRate: boolean;
   /** only an Admin may take something out of the queue unsent */
   isAdmin: boolean;

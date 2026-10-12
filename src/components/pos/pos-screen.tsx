@@ -824,16 +824,19 @@ export function PosScreen({
               onBackToSearch={() => searchRef.current?.focus()}
             />
           </div>
-          <UnitPanel
-            line={activeLine}
-            todayIso={config.todayIso}
-            onSetQtyBase={(baseQty) => {
-              if (!activeLine) return;
-              store.setUnit(activeLine.lineId, 0);
-              store.setQty(activeLine.lineId, baseQty);
-              store.setActiveLine(activeLine.lineId);
-            }}
-          />
+          {/* Units are a medicine's; a counter that sells only services has none. */}
+          {config.pharmacyOn && (
+            <UnitPanel
+              line={activeLine}
+              todayIso={config.todayIso}
+              onSetQtyBase={(baseQty) => {
+                if (!activeLine) return;
+                store.setUnit(activeLine.lineId, 0);
+                store.setQty(activeLine.lineId, baseQty);
+                store.setActiveLine(activeLine.lineId);
+              }}
+            />
+          )}
         </div>
 
         <div className="w-full shrink-0 lg:w-[340px]">
