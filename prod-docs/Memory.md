@@ -23,7 +23,7 @@
 
 *Last rewritten 2083-05-26 (C-014); production figures re-read 2083-06-06 (C-016). Everything below is verified against production, not remembered.*
 
-> **This install is set up and empty of trading.** Checked 2083-06-22 against `clinicnpforfsdc-fsdc.aws-ap-south-1.turso.io`: **25 migrations** (ends at `0025_payouts_salaries_teeth.sql`, applied 2083-06-23 after a backup to `backups/prod-before-0025-*.json`, C-037); **no items** — the 6,646-item medicine catalogue loaded in C-032 was removed 2083-06-23 at the owner's request, after a backup to `backups/prod-before-clear-items-*.json`; the clinic adds what it buys itself (C-035); bootstrapped 2083-06-21 (C-033) with PAN/VAT no. and phone, address blank. **Settings the owner has since changed in the app:** **clinic on, pharmacy off** — so suppliers, purchases and payables show under **Supplies** (C-034), and a purchase is for the clinic's own use: no batch, expiry, selling price or stock count (C-035) — and **VAT registered on**, rates priced *VAT on top* until they choose otherwise. Kept from their setup: 2 users, 1 doctor, 1 laboratory partner, 10 service groups and **Crown Filling** (Rs 10,000, VAT-able). **The board price list is the catalogue since 2083-06-26** (C-039): 12 dental groups, 26 services at the top of each range, not VAT-able; the clinic groups that don't fit a dental clinic are hidden, not deleted; Crown Filling sits in Crown & Veneer unchanged. **Trial patients, visits, bills and dues were cleared 2083-06-22** (C-034) with `db:reset --keep-setup`, after a full backup to `backups/prod-before-clear-patients-*.json`; patient, bill and visit numbering restart at 1. 🔴 The admin password and PIN are simple placeholders the owner chose (Rule 7: not written here). **No letterhead is set** (the logo alone would replace the printed name, address and phone). A private Blob store **is connected** (probed 2083-06-21: private writes accepted).
+> **This install is set up and empty of trading.** Checked 2083-06-22 against `clinicnpforfsdc-fsdc.aws-ap-south-1.turso.io`: **25 migrations** (ends at `0025_payouts_salaries_teeth.sql`, applied 2083-06-23 after a backup to `backups/prod-before-0025-*.json`, C-037); **no items** — the 6,646-item medicine catalogue loaded in C-032 was removed 2083-06-23 at the owner's request, after a backup to `backups/prod-before-clear-items-*.json`; the clinic adds what it buys itself (C-035); bootstrapped 2083-06-21 (C-033) with PAN/VAT no. and phone, address blank. **Settings the owner has since changed in the app:** **clinic on, pharmacy off** — so suppliers, purchases and payables show under **Supplies** (C-034), and a purchase is for the clinic's own use: no batch, expiry, selling price or stock count (C-035) — and **VAT registered on**, rates priced *VAT on top* until they choose otherwise. Kept from their setup: 2 users, 3 doctors, 1 laboratory partner (Unique Lab) and **Crown Filling** (Rs 10,000, VAT-able). **The board price list is the catalogue since 2083-06-26** (C-039): 12 dental groups, 26 services at the top of each range, not VAT-able; the clinic groups that don't fit a dental clinic are hidden, not deleted; Crown Filling sits in Crown & Veneer unchanged. **A fresh start on 2083-06-26** (C-041, owner's request): everything but users, company and settings, the fiscal year, services and groups, doctors and lab partners was cleared — patients, visits, bills, dues, refunds, tooth marks, appointments, purchases, suppliers, items, staff and salaries, payouts, the audit log — after a full backup to `backups/prod-before-fresh-start-*.json` (49 tables, 129 rows); counted after: 0 left, 27 services, 20 groups, 3 doctors; patient, invoice, visit, purchase and return numbering restart at 1. (Earlier trial data was cleared 2083-06-22, C-034.) 🔴 The admin password and PIN are simple placeholders the owner chose (Rule 7: not written here). **No letterhead is set** (the logo alone would replace the printed name, address and phone). A private Blob store **is connected** (probed 2083-06-21: private writes accepted).
 >
 > The figures in the paragraph above replaced the previous install's. **The code is unchanged and still at the same maturity**; what reset is the data.
 
@@ -1524,3 +1524,46 @@ names *Sample …*); the live clinic's name appears nowhere. Rebuilt with
 **Counter fix**: the medicine units panel ("Add or tap a medicine to see its
 units here") no longer shows when the pharmacy is off — a dental counter sells
 services only. `PosConfig.pharmacyOn`.
+
+### C-041  ·  2083-06-26  ·  A fresh start on the live database
+
+Owner: "Clear all except services, doctors, users… a fresh start with all
+the services intact"; also kept, by their answer: company and settings, lab
+partners. A one-off script (not committed) counted first, refused tables it
+did not know (it caught `cbms_queue`, `login_throttle`), backed up every
+table to `backups/prod-before-fresh-start-*.json`, then cleared in one
+transaction and reset numbering to 1. Recounted after: nothing left to clear.
+Uploaded files of the one cleared attachment stay in Blob storage.
+
+### C-042  ·  2083-06-26  ·  The dashboard checked against the books, and made for a dental clinic
+
+**Checked** on a copy of the demo clinic with a bill discount, a cancelled
+bill and a refund of an older bill. Sales, month, fiscal year, bills today and
+dues were right. **Wrong:** the split tiles, the 30-day chart and the day
+close's split added up the lines, so a bill discount was never taken off
+(and the dashboard took a refund off the bill's day, not the day it was given
+back) — the split read Rs 8,000 against Rs 4,500 sales. "Diagnostics" was
+every treatment (scaling, RCT…), not X-rays. "Today" was the server's date
+(UTC on Vercel: yesterday until 5:45 am).
+
+**Fix:** `lib/takings.ts` `shareOut` shares each bill's total (discount, VAT,
+rounding) over its lines to the paisa; `repos/takings.ts` reads takings line
+by line with refunds on their own day. The dashboard, its trend and the day
+close's split all read it, so they agree (tests: `takings.test.ts`, three in
+`phase4-clinic`). Today is Nepal's (`nepalDayIso`).
+
+**Dashboard now:** today's takings with cash / QR / dues / refunded; month
+against the same days of last month, average bill; fiscal year; owed to you.
+Clinic: patients today (first visit vs returning), appointments today (next
+four), lab work by stage with jobs at a lab over 7 days. 30-day chart with
+quiet days at zero; top services; **where the money came from** by group,
+today and month. Owner only: the month's books (income, doctors' share, lab,
+supplies, salaries, left over), doctors this month, what the clinic owes now.
+Old Consultation / Diagnostics / Laboratory tiles and `clinicToday`,
+`topServices` removed. The day close still says "Diagnostics" for everything
+that is not a consultation or lab work — not changed here.
+
+**Checked:** 649 tests + the new ones; typecheck; in a browser on the demo
+copy as owner and as front desk (no owner panels), desk and phone width with
+no sideways scroll.
+

@@ -11,6 +11,17 @@ import {
 } from "recharts";
 import { formatPaisa } from "@/lib/money";
 
+/** Axis labels in rupees, short enough not to be clipped: 25k, 1.5L, 2Cr. */
+function compactRupees(paisa: number): string {
+  const r = Math.round(paisa / 100);
+  const a = Math.abs(r);
+  const trim = (n: number) => String(Number(n.toFixed(1)));
+  if (a >= 10_000_000) return `${trim(r / 10_000_000)}Cr`;
+  if (a >= 100_000) return `${trim(r / 100_000)}L`;
+  if (a >= 1_000) return `${trim(r / 1_000)}k`;
+  return String(r);
+}
+
 /**
  * The 30-day trend.
  *
@@ -50,7 +61,7 @@ export function SalesTrend({
           />
           <YAxis
             tick={{ fontSize: 11, fill: "#557f60" }}
-            tickFormatter={(v) => `${Math.round(v / 100)}`}
+            tickFormatter={compactRupees}
             width={44}
             tickLine={false}
             axisLine={false}

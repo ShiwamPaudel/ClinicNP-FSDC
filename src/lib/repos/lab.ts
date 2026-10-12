@@ -207,6 +207,19 @@ export async function labCounts(): Promise<Record<LabStage, number>> {
   };
 }
 
+/**
+ * Work sent out before `sentBeforeIso` that has not come back — the jobs
+ * somebody should ring the laboratory about.
+ */
+export async function labOverdueCount(sentBeforeIso: string): Promise<number> {
+  const res = await db().execute({
+    sql: `SELECT COUNT(*) AS n ${BASE_FROM}
+            AND ${STAGE_WHERE.awaiting_report} AND sl.dispatched_at < ?`,
+    args: [sentBeforeIso],
+  });
+  return Number(res.rows[0]?.n ?? 0);
+}
+
 /** One line, with enough to decide whether a transition is legal. */
 export async function getLabLine(lineId: string): Promise<LabRow | null> {
   const res = await db().execute({

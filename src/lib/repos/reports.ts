@@ -6,6 +6,7 @@
 import "server-only";
 import { db } from "@/lib/db";
 import { OWED_AT_SALE_SQL } from "@/lib/repos/dues";
+import { takingsBetween, splitOf, trendOf } from "@/lib/repos/takings";
 
 const NOT_CANCELLED = "b.status = 'saved'";
 
@@ -16,8 +17,10 @@ export interface DashboardMetrics {
   monthSalesPaisa: number;
   fySalesPaisa: number;
   billCountToday: number;
+  billCountMonth: number;
+  /** the same days of the month before (1st to today's day), for comparison */
+  lastMonthToDatePaisa: number;
   topItems: { brandName: string; qty: number; revenuePaisa: number }[];
-  trend: { dateAd: string; netPaisa: number }[];
 }
 
 async function netSalesBetween(fromIso: string, toIso: string): Promise<number> {
@@ -40,17 +43,22 @@ export async function dashboardMetrics(opts: {
   monthToIso: string;
   fyFromIso: string;
   fyToIso: string;
-  trendFromIso: string;
+  lastMonthFromIso: string;
+  lastMonthToIso: string;
 }): Promise<DashboardMetrics> {
-  const [today, month, fy] = await Promise.all([
+  const [today, month, fy, lastMonth] = await Promise.all([
     netSalesBetween(opts.todayIso, opts.todayIso),
     netSalesBetween(opts.monthFromIso, opts.monthToIso),
     netSalesBetween(opts.fyFromIso, opts.fyToIso),
+    netSalesBetween(opts.lastMonthFromIso, opts.lastMonthToIso),
   ]);
 
   const countRes = await db().execute({
-    sql: `SELECT COUNT(*) AS n FROM bills b WHERE ${NOT_CANCELLED} AND b.date_ad = ?`,
-    args: [opts.todayIso],
+    sql: `SELECT SUM(CASE WHEN b.date_ad = ? THEN 1 ELSE 0 END) AS today,
+                 COUNT(*) AS month
+            FROM bills b
+           WHERE ${NOT_CANCELLED} AND b.date_ad >= ? AND b.date_ad <= ?`,
+    args: [opts.todayIso, opts.monthFromIso, opts.monthToIso],
   });
 
   const top = await db().execute({
@@ -63,26 +71,17 @@ export async function dashboardMetrics(opts: {
     args: [opts.monthFromIso, opts.monthToIso],
   });
 
-  const trendRes = await db().execute({
-    sql: `SELECT b.date_ad AS d, IFNULL(SUM(b.total_paisa),0) AS s
-          FROM bills b WHERE ${NOT_CANCELLED} AND b.date_ad >= ? AND b.date_ad <= ?
-          GROUP BY b.date_ad ORDER BY b.date_ad ASC`,
-    args: [opts.trendFromIso, opts.todayIso],
-  });
-
   return {
     todaySalesPaisa: today,
     monthSalesPaisa: month,
     fySalesPaisa: fy,
-    billCountToday: Number(countRes.rows[0]!.n),
+    billCountToday: Number(countRes.rows[0]!.today ?? 0),
+    billCountMonth: Number(countRes.rows[0]!.month ?? 0),
+    lastMonthToDatePaisa: lastMonth,
     topItems: top.rows.map((r) => ({
       brandName: r.brand_name as string,
       qty: Number(r.qty),
       revenuePaisa: Number(r.revenue),
-    })),
-    trend: trendRes.rows.map((r) => ({
-      dateAd: r.d as string,
-      netPaisa: Number(r.s),
     })),
   };
 }
@@ -179,66 +178,12 @@ export async function daySummary(dayIso: string): Promise<DaySummary> {
   const retAgainstDue = Number(returns.rows[0]!.against_due);
 
   // The four-way split. Medicines net their own returns; each clinic group
-  // nets its own refunds, so the four add up to the net sales figure above.
-  const splitRes = await db().execute({
-    sql: `SELECT
-            (SELECT IFNULL(SUM(bl.amount_paisa), 0)
-               FROM bill_lines bl JOIN bills b ON b.id = bl.bill_id
-              WHERE ${NOT_CANCELLED} AND b.date_ad = ?)
-            - (SELECT IFNULL(SUM(srl.amount_paisa), 0)
-                 FROM sale_return_lines srl
-                 JOIN sale_returns sr ON sr.id = srl.sale_return_id
-                WHERE sr.date_ad = ?) AS medicines,
-            (SELECT IFNULL(SUM(sl.amount_paisa), 0)
-               FROM bill_service_lines sl
-               JOIN bills b ON b.id = sl.bill_id
-               LEFT JOIN services sv ON sv.id = sl.service_id
-               LEFT JOIN service_groups g ON g.id = sv.group_id
-              WHERE ${NOT_CANCELLED} AND b.date_ad = ? AND g.is_consultation = 1) AS consult,
-            (SELECT IFNULL(SUM(sl.amount_paisa), 0)
-               FROM bill_service_lines sl
-               JOIN bills b ON b.id = sl.bill_id
-              WHERE ${NOT_CANCELLED} AND b.date_ad = ? AND sl.lab_partner_id IS NOT NULL) AS lab,
-            (SELECT IFNULL(SUM(sl.amount_paisa), 0)
-               FROM bill_service_lines sl
-               JOIN bills b ON b.id = sl.bill_id
-               LEFT JOIN services sv ON sv.id = sl.service_id
-               LEFT JOIN service_groups g ON g.id = sv.group_id
-              WHERE ${NOT_CANCELLED} AND b.date_ad = ?
-                AND COALESCE(g.is_consultation, 0) = 0
-                AND sl.lab_partner_id IS NULL) AS diag,
-            (SELECT IFNULL(SUM(srsl.amount_paisa), 0)
-               FROM sale_return_service_lines srsl
-               JOIN sale_returns sr ON sr.id = srsl.sale_return_id
-               JOIN bill_service_lines sl ON sl.id = srsl.bill_service_line_id
-               LEFT JOIN services sv ON sv.id = sl.service_id
-               LEFT JOIN service_groups g ON g.id = sv.group_id
-              WHERE sr.date_ad = ? AND g.is_consultation = 1) AS consult_back,
-            (SELECT IFNULL(SUM(srsl.amount_paisa), 0)
-               FROM sale_return_service_lines srsl
-               JOIN sale_returns sr ON sr.id = srsl.sale_return_id
-               JOIN bill_service_lines sl ON sl.id = srsl.bill_service_line_id
-              WHERE sr.date_ad = ? AND sl.lab_partner_id IS NOT NULL) AS lab_back,
-            (SELECT IFNULL(SUM(srsl.amount_paisa), 0)
-               FROM sale_return_service_lines srsl
-               JOIN sale_returns sr ON sr.id = srsl.sale_return_id
-               JOIN bill_service_lines sl ON sl.id = srsl.bill_service_line_id
-               LEFT JOIN services sv ON sv.id = sl.service_id
-               LEFT JOIN service_groups g ON g.id = sv.group_id
-              WHERE sr.date_ad = ?
-                AND COALESCE(g.is_consultation, 0) = 0
-                AND sl.lab_partner_id IS NULL) AS diag_back`,
-    args: [dayIso, dayIso, dayIso, dayIso, dayIso, dayIso, dayIso, dayIso],
-  });
-  const sp = splitRes.rows[0]!;
+  // nets its own refunds; each bill's discount, VAT and rounding are shared
+  // over its lines — so the four add up to the net sales figure above.
+  const split = splitOf(await takingsBetween(dayIso, dayIso));
 
   return {
-    split: {
-      medicinesPaisa: Number(sp.medicines),
-      consultationPaisa: Number(sp.consult) - Number(sp.consult_back),
-      diagnosticsPaisa: Number(sp.diag) - Number(sp.diag_back),
-      laboratoryPaisa: Number(sp.lab) - Number(sp.lab_back),
-    },
+    split,
     billCount: Number(agg.rows[0]!.n),
     grossSalesPaisa: gross,
     billDiscountPaisa: Number(agg.rows[0]!.disc),
@@ -522,60 +467,14 @@ export async function vatSummary(
 /**
  * The 30-day trend, split into medicines and services, both net of refunds.
  *
- * Each series is computed on its own rather than one being subtracted from the
- * whole-bill total: the whole-bill total is gross of refunds, so subtracting a
- * net service figure from it produced a medicine line that disagreed with the
- * tile directly above it. Returns are attributed to the day they were given
- * back, matching how the summary tiles have always counted them.
+ * Read from the takings, so each bill's discount, VAT and rounding sit on its
+ * lines and the two series add up to the sales tiles to the paisa. Returns
+ * are attributed to the day they were given back, matching how the summary
+ * tiles have always counted them.
  */
 export async function trendByKind(
   fromIso: string,
   toIso: string,
 ): Promise<{ dateAd: string; medicinePaisa: number; servicePaisa: number }[]> {
-  const rows = await db().execute({
-    sql: `SELECT d AS date_ad,
-                 SUM(med) AS med,
-                 SUM(svc) AS svc
-          FROM (
-            SELECT b.date_ad AS d,
-                   IFNULL(SUM(bl.amount_paisa), 0) AS med,
-                   0 AS svc
-              FROM bills b
-              JOIN bill_lines bl ON bl.bill_id = b.id
-             WHERE ${NOT_CANCELLED} AND b.date_ad BETWEEN ? AND ?
-             GROUP BY b.date_ad
-
-            UNION ALL
-
-            SELECT b.date_ad, 0, IFNULL(SUM(sl.amount_paisa), 0)
-              FROM bills b
-              JOIN bill_service_lines sl ON sl.bill_id = b.id
-             WHERE ${NOT_CANCELLED} AND b.date_ad BETWEEN ? AND ?
-             GROUP BY b.date_ad
-
-            UNION ALL
-
-            SELECT sr.date_ad, -IFNULL(SUM(srl.amount_paisa), 0), 0
-              FROM sale_returns sr
-              JOIN sale_return_lines srl ON srl.sale_return_id = sr.id
-             WHERE sr.date_ad BETWEEN ? AND ?
-             GROUP BY sr.date_ad
-
-            UNION ALL
-
-            SELECT sr.date_ad, 0, -IFNULL(SUM(srsl.amount_paisa), 0)
-              FROM sale_returns sr
-              JOIN sale_return_service_lines srsl ON srsl.sale_return_id = sr.id
-             WHERE sr.date_ad BETWEEN ? AND ?
-             GROUP BY sr.date_ad
-          )
-          GROUP BY d
-          ORDER BY d ASC`,
-    args: [fromIso, toIso, fromIso, toIso, fromIso, toIso, fromIso, toIso],
-  });
-  return rows.rows.map((r) => ({
-    dateAd: r.date_ad as string,
-    medicinePaisa: Number(r.med),
-    servicePaisa: Number(r.svc),
-  }));
+  return trendOf(await takingsBetween(fromIso, toIso));
 }

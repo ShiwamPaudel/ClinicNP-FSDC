@@ -493,115 +493,34 @@ export async function diagnosticsUtilisation(
 // Dashboard
 // ---------------------------------------------------------------------------
 
-export interface ClinicToday {
-  /** collection split four ways, net of refunds */
-  medicinesPaisa: number;
-  consultationPaisa: number;
-  diagnosticsPaisa: number;
-  laboratoryPaisa: number;
-  patientsSeen: number;
-  newRegistrations: number;
-  samplesToCollect: number;
+export interface PatientsOnDay {
+  /** different patients with a visit that day */
+  seen: number;
+  /** of them, those for whom it was their first visit ever */
+  firstVisit: number;
+  returning: number;
 }
 
 /**
- * The clinic half of the dashboard, for one day.
- *
- * The split is four ways because that is how the owner thinks about the day:
- * what came from the shelf, what came from the doctor's time, what came from
- * the machines, and what came from tests. "Laboratory" is anything sent to an
- * outside partner; "diagnostics" is everything else that is not a consultation.
+ * Who came in on one day. "First visit" means first ever, as in
+ * `newVsReturning`: a patient registered last year who comes back today is
+ * returning, whatever day their card was made.
  */
-export async function clinicToday(dayIso: string): Promise<ClinicToday> {
-  const svc = await db().execute({
-    sql: `SELECT
-            SUM(CASE WHEN g.is_consultation = 1 THEN ${NET_AMOUNT} ELSE 0 END) AS consult,
-            SUM(CASE WHEN sl.lab_partner_id IS NOT NULL THEN ${NET_AMOUNT} ELSE 0 END) AS lab,
-            SUM(CASE WHEN COALESCE(g.is_consultation, 0) = 0
-                      AND sl.lab_partner_id IS NULL THEN ${NET_AMOUNT} ELSE 0 END) AS diag
-          FROM bill_service_lines sl
-          JOIN bills b ON b.id = sl.bill_id
-          LEFT JOIN services s ON s.id = sl.service_id
-          LEFT JOIN service_groups g ON g.id = s.group_id
-          WHERE b.status = 'saved' AND b.date_ad = ?`,
-    args: [dayIso],
-  });
-
-  const med = await db().execute({
-    sql: `SELECT COALESCE(SUM(
-                   bl.amount_paisa - COALESCE((
-                     SELECT SUM(r.amount_paisa) FROM sale_return_lines r
-                      WHERE r.bill_line_id = bl.id), 0)), 0) AS n
-            FROM bill_lines bl
-            JOIN bills b ON b.id = bl.bill_id
-           WHERE b.status = 'saved' AND b.date_ad = ?`,
-    args: [dayIso],
-  });
-
-  const seen = await db().execute({
-    sql: `SELECT COUNT(DISTINCT patient_id) AS n FROM visits
-           WHERE date_ad = ? AND status != 'cancelled'`,
-    args: [dayIso],
-  });
-
-  const registered = await db().execute({
-    sql: "SELECT COUNT(*) AS n FROM patients WHERE substr(created_at, 1, 10) = ?",
-    args: [dayIso],
-  });
-
-  // Samples billed and not yet drawn. Counted across all days on purpose: a
-  // sample nobody collected on Sunday is still uncollected on Monday, and a
-  // number that resets overnight would say the work had gone away.
-  const pending = await db().execute({
-    sql: `SELECT COUNT(*) AS n
-            FROM bill_service_lines sl
-            JOIN bills b ON b.id = sl.bill_id
-            JOIN services s ON s.id = sl.service_id
-           WHERE b.status = 'saved' AND s.outsourced = 1
-             AND sl.collected_at IS NULL`,
-    args: [],
-  });
-
-  const r = svc.rows[0]!;
-  return {
-    medicinesPaisa: Number(med.rows[0]!.n),
-    consultationPaisa: Number(r.consult ?? 0),
-    diagnosticsPaisa: Number(r.diag ?? 0),
-    laboratoryPaisa: Number(r.lab ?? 0),
-    patientsSeen: Number(seen.rows[0]!.n),
-    newRegistrations: Number(registered.rows[0]!.n),
-    samplesToCollect: Number(pending.rows[0]!.n),
-  };
-}
-
-export interface TopServiceRow {
-  name: string;
-  count: number;
-  netPaisa: number;
-}
-
-/** The busiest services this BS month, for the dashboard panel. */
-export async function topServices(
-  range: AdRange,
-  limit = 5,
-): Promise<TopServiceRow[]> {
+export async function patientsOn(dayIso: string): Promise<PatientsOnDay> {
   const res = await db().execute({
-    sql: `SELECT sl.name_snapshot AS name,
-                 SUM(${NET_QTY}) AS qty,
-                 SUM(${NET_AMOUNT}) AS net
-            FROM bill_service_lines sl
-            JOIN bills b ON b.id = sl.bill_id
-           WHERE b.status = 'saved' AND b.date_ad BETWEEN ? AND ?
-           GROUP BY sl.name_snapshot
-           ORDER BY qty DESC
-           LIMIT ?`,
-    args: [range.fromIso, range.toIso, limit],
+    sql: `SELECT COUNT(DISTINCT v.patient_id) AS seen,
+                 COUNT(DISTINCT CASE WHEN NOT EXISTS (
+                   SELECT 1 FROM visits v2
+                    WHERE v2.patient_id = v.patient_id
+                      AND v2.status != 'cancelled'
+                      AND v2.date_ad < v.date_ad) THEN v.patient_id END) AS fresh
+            FROM visits v
+           WHERE v.date_ad = ? AND v.status != 'cancelled'`,
+    args: [dayIso],
   });
-  return res.rows.map((r: Row) => ({
-    name: r.name as string,
-    count: Number(r.qty),
-    netPaisa: Number(r.net),
-  }));
+  const seen = Number(res.rows[0]?.seen ?? 0);
+  const fresh = Number(res.rows[0]?.fresh ?? 0);
+  return { seen, firstVisit: fresh, returning: seen - fresh };
 }
 
 /** Daily service takings, so the dashboard trend can show a navy series. */

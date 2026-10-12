@@ -152,6 +152,7 @@ async function bill(opts: {
   medicines?: { qty: number; ratePaisa: number }[];
   dateAd?: string;
   dateBs?: string;
+  billDiscountPaisa?: number;
 }) {
   const { ingestBill } = await import("@/lib/repos/bills");
   return ingestBill({
@@ -161,7 +162,7 @@ async function bill(opts: {
     patientName: "",
     paymentMethod: "cash",
     tenderedPaisa: 0,
-    billDiscountPaisa: 0,
+    billDiscountPaisa: opts.billDiscountPaisa ?? 0,
     lines: (opts.medicines ?? []).map((m) => ({
       id: ulid(),
       itemId,
@@ -666,6 +667,106 @@ describe("Phase 4 — the day close", () => {
     expect(after.expectedCashPaisa).toBe(
       after.byMethod.cash - after.returnsPaisa,
     );
+  });
+});
+
+describe("Phase 4 — a bill discount in the splits", () => {
+  it("shares the discount over the lines, so every split still adds up", async () => {
+    const { daySummary, trendByKind } = await import("@/lib/repos/reports");
+    const { takingsBetween, byGroup, topServicesOf } = await import("@/lib/repos/takings");
+
+    const DAY_AD = "2026-09-22";
+    const DAY_BS = "2083-06-06";
+
+    // consultation 500 + USG 1200 + 10 tablets at 2.00 = 1720, less 172 off
+    const sold = await bill({
+      services: [
+        { serviceId: "svc_opd", ratePaisa: 50_000, doctorId: "doc1" },
+        { serviceId: "svc_usg", ratePaisa: 120_000 },
+      ],
+      medicines: [{ qty: 10, ratePaisa: 200 }],
+      billDiscountPaisa: 17_200,
+      dateAd: DAY_AD,
+      dateBs: DAY_BS,
+    });
+    expect(sold.totalPaisa).toBe(154_800);
+
+    // by hand: each line keeps 90% of itself
+    const d = await daySummary(DAY_AD);
+    expect(d.netSalesPaisa).toBe(154_800);
+    expect(d.split).toEqual({
+      medicinesPaisa: 1_800,
+      consultationPaisa: 45_000,
+      diagnosticsPaisa: 108_000,
+      laboratoryPaisa: 0,
+    });
+
+    const trend = (await trendByKind(DAY_AD, DAY_AD))[0]!;
+    expect(trend.medicinePaisa + trend.servicePaisa).toBe(154_800);
+
+    const rows = await takingsBetween(DAY_AD, DAY_AD);
+    const groups = byGroup(rows);
+    expect(groups.reduce((s, g) => s + g.paisa, 0)).toBe(154_800);
+    expect(groups.map((g) => [g.groupName, g.paisa])).toEqual([
+      ["Ultrasound", 108_000],
+      ["OPD Consultation", 45_000],
+      ["Medicines", 1_800],
+    ]);
+    expect(topServicesOf(rows).map((r) => [r.name, r.count, r.netPaisa])).toEqual([
+      ["USG", 1, 108_000],
+      ["OPD Consultation", 1, 45_000],
+    ]);
+  });
+
+  it("takes a refund off the day it was given back, under the line's own group", async () => {
+    const { daySummary } = await import("@/lib/repos/reports");
+    const { takingsBetween, byGroup } = await import("@/lib/repos/takings");
+
+    const sold = await bill({
+      services: [{ serviceId: "svc_usg", ratePaisa: 120_000 }],
+      dateAd: "2026-09-23",
+      dateBs: "2083-06-07",
+    });
+    const line = (await q("SELECT id FROM bill_service_lines WHERE bill_id = ?", [sold.id]))[0]!;
+    const { createSaleReturn } = await import("@/lib/repos/sale-returns");
+    await createSaleReturn({
+      billId: sold.id,
+      dateAd: "2026-09-24",
+      dateBs: "2083-06-08",
+      lines: [],
+      serviceLines: [{ billServiceLineId: line.id as string, qty: 1, amountPaisa: 50_000 }],
+      userId: "u1",
+    });
+
+    const refundDay = await daySummary("2026-09-24");
+    expect(refundDay.netSalesPaisa).toBe(-50_000);
+    expect(refundDay.split.diagnosticsPaisa).toBe(-50_000);
+    const g = byGroup(await takingsBetween("2026-09-24", "2026-09-24"));
+    expect(g).toEqual([
+      { groupId: "grp_usg", groupName: "Ultrasound", paisa: -50_000, count: -1 },
+    ]);
+  });
+});
+
+describe("Phase 4 — patients on a day", () => {
+  it("counts a first-ever visit as new and a later one as returning", async () => {
+    const { patientsOn } = await import("@/lib/repos/clinic-reports");
+    const days = await q(
+      `SELECT DISTINCT date_ad FROM visits
+        WHERE patient_id = ? AND status != 'cancelled' ORDER BY date_ad`,
+      [patientId],
+    );
+    expect(days.length).toBeGreaterThan(1);
+    expect(await patientsOn(days[0]!.date_ad as string)).toEqual({
+      seen: 1,
+      firstVisit: 1,
+      returning: 0,
+    });
+    expect(await patientsOn(days[1]!.date_ad as string)).toEqual({
+      seen: 1,
+      firstVisit: 0,
+      returning: 1,
+    });
   });
 });
 
